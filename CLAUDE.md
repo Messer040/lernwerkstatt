@@ -15,6 +15,10 @@ Elias lernt Konstrukteur EFZ (Schweiz). Antworten in einfachem, klarem Deutsch, 
 - Immer ein Bauteilbild zeichnen, eigene Motive. Feste Farben: Kräfte magenta, Resultierende violett, Längen blau, Momente grün, Energie/Geschwindigkeit orange.
 - Alle Resultate im Code rechnen und an Buchbeispielen prüfen.
 
+## Verbesserungsliste
+- `docs/VERBESSERUNGEN.md` führen. Alles, was beim Arbeiten auffällt (Fehler, Ideen, Schulden), sofort dort eintragen, mit Aufwand S/M/L. Erledigtes abhaken mit Datum.
+- Auf «mach was von der Liste» oder «Verbesserungen» hin: oberste offene S-Punkte zuerst erledigen.
+
 ## Ablauf
 1. Ändern. 2. Tests in `tests/` laufen lassen (alle «fb ok», keine JS-Fehler). 3. Neue Zeichnungen per Screenshot prüfen (keine Überlappungen, Handy-Breite). 4. Commit mit kurzer deutscher Nachricht, push auf `main`. 5. Elias kurz berichten.
 
