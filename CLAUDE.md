@@ -15,3 +15,9 @@ Elias lernt Konstrukteur EFZ (Schweiz). Antworten in einfachem, klarem Deutsch, 
 
 ## Ablauf
 1. Ändern. 2. Tests in `tests/` laufen lassen (alle «fb ok», keine JS-Fehler). 3. Neue Zeichnungen per Screenshot prüfen (keine Überlappungen, Handy-Breite). 4. Commit mit kurzer deutscher Nachricht, push auf `main`. 5. Elias kurz berichten.
+
+## Alte Artifacts als Quelle
+- Liste aller alten Lern-Artifacts mit Links: README im privaten Repo `Messer040/lernwerkstatt-unterlagen`.
+- Beim Ausbau eines neuen Themas (Lager, Wellen, Werkstoffe, Festigkeit, Elektro, ABU) zuerst die passenden alten Artifacts mit read_artifact öffnen. Gute Erklärungen, Aufgaben und Grafiken übernehmen und verbessern. Kein 1:1-Kopieren.
+- Überholt (nicht mehr nötig): Kräfte-Trainer, Kräfte Lerner, Kräfte zeichnerisch lösen, Form- und Lagetoleranzen (alt), Wärmebehandlung (alt).
+- Neue Buch-PDFs und Fotos immer ins private Repo legen (`unterlagen/pdf/`, `unterlagen/bilder/<datum>/`), nie ins öffentliche.
