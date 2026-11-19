@@ -1,14 +1,15 @@
 // Alle Fächer. Ein neues Fach = ein neuer Ordner + ein Eintrag hier.
 import type { Fach } from '../core/types';
 import { drehmoment } from './physik/drehmoment';
+import { kraefteAddieren } from './physik/kraefte-addieren';
 
 export const FAECHER: Fach[] = [
   {
     id: 'physik',
     title: 'Physik',
     kurz: 'Kräfte, Momente, Lager, Reibung, Arbeit',
-    kapitel: [drehmoment],
-    geplant: ['Kräfte addieren', 'Kräfte zerlegen', 'An der Wand', 'Lagerkräfte', 'Kettenaufgaben', 'Umfangskraft', 'Reibung', 'Arbeit, Energie', 'Leistung, Wirkungsgrad', 'Einfache Maschinen, Flaschenzüge', 'Beschleunigungs- und Gewichtskraft', 'Bewegungen', 'Biegen: Zuschnitt'],
+    kapitel: [kraefteAddieren, drehmoment],
+    geplant: ['Kräfte zerlegen', 'An der Wand', 'Lagerkräfte', 'Kettenaufgaben', 'Umfangskraft', 'Reibung', 'Arbeit, Energie', 'Leistung, Wirkungsgrad', 'Einfache Maschinen, Flaschenzüge', 'Beschleunigungs- und Gewichtskraft', 'Bewegungen', 'Biegen: Zuschnitt'],
   },
 ];
 

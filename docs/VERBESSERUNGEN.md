@@ -38,7 +38,13 @@ Aufwand: S = unter 30 Min., M = eine Sitzung, L = mehrere Sitzungen.
 - [ ] **Tiefgestellte Zeichen vereinheitlichen** (S, alt): Im Text mal `F₁`, mal `F_1`. Eine Schreibweise festlegen.
 - [ ] **Tausender-Apostroph im alten Physik-Trainer** (S, alt): Neu zeigt 39'000, alt 39000. Erledigt sich mit dem Umzug.
 
+- [ ] **Formelzeichen F_R bei Reibung** (S, neu): Im Kapitel «Kräfte addieren» heisst die Resultierende durchgehend F_r. Im Kapitel Reibung F_R für die Reibkraft beibehalten oder zu F_Reib ändern.
+- [ ] **Bilder am Handy scrollen waagrecht** (S, neu): `.blatt .bild svg` hat `min-width: 520px`. Prüfen, ob schmalere Bilder mit grösserer Schrift besser lesbar wären.
+- [ ] **Hubseil-Bild: F_max-Label** (S, neu, Bild `hubseil`): Label «F_max» liegt dicht am Strang. Beim nächsten Seil-Kapitel prüfen.
+
 ## Erledigt
+
+- [x] 19.11.2026: Kapitel «Kräfte addieren» umgezogen (a1–a17). Dabei gefunden und behoben: Alte Aufgabe «Hubseil: Wie gross darf α sein?» (ck2) gab bei F = 8 kN und F_G = 18 kN NaN, weil F_G > 2 · F. Neu: F ab 10 kN. Neue Bausteine in `svg.ts`: `kraftWinkel`, `seil`, `kraefteplan`, `saeulen`.
 
 - [x] 19.11.2026: Vorschau «Weitere Aufgaben» unter der Formelkarte: zugeschnittene Bauteilbilder, Stufe, aktuelle Aufgabe markiert. Handy: waagrechter Streifen. Dabei behoben: rechte Spalte lief am Handy über den Rand.
 

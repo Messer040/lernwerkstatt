@@ -173,3 +173,89 @@ export function moment(s: SVGSVGElement, cx: number, cy: number, r: number, cw: 
     }),
   );
 }
+
+/** Kraftpfeil unter Winkel ang (Grad, math. positiv = nach oben) mit Länge len. Gibt die Spitze zurück. */
+export function kraftWinkel(
+  s: SVGSVGElement, x: number, y: number, ang: number, len: number, lab?: string,
+  o: { res?: boolean; dx?: number; dy?: number; t?: Record<string, string | number> } = {},
+): [number, number] {
+  const a = (ang * Math.PI) / 180;
+  const ex = x + len * Math.cos(a), ey = y - len * Math.sin(a);
+  const c = o.res ? C.R : C.F;
+  line(s, x, y, ex, ey, { stroke: c, 'stroke-width': o.res ? 4 : 3.2, 'marker-end': ref(s, o.res ? 'R' : 'F') });
+  if (lab) txt(s, ex + (o.dx ?? 8), ey + (o.dy ?? -6), lab, { fill: c, 'font-weight': 600, 'font-size': 14, ...(o.t ?? {}) });
+  return [ex, ey];
+}
+
+/** Seil (dünne dunkle Linie). */
+export function seil(s: SVGSVGElement, x1: number, y1: number, x2: number, y2: number) {
+  line(s, x1, y1, x2, y2, { stroke: '#444', 'stroke-width': 2.2 });
+}
+
+/** Kräfteplan: Pfeile aneinandergereiht (Winkel in Grad), Resultierende von A nach E. */
+export function kraefteplan(
+  fs: { F: number; a: number; lab: string }[],
+  o: { h?: number; titel?: string; Mk?: number; R?: string | false } = {},
+) {
+  const h = o.h ?? 280;
+  const s = blatt(h, 'Kräfteplan');
+  let x = 0, y = 0;
+  const pts: [number, number][] = [[0, 0]];
+  fs.forEach((q) => {
+    x += q.F * Math.cos((q.a * Math.PI) / 180);
+    y += q.F * Math.sin((q.a * Math.PI) / 180);
+    pts.push([x, y]);
+  });
+  const xs = pts.map((p) => p[0]), ys = pts.map((p) => p[1]);
+  const W = Math.max(...xs) - Math.min(...xs) || 1, Hh = Math.max(...ys) - Math.min(...ys) || 1;
+  const kk = Math.min(420 / W, (h - 90) / Hh);
+  const X = (u: number) => 110 + (u - Math.min(...xs)) * kk;
+  const Y = (v: number) => h - 45 - (v - Math.min(...ys)) * kk;
+  txt(s, 20, 26, o.titel ?? 'Kräfteplan: Kräfte aneinanderreihen', { 'font-size': 13, fill: C.GRAU });
+  const cxm = pts.reduce((a, p) => a + X(p[0]), 0) / pts.length, cym = pts.reduce((a, p) => a + Y(p[1]), 0) / pts.length;
+  // Beschriftungen liegen immer auf der Seite ohne andere Pfeile (weg vom Schwerpunkt des Plans)
+  const aussen = (px: number, py: number, t: string) => {
+    let dx = px - cxm, dy = py - cym;
+    const n = Math.hypot(dx, dy);
+    if (n < 1) { dx = -1; dy = 1; } else { dx /= n; dy /= n; }
+    if (Math.abs(dy) < 0.3) dy = 1;
+    txt(s, px + dx * 16, py + dy * 16 + 5, t, { 'font-weight': 600, 'text-anchor': 'middle' });
+  };
+  const seitlich = (x0: number, y0: number, x1: number, y1: number, t: string, oben: boolean) => {
+    const len = Math.hypot(x1 - x0, y1 - y0) || 1, mx = (x0 + x1) / 2, my = (y0 + y1) / 2;
+    let nx = -(y1 - y0) / len, ny = (x1 - x0) / len;
+    const d = nx * (mx - cxm) + ny * (my - cym);
+    if (Math.abs(d) < 1) { if (oben ? ny > 0 : ny < 0) { nx = -nx; ny = -ny; } } else if (d < 0) { nx = -nx; ny = -ny; }
+    const w = t.replace(/_/g, '').length * 8.5;
+    const off = 12 + (w / 2) * Math.abs(nx) + 9 * Math.abs(ny);
+    return [mx + nx * off, my + ny * off + 5];
+  };
+  aussen(X(0), Y(0), 'A');
+  fs.forEach((q, i) => {
+    const [a, b] = pts[i], [c, d] = pts[i + 1];
+    const [lx, ly] = seitlich(X(a), Y(b), X(c), Y(d), q.lab, true);
+    kraft(s, X(a), Y(b), X(c), Y(d), q.lab, lx, ly - 4, { 'font-size': 13, 'text-anchor': 'middle' });
+  });
+  const [ex, ey] = pts[pts.length - 1];
+  aussen(X(ex), Y(ey), 'E');
+  if (o.R !== false) {
+    const [lx, ly] = seitlich(X(0), Y(0), X(ex), Y(ey), o.R ?? 'F_r', false);
+    resultierende(s, X(0), Y(0), X(ex), Y(ey), o.R ?? 'F_r', lx, ly);
+    s.lastElementChild!.setAttribute('text-anchor', 'middle');
+  }
+  if (o.Mk) txt(s, 20, 48, `M_k = ${o.Mk} N/mm`, { 'font-size': 13, fill: C.GRAU });
+  return s;
+}
+
+/** Waagrechte Balken (Anteil 0..1) mit Text rechts. */
+export function saeulen(titel: string, rows: { v: number; t: string }[]) {
+  const s = blatt(70 + rows.length * 46, titel);
+  txt(s, 30, 34, titel, { 'font-weight': 600 });
+  rows.forEach((r, i) => {
+    const y = 56 + i * 46;
+    s.append(el('rect', { x: 30, y, width: 420, height: 24, rx: 4, fill: '#fff', stroke: '#c9ced6' }));
+    if (r.v > 0) s.append(el('rect', { x: 30, y, width: Math.max(3, 420 * Math.min(1, r.v)), height: 24, rx: 4, fill: C.F }));
+    txt(s, 462, y + 17, r.t, { 'font-size': 14 });
+  });
+  return s;
+}

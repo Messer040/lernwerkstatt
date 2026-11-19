@@ -19,7 +19,7 @@ app/
       zahl.ts               rng, pick, fmt (Komma, 39'000), parseZahl
       pruefen.ts            Antwort prüfen, Fehlerwerte, Einheitenfehler
       text.ts               farbige Textbausteine f() l() m() r() v() eq()
-      draw/svg.ts           Zeichenbausteine: blatt, kraft, massH/V, balken, bolzen, …
+      draw/svg.ts           Zeichenbausteine: blatt, kraft, kraftWinkel, kraefteplan, saeulen, massH/V, balken, bolzen, …
       ui/aufgabe.ts         Aufgabenkarte (Üben und Test)
       ui/seiten.ts          Start, Fach, Kapitel, Kapiteltest, Note
     faecher/
@@ -50,6 +50,7 @@ app/
 ## Umgezogen
 | Kapitel | alt | neu |
 | --- | --- | --- |
+| Kräfte addieren | physik/ Tab «Kräfte addieren» (k1–k5, Buch-Aufgaben KB, kreative KK) | neu/#/physik/addieren (a1–a17, 4 Lernkarten, Fehlerwerte) |
 | Drehmoment, Hebelgesetz | physik/ Tab «Drehmoment» (d1–d9) | neu/#/physik/dreh (d1–d13, mit Fehlerwerten) |
 
 ## Design
