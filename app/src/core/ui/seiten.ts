@@ -219,9 +219,61 @@ export function aufgabeSeite(f: Fach, k: Kapitel, id: string, fi: Filter): HTMLE
       'div',
       { class: 'raster zwei' },
       h('div', {}, aufgabenKarte(t, { karte: karte?.title, ohneTitel: true, nummer: `${i + 1} von ${liste.length}` }), blaettern),
-      h('div', { class: 'seite-rechts' }, formelkarte(k, breit())),
+      h('div', { class: 'seite-rechts' }, formelkarte(k, breit()), vorschau(basis, liste, t.id, q)),
     ),
   );
+}
+
+/** Vorschau der Aufgaben mit kleinem Bauteilbild und Stufe, zum schnellen Wechseln. */
+function vorschau(basis: string, liste: Task[], aktiv: string, q: string): HTMLElement {
+  const i = liste.findIndex((t) => t.id === aktiv);
+  const eintraege = liste.map((t, n) => {
+    const bild = t.draw ? t.draw(t.gen()) : null;
+    bild?.removeAttribute('aria-label');
+    bild?.setAttribute('aria-hidden', 'true');
+    const a = h(
+      'a',
+      { href: `${basis}/a/${t.id}${q}`, class: t.id === aktiv ? 'vs aktiv' : 'vs', ...(t.id === aktiv ? { 'aria-current': 'page' } : {}) },
+      h('span', { class: 'vs-bild' }, bild ?? ''),
+      h(
+        'span',
+        { class: 'vs-text' },
+        h('span', { class: 'vs-titel' }, t.title),
+        h('span', { class: 'vs-meta' }, stufenMarke(t.stufe), ` ${STUFEN[t.stufe]} · ${n + 1}`),
+      ),
+    );
+    return h('li', {}, a);
+  });
+  const liste_ = h('ol', { class: 'vorschau-liste' }, ...eintraege);
+  const tafel = h(
+    'section',
+    { class: 'tafel vorschau' },
+    h('header', {}, h('h2', {}, 'Weitere Aufgaben'), h('span', { class: 'meta num' }, `${i + 1} von ${liste.length}`)),
+    liste_,
+  );
+  requestAnimationFrame(() => {
+    // Vorschaubilder auf das Bauteil zuschneiden (Hintergrund weglassen), damit man es klein erkennt
+    liste_.querySelectorAll<SVGSVGElement>('.vs-bild svg').forEach(zuschneiden);
+    // aktive Aufgabe in der Liste sichtbar machen, ohne die Seite zu verschieben
+    const el = liste_.querySelector<HTMLElement>('.aktiv');
+    if (el) liste_.scrollTo({ top: el.offsetTop - 8, left: el.offsetLeft - 12 });
+  });
+  return tafel;
+}
+
+function zuschneiden(svg: SVGSVGElement) {
+  let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+  for (const c of Array.from(svg.children)) {
+    if (!(c instanceof SVGGraphicsElement) || c.tagName === 'defs') continue;
+    if (c.tagName === 'rect' && c.getAttribute('width') === '640') continue; // Blatt-Hintergrund
+    const b = c.getBBox();
+    if (!b.width && !b.height) continue;
+    x0 = Math.min(x0, b.x); y0 = Math.min(y0, b.y);
+    x1 = Math.max(x1, b.x + b.width); y1 = Math.max(y1, b.y + b.height);
+  }
+  if (!isFinite(x0)) return;
+  const r = 10;
+  svg.setAttribute('viewBox', `${x0 - r} ${y0 - r} ${x1 - x0 + 2 * r} ${y1 - y0 + 2 * r}`);
 }
 
 const mischen = <T>(a: T[]) => {

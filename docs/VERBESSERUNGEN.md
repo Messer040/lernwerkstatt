@@ -25,6 +25,8 @@ Aufwand: S = unter 30 Min., M = eine Sitzung, L = mehrere Sitzungen.
 
 ## Klein
 
+- [ ] **Vorschau: Bilder mit festen Zufallswerten** (S, neu): Die Vorschaubilder ziehen bei jedem Laden neue Zahlen. Für ein ruhigeres Bild die Werte der Vorschau fest halten (z. B. Mitte der Bereiche).
+
 - [ ] **Design: Schriftfeld am Handy** (S, neu): Bricht auf zwei Zeilen um, das ist ok. Prüfen, ob «Massstab» am Handy weggelassen werden soll.
 - [ ] **Design: Formelkarte auf der Aufgabenseite am Handy** (S, neu): Sie steht unter der Aufgabe und ist zugeklappt. Besser wäre ein Knopf «Formeln» oben, der sie als Blatt öffnet.
 - [ ] **Design: Inspector-Warnung «rainbow-chart»** (–, bewusst): Die Bauteilbilder nutzen 5 feste Farben (Kraft, Länge, Moment, Resultierende, Energie). Das ist der Farbcode des Trainers und bleibt.
@@ -37,6 +39,8 @@ Aufwand: S = unter 30 Min., M = eine Sitzung, L = mehrere Sitzungen.
 - [ ] **Tausender-Apostroph im alten Physik-Trainer** (S, alt): Neu zeigt 39'000, alt 39000. Erledigt sich mit dem Umzug.
 
 ## Erledigt
+
+- [x] 19.11.2026: Vorschau «Weitere Aufgaben» unter der Formelkarte: zugeschnittene Bauteilbilder, Stufe, aktuelle Aufgabe markiert. Handy: waagrechter Streifen. Dabei behoben: rechte Spalte lief am Handy über den Rand.
 
 - [x] 19.11.2026: Neues Design (Stil «Achromatic ledger», Schrift Geist): farblose Oberfläche, Farbe nur in Bildern und Formeln, Zeichnungsblatt mit Schriftfeld, Aufgabenliste plus Einzelansicht mit Blättern, kommende Kapitel als «folgt». Inspector: vorher 2 FAIL / 5 WARN, nachher 0 FAIL.
 - [x] 19.11.2026: Auswahl-Optionen werden gemischt.
