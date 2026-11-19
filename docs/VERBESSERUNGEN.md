@@ -7,12 +7,19 @@ Aufwand: S = unter 30 Min., M = eine Sitzung, L = mehrere Sitzungen.
 
 ## Wichtig
 
+- [ ] **Bruchdarstellung für lange Bilder** (M, Wunsch 19.11.): Lange Teile nach ISO 128 mit Bruchlinie verkürzt zeichnen, Masslinie durchgehend, Mass = wahre Länge (ISO 129). Damit passen Bilder aufs Handy. Baustein in `core/draw/svg.ts`, Regel in `docs/UMZUG.md`.
+- [ ] **Formel-Check beim Prüfen** (M, Wunsch 20.11.): Jede Aufgabe listet ihre nötigen Formeln. Nach «Antwort prüfen» anzeigen. Ins Task-Format und als Pflicht in `docs/UMZUG.md`.
+- [ ] **Prüfungsnah mischen** (M, Wunsch 20.11.): Wie BBZ-Prüfungen: mit Bild, Strichskizze, reiner Text, Auswahl a–e, Punkte (2 P / 4 P). Vorlagen: privates Repo `unterlagen/bilder/2026-11-20-pruefungen/`.
+- [ ] **Drehmoment: Aufgaben vom BBZ-Blatt** (M, 20.11.): Riemenscheibe, Knebel, Pronyscher Zaum, Zahnradtrieb (Moment am grossen Rad = F · r₂), Kragträger mit zwei Kräften. Fehlerwerte: M : r₂ statt F · r₂, mm statt m.
+
 - [ ] **Bilder am Handy** (M, neu): Die SVGs haben 520 px Mindestbreite, am Handy muss man seitlich wischen. Möglichkeiten: grössere Schrift im Bild bei schmalem Bildschirm, Hochformat-Varianten oder Zoom per Antippen.
 - [ ] **Physik umziehen** (L, neu): Kräfte addieren, Kräfte zerlegen, An der Wand, Beschleunigung, Lagerkräfte, Kettenaufgaben, Umfangskraft, Reibung, Arbeit, Leistung, Einfache Maschinen, Biegen, Bewegungen, Knobel, Einheiten. Pro Kapitel Fehlerwerte und 3 Tipps ergänzen.
 - [ ] **Zeichnungstechnik umziehen** (L, neu): Kap. 7, 9, 10, 11, 12, FL, ME ins neue Format.
 - [ ] **Prüfungssimulation über mehrere Kapitel** (M, neu): 15–20 gemischte Aufgaben, Zeitlimit, keine Tipps, Note und Auswertung pro Kapitel.
 
 ## Mittel
+
+- [ ] **Neue Kapitel aus BBZ-Prüfungen** (L, 20.11.): Druckfestigkeit/Flächenpressung, Zugfestigkeit/Beanspruchungsarten, Mathematik-Repetition (Gewichtskraft, Pythagoras, Anschnittlänge 118°, gestreckte Länge, Flächen).
 
 - [ ] **Offline-App** (M, neu): Service Worker, damit `neu/` ohne Netz läuft. `manifest.webmanifest` auf `neu/` zeigen lassen, sobald neu der Hauptweg ist.
 - [ ] **Lernkarten-Hinweis «hilfreich» anzeigen** (S, neu): Das Feld `hilfreich` ist in den Daten, wird aber noch nicht angezeigt. Als Links unter dem Ziel zeigen.
