@@ -1,0 +1,1512 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Zeichnungstechnik-Trainer</title><link rel="manifest" href="../manifest.webmanifest"><link rel="icon" href="../icon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+@font-face{font-family:'osifont';src:url(data:font/woff;base64,@@FONT@@) format('woff');font-weight:normal;font-style:normal}
+:root{
+  --ink:#1b1b1b; --paper:#fff; --bg:#eef0f2; --muted:#5f6670; --line:#d4d8dd;
+  --accent:#0b5fa5; --ok:#1f7a3a; --okbg:#e6f4ea; --bad:#b3261e; --badbg:#fbe9e7;
+  --warn:#8a5a00; --warnbg:#fff4d6;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Barlow,system-ui,sans-serif;color:var(--ink);background:var(--bg);font-size:16px;line-height:1.45}
+header{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+.wrap{max-width:1100px;margin:0 auto;padding:0 20px}
+header .wrap{display:flex;align-items:center;gap:18px;height:62px}
+header h1{font-size:18px;margin:0;font-weight:600;white-space:nowrap}
+header h1 small{display:block;font-weight:400;color:var(--muted);font-size:12px}
+.progress{flex:1;height:10px;background:var(--line);border-radius:5px;overflow:hidden}
+.progress i{display:block;height:100%;background:var(--accent);width:0;transition:width .3s}
+.pcount{font-size:13px;color:var(--muted);white-space:nowrap}
+button{font:inherit;cursor:pointer;color:#1a1a1a}
+.btn{background:var(--accent);color:#fff;border:0;border-radius:6px;padding:9px 16px;font-weight:600}
+.btn.sec{background:#fff;color:var(--ink);border:1px solid var(--line)}
+nav.tasks{display:flex;flex-wrap:wrap;gap:6px;padding:14px 0}
+nav.tasks button{border:1px solid var(--line);background:#fff;border-radius:20px;padding:5px 12px;font-size:13px}
+nav.tasks .kapchips{width:100%;display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin}nav.tasks button.kap{border-radius:6px;background:#eef3f9;font-weight:600;white-space:nowrap;flex:0 0 auto}nav.tasks button.kap.on{background:#0b5fa5;color:#fff;border-color:#0b5fa5}
+nav.tasks .navbar{width:100%;display:flex;gap:6px;align-items:stretch}nav.tasks .navbar .arrow{border-radius:8px;padding:6px 12px;font-size:15px}nav.tasks .navbar .arrow:disabled{opacity:.35}nav.tasks .cur-lbl{flex:1;text-align:left;border-radius:8px;font-size:14px;padding:7px 12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}nav.tasks .cur-lbl .tog{float:right;color:#5a6673}
+nav.tasks .tasklist{width:100%;display:flex;flex-direction:column;gap:4px;margin-top:4px;max-height:60vh;overflow-y:auto}nav.tasks .tasklist button{text-align:left;border-radius:8px;font-size:14px;padding:7px 10px}nav.tasks .tasklist .no{display:inline-block;min-width:22px;color:#5a6673;font-weight:600}
+nav.tasks button.cur{border-color:var(--accent);color:var(--accent);font-weight:600}
+nav.tasks button.done{background:var(--okbg);border-color:#bfe0c8}
+nav.tasks button.fail{background:var(--badbg);border-color:#f0c2bd}
+.card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:22px 24px;margin:0 0 20px;display:none}
+.card.show{display:block}
+.card h2{margin:0 0 4px;font-size:21px}
+.card h3{margin:22px 0 6px;font-size:18px}
+.row label b{color:var(--ink)}
+.tag{display:inline-block;font-size:12px;font-weight:600;letter-spacing:.03em;text-transform:uppercase;color:var(--accent);background:#e8f1fa;border-radius:4px;padding:2px 8px;margin-bottom:8px}
+.task-text{margin:6px 0 14px}
+.draw{border:1px solid #9aa0a6;background:#fff;margin:10px 0 16px;overflow:hidden}
+.draw svg{display:block;width:100%;height:auto}
+svg text{font-family:'osifont',monospace;font-size:3.5px;fill:#000}
+svg .thick{stroke:#000;stroke-width:.5;fill:none;stroke-linejoin:round;stroke-linecap:butt}
+svg .thin{stroke:#000;stroke-width:.25;fill:none;stroke-linecap:butt}
+svg .hidden{stroke:#000;stroke-width:.35;fill:none;stroke-dasharray:3 1}
+svg .center{stroke:#000;stroke-width:.25;fill:none;stroke-dasharray:9 1.2 1.2 1.2}
+svg .cut{stroke:#000;stroke-width:.7;fill:none}
+svg .hatch{fill:url(#hatch);stroke:#000;stroke-width:.5;stroke-linejoin:round}
+svg .frame rect{fill:#fff;stroke:#000;stroke-width:.25}
+svg .frame text.sym{font-size:4.6px}
+svg .datum polygon{fill:#000}
+svg .clickable{cursor:pointer}
+svg .clickable.sel rect{stroke:var(--accent);stroke-width:.7;fill:#e8f1fa}
+svg .clickable.err rect{stroke:var(--bad);stroke-width:.7;fill:#fbe9e7}
+svg .clickable.good rect{stroke:var(--ok);stroke-width:.7;fill:#e6f4ea}
+.q{margin:14px 0;padding:14px 16px;border:1px solid var(--line);border-radius:8px}
+.q p.lead{margin:0 0 8px;font-weight:600}
+.q label.opt{display:flex;gap:10px;align-items:flex-start;padding:6px 8px;border-radius:6px;cursor:pointer}
+.q label.opt:hover{background:#f4f6f8}
+.q input[type=radio],.q input[type=checkbox]{margin-top:4px}
+.row{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end}
+.row label{display:flex;flex-direction:column;font-size:13px;color:var(--muted);gap:4px}
+select,input[type=text]{font:inherit;padding:7px 9px;border:1px solid #b9c0c7;border-radius:6px;min-width:120px;background:#fff}
+.fb{margin-top:14px;padding:12px 14px;border-radius:8px;display:none}
+.fb.ok{display:block;background:var(--okbg);border:1px solid #bfe0c8}
+.fb.bad{display:block;background:var(--badbg);border:1px solid #f0c2bd}
+.fb.part{display:block;background:var(--warnbg);border:1px solid #e8d49a}
+.fb h4{margin:0 0 6px;font-size:15px}
+.fb ol,.fb ul{margin:6px 0 0;padding-left:20px}
+.fb li{margin:3px 0}
+.actions{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
+.hint{font-size:13px;color:var(--muted)}
+.legend{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:8px;margin-top:10px}
+.legend div{display:flex;align-items:center;gap:10px;font-size:13px;border:1px solid var(--line);border-radius:6px;padding:5px 8px}
+.legend b{font-family:'osifont',monospace;font-size:26px;font-weight:normal;width:30px;text-align:center}
+footer{color:var(--muted);font-size:13px;padding:20px 0 40px}
+.preview{display:flex;align-items:center;gap:14px;margin-top:10px}
+.preview svg{width:170px;height:30px}
+.slider{width:100%;max-width:360px}
+.zone{border:1px solid #9aa0a6;background:#fff;margin:10px 0}
+.zone svg{display:block;width:100%;height:auto}
+svg .hot{cursor:pointer}
+svg .hot circle{fill:#0b5fa5;stroke:#fff;stroke-width:.3}
+svg .hot text{fill:#fff;font-family:Barlow,sans-serif;font-size:3.1px;font-weight:600}
+.frow{display:grid;grid-template-columns:1.6fr 1.5fr .9fr .7fr .7fr .7fr;gap:8px;margin:6px 0;align-items:end}
+.frow select,.frow input[type=text]{min-width:0;width:100%}
+.frow .hd{font-size:12px;color:var(--muted)}
+@media(max-width:760px){.frow{grid-template-columns:1fr 1fr 1fr}}
+.method{background:#f4f7fa;border:1px solid var(--line);border-radius:8px;padding:10px 14px;margin:10px 0}
+.method ol,.reqs{margin:4px 0;padding-left:22px}
+ul.res{list-style:none;padding-left:0}ul.res li{padding:5px 8px 5px 26px;border-radius:6px;margin:4px 0;position:relative}ul.res li::before{position:absolute;left:8px;font-weight:700}ul.res li.g::before{content:'✓';color:var(--ok)}ul.res li.b::before{content:'✗';color:var(--bad)}ul.res li.p::before{content:'~';color:var(--warn)}
+details.rw{margin:10px 0;font-size:14px}
+details.rw summary{cursor:pointer;color:var(--accent);font-weight:600}
+input,select,textarea{color:#1a1a1a;background-color:#fff}
+.ktq{border-top:3px solid #0b5fa5;margin-top:18px}.btn:disabled{opacity:.45}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <pattern id="hatch" patternUnits="userSpaceOnUse" width="2.5" height="2.5" patternTransform="rotate(45)">
+      <line x1="0" y1="0" x2="0" y2="2.5" stroke="#000" stroke-width=".25"/>
+    </pattern>
+    <marker id="arr" viewBox="0 0 10 5.2" refX="10" refY="2.6" markerWidth="3.2" markerHeight="1.7" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L10,2.6 L0,5.2 z" fill="#000"/>
+    </marker>
+    <marker id="arrS" viewBox="0 0 10 5.2" refX="10" refY="2.6" markerWidth="4" markerHeight="2.1" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L10,2.6 L0,5.2 z" fill="#000"/>
+    </marker>
+  </defs>
+</svg>
+
+<header><div class="wrap">
+  <h1>Zeichnungstechnik-Trainer<small>Bemassung · Toleranzen · Form und Lage · Oberfläche · Stücklisten · Maschinenelemente</small></h1>
+  <div class="progress"><i id="pbar"></i></div>
+  <div class="pcount" id="pcount">0 / 16 gelöst</div>
+</div></header>
+
+<div class="wrap">
+  <nav class="tasks" id="nav"></nav>
+  <div id="tasks"></div>
+
+  <div class="card show" id="symbols" style="display:block">
+    <span class="tag">Nachschlagen</span>
+    <h2>Die 14 Symbole</h2>
+    <p class="hint">Formtoleranzen brauchen nie einen Bezug. Richtungs-, Orts- und Lauftoleranzen brauchen immer einen Bezug.</p>
+    <div class="legend" id="legend"></div>
+  </div>
+
+  <div class="actions">
+    <button class="btn sec" id="reset">Fortschritt zurücksetzen</button>
+  </div>
+  <footer>Zeichnungen auf A4 quer, Normalprojektion Methode 1, Normschrift ISO 3098 (osifont, LGPL). Darstellung angelehnt an den Normen-Auszug, Kapitel 2.8, 2.9 und 8.2. Die Bauteile und Werte sind frei erfunden.</footer>
+</div>
+
+<script>
+/* ============ Zeichnungs-Engine (Einheiten in mm, A4 quer) ============ */
+const NS='http://www.w3.org/2000/svg';
+function E(tag,attrs={},...kids){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);for(const c of kids){if(c==null)continue;e.appendChild(typeof c==='string'?document.createTextNode(c):c);}return e;}
+function H(tag,attrs={},html=''){const e=document.createElement(tag);for(const k in attrs)e.setAttribute(k,attrs[k]);e.innerHTML=html;return e;}
+function L(g,x1,y1,x2,y2,cls='thin',extra={}){const l=E('line',{x1,y1,x2,y2,class:cls,...extra});g.appendChild(l);return l;}
+function P(g,pts,cls='thick',extra={}){const p=E('polyline',{points:pts.map(p=>p.join(',')).join(' '),class:cls,...extra});g.appendChild(p);return p;}
+function PG(g,pts,cls='hatch'){const p=E('polygon',{points:pts.map(p=>p.join(',')).join(' '),class:cls});g.appendChild(p);return p;}
+function PATH(g,d,cls='thick',extra={}){const p=E('path',{d,class:cls,...extra});g.appendChild(p);return p;}
+function T(g,x,y,txt,extra={}){const t=E('text',{x,y,...extra},txt);g.appendChild(t);return t;}
+function C(g,cx,cy,r,cls='thick'){const c=E('circle',{cx,cy,r,class:cls});g.appendChild(c);return c;}
+const TODAY='2026-11-16';
+
+// A4 quer: 297 x 210. Rahmen: links 20, sonst 10. Schriftfeld ISO 7200, 180 breit.
+function sheet(o){
+  const W=297,Hh=210;
+  const s=E('svg',{viewBox:`0 0 ${W} ${Hh}`});
+  s.appendChild(E('rect',{x:0,y:0,width:W,height:Hh,fill:'#fff'}));
+  const g=E('g');s.appendChild(g);
+  g.appendChild(E('rect',{x:20,y:10,width:267,height:190,class:'thick'}));
+  // Schriftfeld
+  const bx=107,by=160,bw=180,bh=40;
+  g.appendChild(E('rect',{x:bx,y:by,width:bw,height:bh,class:'thick'}));
+  const lab=(x,y,t)=>T(g,x,y,t,{'font-size':'2'});
+  const val=(x,y,t,fs=3.5)=>T(g,x,y,t,{'font-size':fs});
+  // linker Teil 110 breit
+  L(g,bx,by+12,bx+110,by+12,'thin');L(g,bx,by+32,bx+110,by+32,'thin');L(g,bx+110,by,bx+110,by+bh,'thick');
+  lab(bx+1.5,by+2.8,'Werkstoff / Werkstoff-Nr.');val(bx+1.5,by+9.5,o.material||'');
+  lab(bx+1.5,by+14.8,'Titel, Zusätzlicher Titel');val(bx+1.5,by+23,o.title,6);val(bx+1.5,by+29.5,o.subtitle||'',3.5);
+  lab(bx+1.5,by+34.8,'Firma');val(bx+1.5,by+38.8,'Lernwerkstatt',3.5);
+  // rechter Teil 70 breit
+  const rx=bx+110;
+  L(g,rx,by+12,bx+bw,by+12,'thin');
+  L(g,rx+30,by,rx+30,by+12,'thin');L(g,rx+52,by,rx+52,by+12,'thin');
+  lab(rx+1.5,by+2.8,'Dokumentenstatus');val(rx+1.5,by+9.5,'Freigegeben');
+  // Projektionssymbol Methode 1 + A4
+  const px=rx+33,py=by+4.5;
+  PATH(g,`M${px},${py-1.6} L${px+4.5},${py-3} L${px+4.5},${py+3} L${px},${py+1.6} Z`,'thin');
+  C(g,px+10,py,3,'thin');C(g,px+10,py,1.6,'thin');
+  val(rx+36,by+10.6,'A4',3);
+  lab(rx+54,by+2.8,'Massstab');val(rx+55,by+9.5,o.scale||'1:1');
+  [[12,'Erstellt durch','E. W.'],[18.5,'Genehmigt von',''],[25,'Ausgabedatum',TODAY]].forEach(([dy,l,v],i)=>{L(g,rx,by+dy+6.5,bx+bw,by+dy+6.5,'thin');lab(rx+1.5,by+dy+2.8,l);val(rx+26,by+dy+5.4,v,3);});
+  L(g,rx+24,by+12,rx+24,by+32,'thin');
+  L(g,rx+44,by+32,rx+44,by+bh,'thin');L(g,rx+56,by+32,rx+56,by+bh,'thin');
+  lab(rx+1.5,by+34.8,'Sachnummer');val(rx+1.5,by+38.8,o.partno||'',3);
+  lab(rx+45.5,by+34.8,'Änd.');val(rx+47,by+38.8,'-',3);
+  lab(rx+57.5,by+34.8,'Blatt');val(rx+58.5,by+38.8,'1/1',3);
+  // Allgemeine Angaben über dem Schriftfeld
+  T(g,bx+82,by-17,'Tolerierung ISO 8015',{'font-size':'3.5'});
+  T(g,bx+82,by-11.5,'Allgemeintoleranzen ISO 2768-mK',{'font-size':'3.5'});
+  T(g,bx+82,by-2,'ISO 13715',{'font-size':'3.5'});
+  {const ex=bx+109,ey=by-3.5;P(g,[[ex-4,ey+2.6],[ex,ey]],'thin');L(g,ex,ey-4.5,ex,ey,'thin');L(g,ex,ey,ex+10,ey,'thin');T(g,ex+1.2,ey-1,'-0,4',{'font-size':'3.5'});
+   const ix=bx+134;P(g,[[ix-4,ey+2.6],[ix,ey]],'thin');L(g,ix,ey-4.5,ix,ey,'thin');L(g,ix,ey,ix+10,ey,'thin');T(g,ix+1.2,ey-1,'+0,4',{'font-size':'3.5'});}
+  // Allgemeines Oberflächenzeichen
+  if(o.ra){surf(g,bx+38,by-3,o.ra,!o.raOnly);}
+  return {svg:s,g};
+}
+// Oberflächenzeichen ISO 1302, Materialabtrag gefordert. Spitze auf (x,y). H1=5, H2=11, Schenkel 60 Grad
+function surf(g,x,y,v,general=false){
+  P(g,[[x-2.89,y-5],[x,y],[x+6.35,y-11],[x+20,y-11]],'thin');L(g,x-2.89,y-5,x+2.89,y-5,'thin');
+  T(g,x+6.6,y-6.6,'Ra '+v,{'font-size':'3.5'});
+  if(general){const bx=x+25;PATH(g,`M${bx-3},${y-11} Q${bx-6},${y-5.5} ${bx-3},${y}`,'thin');P(g,[[bx-1.3,y-5],[bx+1.6,y],[bx+7.9,y-11]],'thin');PATH(g,`M${bx+8.5},${y-11} Q${bx+11.5},${y-5.5} ${bx+8.5},${y}`,'thin');}
+}
+// Masslinie. opt: ted (theoretisch exaktes Mass im Rahmen), arrowsOut, dx/dy (Masszahl verschieben)
+function dim(g,x1,y1,x2,y2,off,txt,opt={}){
+  const horiz=y1===y2&&!opt.vert;const ov=1.5;const w=txt.length*2.2+1.8;
+  const box=(cx,by)=>{if(opt.ted)return E('rect',{x:cx-w/2,y:by-4.1,width:w,height:4.7,class:'thin'});return null;};
+  if(horiz){
+    const y=y1+off,s=Math.sign(off)||1;
+    if(!opt.noext){L(g,x1,y1,x1,y+s*ov);L(g,x2,y2,x2,y+s*ov);}
+    const a=Math.min(x1,x2),b=Math.max(x1,x2);
+    if(opt.arrowsOut){L(g,a-7,y,a,y,'thin',{'marker-end':'url(#arr)'});L(g,b+7,y,b,y,'thin',{'marker-end':'url(#arr)'});L(g,a,y,b,y);}
+    else L(g,a,y,b,y,'thin',{'marker-start':'url(#arr)','marker-end':'url(#arr)'});
+    const tx=(a+b)/2+(opt.dx||0)+(opt.sh||0);
+    if(opt.dx){const e=opt.dx>0?tx+w/2:tx-w/2;L(g,opt.dx>0?b:a,y,e,y);}
+    const r=box(tx,y-1);if(r)g.appendChild(r);
+    T(g,tx,y-1.1,txt,{'text-anchor':'middle'});
+  }else{
+    const x=x1+off,s=Math.sign(off)||1;
+    if(!opt.noext){L(g,x1,y1,x+s*ov,y1);L(g,x2,y2,x+s*ov,y2);}
+    const a=Math.min(y1,y2),b=Math.max(y1,y2);
+    if(opt.dy&&(b-a)<10){L(g,x,a-7,x,a,'thin',{'marker-end':'url(#arr)'});L(g,x,b+7,x,b,'thin',{'marker-end':'url(#arr)'});L(g,x,a,x,b);}
+    else L(g,x,a,x,b,'thin',{'marker-start':'url(#arr)','marker-end':'url(#arr)'});
+    const ty=(a+b)/2+(opt.dy||0)+(opt.sh||0);
+    if(opt.dy){L(g,x,opt.dy<0?a:b,x,opt.dy<0?ty-w/2:ty+w/2);}
+    const gg=E('g',{transform:`rotate(-90 ${x-1} ${ty})`});const r=box(x-1,ty);if(r)gg.appendChild(r);
+    T(gg,x-1,ty-0.1,txt,{'text-anchor':'middle'});g.appendChild(gg);
+  }
+}
+// Radius-/Hinweismass mit Pfeil
+function note(g,x,y,txt,tx,ty){L(g,tx,ty,x,y,'thin',{'marker-end':'url(#arr)'});L(g,tx,ty,tx+(txt.length*2.2+1)*(tx<x?-1:1),ty,'thin');T(g,tx+(tx<x?-1:1)*1,ty-1,txt,{'text-anchor':tx<x?'end':'start'});}
+// Toleranzrahmen (x,y links oben), Höhe 7, Symbol als Normschrift-Glyphe
+const SYM={
+  geradheit:{ch:'⏤',n:'Geradheit',k:'Form'},ebenheit:{ch:'⏥',n:'Ebenheit',k:'Form'},rundheit:{ch:'○',n:'Rundheit',k:'Form'},zylindrizitaet:{ch:'⌭',n:'Zylinderform (Zylindrizität)',k:'Form'},
+  linienprofil:{ch:'⌒',n:'Linienprofil',k:'Form/Lage'},flaechenprofil:{ch:'⌓',n:'Flächenprofil',k:'Form/Lage'},
+  parallelitaet:{ch:'//',n:'Parallelität',k:'Richtung'},rechtwinkligkeit:{ch:'⊥',n:'Rechtwinkligkeit',k:'Richtung'},neigung:{ch:'∠',n:'Neigung',k:'Richtung'},
+  position:{ch:'⌖',n:'Position',k:'Ort'},koaxialitaet:{ch:'◎',n:'Koaxialität / Konzentrizität',k:'Ort'},symmetrie:{ch:'⌯',n:'Symmetrie',k:'Ort'},
+  rundlauf:{ch:'↗',n:'Rundlauf / Planlauf',k:'Lauf'},gesamtlauf:{ch:'⌰',n:'Gesamtlauf',k:'Lauf'}
+};
+function frame(g,x,y,sym,val,datums=[],opts={}){
+  const grp=E('g',{class:'frame'+(opts.cls?' '+opts.cls:'')});const h=7;
+  const vw=Math.max(9,val.length*2.3+3);let cx=x;
+  grp.appendChild(E('rect',{x:cx,y,width:7,height:h}));
+  T(grp,cx+3.5,y+5.3,SYM[sym]?SYM[sym].ch:'',{'text-anchor':'middle',class:'sym'});cx+=7;
+  grp.appendChild(E('rect',{x:cx,y,width:vw,height:h}));T(grp,cx+vw/2,y+4.9,val,{'text-anchor':'middle'});cx+=vw;
+  for(const d of datums){const dw=Math.max(7,d.length*2.3+2.5);grp.appendChild(E('rect',{x:cx,y,width:dw,height:h}));T(grp,cx+dw/2,y+4.9,d,{'text-anchor':'middle'});cx+=dw;}
+  g.appendChild(grp);return {el:grp,x,y,w:cx-x,h,cx:x+(cx-x)/2,r:cx};
+}
+function tol(g,fx,fy,sym,val,dats,pts,opts={}){
+  const f=frame(g,fx,fy,sym,val,dats,opts);
+  if(pts&&pts.length){const st=pts[0][0]<=fx?[f.x,fy+3.5]:[f.r,fy+3.5];leader(g,[st,...pts]);}
+  return f;
+}
+function leader(g,pts){if(pts.length<2)return null;return P(g,pts,'thin',{'marker-end':'url(#arr)'});}
+// Bezug: Dreieck (Basis 3,5, Höhe 3) mit Basis auf (x,y), dir = weg vom Element; dann Linie und Kästchen 6x6
+function datum(g,x,y,letter,dir,len=6){
+  const grp=E('g',{class:'datum'});const b=1.75,h=3;let tri,lx,ly,bx,by;
+  if(dir==='up'){tri=[[x-b,y],[x+b,y],[x,y-h]];lx=x;ly=y-h-len;bx=x-3;by=ly-6;}
+  if(dir==='down'){tri=[[x-b,y],[x+b,y],[x,y+h]];lx=x;ly=y+h+len;bx=x-3;by=ly;}
+  if(dir==='left'){tri=[[x,y-b],[x,y+b],[x-h,y]];lx=x-h-len;ly=y;bx=lx-6;by=y-3;}
+  if(dir==='right'){tri=[[x,y-b],[x,y+b],[x+h,y]];lx=x+h+len;ly=y;bx=lx;by=y-3;}
+  grp.appendChild(E('polygon',{points:tri.map(p=>p.join(',')).join(' ')}));
+  L(grp,tri[2][0],tri[2][1],lx,ly);
+  grp.appendChild(E('rect',{x:bx,y:by,width:6,height:6,class:'thin'}));
+  T(grp,bx+3,by+4.6,letter,{'text-anchor':'middle'});
+  g.appendChild(grp);return grp;
+}
+function ctr(g,x1,y1,x2,y2){L(g,x1,y1,x2,y2,'center');}
+// Stufenwelle: segs = [[Durchmesser, Länge, Fase links, Fase rechts], ...]. An jedem Absatz geht die Kante über den ganzen Durchmesser.
+function shaft(g,x0,cy,segs){
+  let x=x0;const xs=[x0];
+  segs.forEach(([d,l,cl=0,cr=0],i)=>{
+    const r=d/2,xe=x+l;
+    // Mantellinien oben und unten (mit Fasen)
+    P(g,[[x+cl,cy-r],[xe-cr,cy-r]]);P(g,[[x+cl,cy+r],[xe-cr,cy+r]]);
+    if(cl){P(g,[[x,cy-r+cl],[x+cl,cy-r]]);P(g,[[x,cy+r-cl],[x+cl,cy+r]]);L(g,x+cl,cy-r,x+cl,cy+r,'thick');}
+    if(cr){P(g,[[xe-cr,cy-r],[xe,cy-r+cr]]);P(g,[[xe-cr,cy+r],[xe,cy+r-cr]]);L(g,xe-cr,cy-r,xe-cr,cy+r,'thick');}
+    // Stirnfläche links: volle Linie über den grösseren Durchmesser
+    const prev=i?segs[i-1][0]/2:0;const R=Math.max(r-cl,prev-(i?segs[i-1][3]||0:0));
+    L(g,x,cy-R,x,cy+R,'thick');
+    if(i===segs.length-1)L(g,xe,cy-r+cr,xe,cy+r-cr,'thick');
+    x=xe;xs.push(x);
+  });
+  return xs;
+}
+// Schnittverlauf: Endstriche dick, Pfeile in Blickrichtung, Buchstaben
+function section(g,x1,y1,x2,y2,letter,dir){ // dir: 'down','up','left','right' Blickrichtung
+  const dx=Math.sign(x2-x1),dy=Math.sign(y2-y1);const el=7;
+  L(g,x1,y1,x1+dx*el,y1+dy*el,'cut');L(g,x2,y2,x2-dx*el,y2-dy*el,'cut');
+  L(g,x1+dx*el,y1+dy*el,x2-dx*el,y2-dy*el,'center');
+  const v={down:[0,1],up:[0,-1],left:[-1,0],right:[1,0]}[dir];
+  [[x1+dx*2,y1+dy*2,-1],[x2-dx*2,y2-dy*2,1]].forEach(([px,py,side])=>{
+    const sx=px-v[0]*9,sy=py-v[1]*9;L(g,sx,sy,px-v[0]*1,py-v[1]*1,'thin',{'marker-end':'url(#arrS)'});
+    // Buchstabe aussen neben dem Pfeilende
+    if(v[1]){T(g,sx+side*(dx||1)*3,sy+(v[1]>0?-2:5),letter,{'font-size':'5','text-anchor':side*(dx||1)>0?'start':'end'});}
+    else{T(g,sx-v[0]*2,sy+side*(dy||1)*3+(side*(dy||1)>0?4:0),letter,{'font-size':'5','text-anchor':v[0]>0?'end':'start'});}
+  });
+}
+function viewLabel(g,x,y,t){T(g,x,y,t,{'font-size':'5','text-anchor':'middle'});}
+
+/* ============ Zustand ============ */
+let state={};
+try{state=JSON.parse(localStorage.getItem('flt-state')||'{}')||{};}catch(e){state={};}
+function save(){try{localStorage.setItem('flt-state',JSON.stringify(state));}catch(e){}}
+function setResult(id,ok){state[id]=ok?'ok':'fail';save();renderNav();}
+
+/* ============ Aufgaben ============ */
+const tasks=[];
+const mkf=g=>(id,fx,fy,sym,val,dats,pts)=>{const f=tol(g,fx,fy,sym,val,dats,pts,{cls:'clickable'});f.el.dataset.id=id;return f;};
+
+/* 1 Lesen: Bolzen */
+tasks.push({id:'t1',type:'Zeichnung lesen',title:'Bolzen mit Lagerzapfen',
+text:'Lies die drei Eintragungen in der Zeichnung. Beantworte die Fragen.',
+draw(){
+  const {svg,g}=sheet({title:'Bolzen',subtitle:'Spannvorrichtung',material:'11SMnPb30+C/1.0718',partno:'LW 101 001',ra:'6,3'});
+  const cy=75,xa=70,xb=136,xc=166;
+  ctr(g,xa-6,cy,xc+6,cy);
+  shaft(g,xa,cy,[[16,66,1,0],[10,30,0,1]]);
+  dim(g,xa,cy+8,xb,cy+8,24,'66 ±0,5');
+  dim(g,xb,cy+8,xc,cy+8,14,'30');
+  dim(g,xa+1,cy-8,xa+1,cy+8,-13,'⌀16 h9');
+  dim(g,xc-1,cy-5,xc-1,cy+5,15,'⌀10 g6',{dy:-14});
+  note(g,xa+0.5,cy+7.5,'1×45°',xa-5,cy+18);
+  note(g,xc-0.5,cy+4.5,'1×45°',xc+7,cy+16);
+  surf(g,xa+44,cy-8,'0,8');surf(g,xb+4,cy-5,'1,6');
+  datum(g,xa-12,cy-8,'A','up',5);
+  tol(g,xa+22,36,'zylindrizitaet','0,01',[],[[xa+16,39.5],[xa+16,cy-8]]);
+  tol(g,xc+2,36,'rundlauf','0,05',['A'],[[xc-4,39.5],[xc-4,cy-5]]);
+  return svg;
+},
+questions:[
+ {q:'Was bedeutet die Eintragung Zylindrizität 0,01 am Durchmesser 16?',opts:[
+  'Die Mantelfläche muss zwischen zwei koaxialen Zylindern liegen. Ihr Abstand ist 0,01.',
+  'Der Durchmesser darf um höchstens 0,01 vom Nennmass abweichen.',
+  'Die Achse muss zur Achse von Bezug A fluchten, Toleranz 0,01.',
+  'Beim Drehen darf die Messuhr höchstens 0,01 ausschlagen.'],a:0,
+  why:'Zylindrizität ist eine Formtoleranz. Die Toleranzzone ist der Raum zwischen zwei koaxialen Zylindern. Der radiale Abstand ist 0,01. Sie begrenzt Rundheit, Geradheit und Parallelität der Mantellinien zusammen. Mit dem Durchmesser-Mass hat sie nichts zu tun.'},
+ {q:'Das Bezugsdreieck A steht in der Verlängerung der Masslinie ⌀16. Was ist der Bezug?',opts:[
+  'Die Mantelfläche des Durchmessers 16.',
+  'Die Achse des Durchmessers 16.',
+  'Die linke Stirnfläche.',
+  'Die Achse des Durchmessers 10.'],a:1,
+  why:'Regel: Steht das Bezugsdreieck in der Verlängerung einer Masslinie, dann ist der Bezug die Achse oder die Mittelebene. Steht es direkt auf der Kontur, dann ist der Bezug die Fläche.'},
+ {q:'Was bedeutet Rundlauf 0,05 A am Durchmesser 10?',opts:[
+  'Der Durchmesser 10 darf höchstens 0,05 vom Nennmass abweichen.',
+  'Die Achse des ⌀10 darf höchstens 0,05 versetzt sein.',
+  'Beim Drehen um die Achse A darf die Messuhr am ⌀10 höchstens 0,05 ausschlagen.',
+  'Die Stirnfläche muss eben sein innerhalb 0,05.'],a:2,
+  why:'Rundlauf ist eine Lauftoleranz. Man dreht das Teil um die Bezugsachse A. Eine Messuhr tastet den ⌀10 radial ab. Der Zeiger darf höchstens 0,05 ausschlagen. Rundlauf erfasst Rundheit und Koaxialität zusammen.'}
+]});
+
+/* 2 Lesen: Flanschplatte */
+tasks.push({id:'t2',type:'Zeichnung lesen',title:'Flanschplatte',
+text:'Die Platte wird mit der Unterseite auf ein Gehäuse geschraubt. Die Bohrung ⌀30 H7 zentriert ein Lager. Der Schnitt C-C liegt nach Methode 1 unter der Vorderansicht.',
+draw(){
+  const {svg,g}=sheet({title:'Flanschplatte',subtitle:'Lagergehäuse',material:'S235JR/1.0038',partno:'LW 102 004',ra:'12,5'});
+  const mx=100,my=70,s=40,r=8;
+  PATH(g,`M${mx-s+r},${my-s} H${mx+s-r} A${r},${r} 0 0 1 ${mx+s},${my-s+r} V${my+s-r} A${r},${r} 0 0 1 ${mx+s-r},${my+s} H${mx-s+r} A${r},${r} 0 0 1 ${mx-s},${my+s-r} V${my-s+r} A${r},${r} 0 0 1 ${mx-s+r},${my-s} Z`);
+  ctr(g,mx-s-4,my,mx+s+4,my);ctr(g,mx,my-s-4,mx,my+s+4);
+  C(g,mx,my,15);C(g,mx,my,15.8);
+  [[mx-30,my-30],[mx+30,my-30],[mx-30,my+30],[mx+30,my+30]].forEach(([x,y])=>{C(g,x,y,4.5);ctr(g,x-7,y,x+7,y);ctr(g,x,y-7,x,y+7);});
+  dim(g,mx-s,my-s,mx+s,my-s,-13,'80',{sh:-12});
+  dim(g,mx-30,my-30,mx+30,my-30,-7,'60',{sh:-12});
+  dim(g,mx+30,my-30,mx+30,my+30,26,'60',{sh:-14});
+  dim(g,mx+s,my-s,mx+s,my+s,23,'80',{sh:-14});
+  note(g,mx-s+r*0.29,my+s-r*0.29,'R8',mx-s-5,my+s+7);
+  T(g,22,46.5,'4× ⌀9');
+  tol(g,22,48,'position','⌀0,2',['A','B'],[[66.4,42.7]]);
+  section(g,mx-s-9,my,mx+s+6,my,'C','down');
+  // Schnitt C-C
+  const yt=134,yb=146,x0=mx-s,x1=mx+s,cxm=mx;
+  viewLabel(g,mx,119,'C-C');
+  PG(g,[[x0,yt],[cxm-15.8,yt],[cxm-15,yt+0.8],[cxm-15,yb-0.8],[cxm-15.8,yb],[x0,yb]]);
+  PG(g,[[cxm+15.8,yt],[x1,yt],[x1,yb],[cxm+15.8,yb],[cxm+15,yb-0.8],[cxm+15,yt+0.8]]);
+  // Kanten der Bohrung hinter der Schnittebene
+  L(g,cxm-15.8,yt,cxm+15.8,yt,'thick');L(g,cxm-15.8,yb,cxm+15.8,yb,'thick');
+  L(g,cxm-15,yt+0.8,cxm+15,yt+0.8,'thick');L(g,cxm-15,yb-0.8,cxm+15,yb-0.8,'thick');
+  ctr(g,cxm,yt-4,cxm,yb+5);
+  dim(g,cxm-15,yt,cxm+15,yt,-8,'⌀30 H7');
+  tol(g,24,122.5,'rechtwinkligkeit','0,05',['A'],[[cxm-15,126]]);
+  datum(g,cxm+15,126,'B','right',5);
+  surf(g,134,yt,'1,6');
+  dim(g,x1,yt,x1,yb,14,'12');
+  datum(g,x0+6,yb,'A','down',2);
+  tol(g,82,150,'ebenheit','0,02',[],[[76,153.5],[76,yb]]);
+  // Seitenansicht von links
+  const sx=182;
+  g.appendChild(E('rect',{x:sx,y:my-s,width:12,height:80,class:'thick'}));
+  L(g,sx,my-15,sx+12,my-15,'hidden');L(g,sx,my+15,sx+12,my+15,'hidden');
+  [my-30,my+30].forEach(y=>{L(g,sx,y-4.5,sx+12,y-4.5,'hidden');L(g,sx,y+4.5,sx+12,y+4.5,'hidden');ctr(g,sx-3,y,sx+15,y);});
+  ctr(g,sx-4,my,sx+16,my);
+  return svg;
+},
+questions:[
+ {q:'Die Ebenheit 0,02 hat keinen Bezug. Warum ist das richtig?',opts:[
+  'Der Konstrukteur hat den Bezug vergessen.',
+  'Formtoleranzen beziehen sich nur auf das Element selbst. Sie brauchen keinen Bezug.',
+  'Bei Ebenheit gilt immer automatisch Bezug A.',
+  'Ein Bezug ist nur bei Lauftoleranzen nötig.'],a:1,
+  why:'Ebenheit, Geradheit, Rundheit und Zylindrizität sind Formtoleranzen. Sie beschreiben nur die Form des Elements selbst. Darum steht nie ein Bezug im Rahmen.'},
+ {q:'Im Rahmen der Position steht «A B». Was sagt die Reihenfolge aus?',opts:[
+  'A und B sind gleichwertig. Die Reihenfolge ist egal.',
+  'A ist der Primärbezug. Das Teil wird zuerst auf A ausgerichtet. Dann auf B.',
+  'B ist wichtiger, weil B eine Bohrung ist.',
+  'Man darf nur A oder B verwenden, nicht beide.'],a:1,
+  why:'Die Reihenfolge im Rahmen legt das Bezugssystem fest. Primärbezug A ist die Auflagefläche. Sie richtet das Teil in 3 Freiheitsgraden aus. Sekundärbezug B ist die Zentrierbohrung. Sie legt die Mitte fest. Das entspricht dem Einbau: zuerst aufsetzen, dann zentrieren.'},
+ {q:'Was bedeutet das Zeichen ⌀ vor dem Wert 0,2 bei der Position?',opts:[
+  'Die Bohrung darf höchstens 0,2 grösser sein als ⌀9.',
+  'Die Toleranzzone ist ein Zylinder mit Durchmesser 0,2 um die Soll-Achse.',
+  'Die Sollposition darf um ±0,2 in X und Y abweichen.',
+  'Der Bohrungsdurchmesser ist auf 0,2 gerundet.'],a:1,
+  why:'Das ⌀ vor dem Wert macht die Zone zylindrisch. Die Ist-Achse der Bohrung muss im Zylinder ⌀0,2 um die Sollposition liegen. Ohne ⌀ wäre die Zone ein Raum zwischen zwei parallelen Ebenen. Das wäre hier falsch, weil die Bohrung rund ist.'}
+]});
+
+/* 3 Eintragen: Nabe */
+tasks.push({id:'t3',type:'Toleranzen eintragen',title:'Nabe mit Passfedernut',
+text:'Funktion: Die Passfedernut 8 P9 muss mittig zur Bohrungsachse liegen. Erlaubt ist eine Toleranzzone von 0,05 Breite. Bezug A ist schon eingetragen. Wähle Symbol, Zonenform, Wert und Bezug. Die Zeichnung zeigt deine Eingabe sofort.',
+entry:{feature:'Nut 8 P9', correct:{sym:'symmetrie',val:0.05,dat:'A',dia:false}},
+draw(){
+  const {svg,g}=sheet({title:'Nabe',subtitle:'Riemenscheibe',material:'EN-GJL-250/5.1300',partno:'LW 103 012',ra:'6,3'});
+  const cy=82;
+  const x0=60,x1=90,yt=cy-30,yb=cy+30,bb=cy+12.5,nb=bb-28.3,ny=cy-Math.sqrt(12.5*12.5-16);
+  ctr(g,x0-6,cy,x1+6,cy);
+  PG(g,[[x0+1,yt],[x1-1,yt],[x1,yt+1],[x1,nb],[x0,nb],[x0,yt+1]]);
+  PG(g,[[x0,bb-0.5],[x0+0.5,bb],[x1-0.5,bb],[x1,bb-0.5],[x1,yb-1],[x1-1,yb],[x0+1,yb],[x0,yb-1]]);
+  // Kanten hinter der Schnittebene: Bohrungsenden, Fasen, Übergang Nutflanke/Bohrung
+  L(g,x0,nb,x0,bb-0.5,'thick');L(g,x1,nb,x1,bb-0.5,'thick');
+  L(g,x0+0.5,ny,x0+0.5,bb,'thick');L(g,x1-0.5,ny,x1-0.5,bb,'thick');
+  L(g,x0,ny,x1,ny,'thick');
+  viewLabel(g,(x0+x1)/2,yt-12,'B-B');
+  dim(g,x0,yb,x1,yb,12,'30');
+  dim(g,x0+1,yt,x0+1,yb,-13,'⌀60');
+  dim(g,x1,cy-12.5,x1,bb,12,'⌀25 H7');
+  datum(g,x1+12,bb,'A','down',5);
+  note(g,x0+0.5,yt+0.5,'1×45°',x0-5,yt-8);
+  surf(g,x0+8,bb,'0,8');
+  // Seitenansicht von links
+  const cx=180;
+  C(g,cx,cy,30);C(g,cx,cy,29);
+  PATH(g,`M${cx-4},${ny} A12.5,12.5 0 1 0 ${cx+4},${ny}`);
+  const ny2=cy-Math.sqrt(169-16);PATH(g,`M${cx-4},${ny2} A13,13 0 1 0 ${cx+4},${ny2}`);
+  P(g,[[cx-4,ny],[cx-4,nb],[cx+4,nb],[cx+4,ny]]);
+  ctr(g,cx-35,cy,cx+35,cy);
+  // 8 P9: Masshilfslinien nach oben, Pfeile aussen
+  const dy=cy-40;
+  L(g,cx-4,nb,cx-4,dy-1.5);L(g,cx+4,nb,cx+4,dy-1.5);
+  L(g,cx-13,dy,cx-4,dy,'thin',{'marker-end':'url(#arr)'});L(g,cx+22,dy,cx+4,dy,'thin',{'marker-end':'url(#arr)'});L(g,cx-4,dy,cx+4,dy);
+  T(g,cx+8,dy-1,'8 P9');
+  dim(g,cx+4,nb,cx,bb,40,'28,3');
+  section(g,cx,cy-54,cx,cy+44,'B','left');
+  const pv=E('g');g.appendChild(pv);
+  svg._pv=pv;svg._anchor={fx:cx-54,fy:dy-3.5,pts:[[cx-4,dy]]};
+  return svg;
+},
+explain:'Symmetrie ist eine Ortstoleranz. Die Mittelebene der Nut muss zwischen zwei parallelen Ebenen liegen. Ihr Abstand ist 0,05. Die Ebenen liegen symmetrisch zur Bezugsachse A. Kein ⌀ vor dem Wert, weil die Zone zwischen zwei Ebenen liegt. Der Pfeil steht in der Verlängerung der Masslinie 8 P9. So ist es auch im Normen-Auszug beim Kegelrad und beim Fräsdorn eingetragen.'
+});
+
+/* 4 Eintragen: Winkelstück */
+tasks.push({id:'t4',type:'Toleranzen eintragen',title:'Winkelstück',
+text:'Funktion: Das Winkelstück wird mit der Unterseite auf einen Tisch gespannt. Die senkrechte Anschlagfläche muss rechtwinklig zur Unterseite stehen. Die Toleranzzone darf 0,1 breit sein. Wähle Symbol, Zonenform, Wert und Bezug. Dann beantworte die Frage zum Bezugsdreieck.',
+entry:{feature:'Anschlagfläche', correct:{sym:'rechtwinkligkeit',val:0.1,dat:'A',dia:false}},
+draw(){
+  const {svg,g}=sheet({title:'Winkelstück',subtitle:'Anschlag',material:'S355J2/1.0577',partno:'LW 104 020',ra:'12,5'});
+  const x0=50,yb=84;
+  P(g,[[x0,yb],[x0+70,yb],[x0+70,yb-15],[x0+15,yb-15],[x0+15,yb-60],[x0,yb-60],[x0,yb]]);
+  [x0+35,x0+55].forEach(xx=>{L(g,xx-4.5,yb,xx-4.5,yb-15,'hidden');L(g,xx+4.5,yb,xx+4.5,yb-15,'hidden');ctr(g,xx,yb-18,xx,yb+3);});
+  dim(g,x0,yb,x0+70,yb,17,'70');
+  dim(g,x0+70,yb-15,x0+70,yb,8,'15');
+  dim(g,x0,yb-60,x0,yb,-12,'60');
+  dim(g,x0,yb-60,x0+15,yb-60,-8,'15');
+  surf(g,x0+62,yb-15,'1,6');
+  datum(g,x0+8,yb,'A','down',4);
+  const ty=117;
+  g.appendChild(E('rect',{x:x0,y:ty,width:70,height:40,class:'thick'}));
+  L(g,x0+15,ty,x0+15,ty+40,'thick');
+  [x0+35,x0+55].forEach(xx=>{C(g,xx,ty+20,4.5);ctr(g,xx-7,ty+20,xx+7,ty+20);ctr(g,xx,ty+13,xx,ty+27);});
+  dim(g,x0+70,ty,x0+70,ty+40,8,'40');
+  dim(g,x0+70,ty+20,x0+70,ty+40,16,'20');
+  dim(g,x0,ty,x0+35,ty,-6,'35');dim(g,x0+35,ty,x0+55,ty,-6,'20');
+  T(g,x0+86,ty+8,'2× ⌀9');leader(g,[[x0+86,ty+9],[x0+55+3.9,ty+20-2.2]]);
+  const pv=E('g');g.appendChild(pv);
+  svg._pv=pv;svg._anchor={fx:x0+34,fy:yb-45.5,pts:[[x0+15,yb-42]]};
+  return svg;
+},
+extraQ:{q:'Wo muss das Bezugsdreieck A stehen, damit der Bezug die Unterseite ist?',opts:[
+  'Direkt auf der Kontur der Unterseite oder auf ihrer Verlängerung.',
+  'In der Verlängerung der Masslinie 70.',
+  'Auf der Mittellinie des Fusses.',
+  'Im Toleranzrahmen selbst.'],a:0,
+  why:'Ist der Bezug eine Fläche, dann steht das Dreieck direkt auf der Konturlinie dieser Fläche. Steht das Dreieck in der Verlängerung einer Masslinie, dann ist der Bezug eine Achse oder Mittelebene.'},
+explain:'Rechtwinkligkeit ist eine Richtungstoleranz. Die Anschlagfläche muss zwischen zwei parallelen Ebenen liegen. Ihr Abstand ist 0,1. Beide Ebenen stehen senkrecht zum Bezug A. Kein ⌀, weil eine Fläche toleriert ist. Ohne Bezug wäre die Eintragung sinnlos. Rechtwinklig zu was?'
+});
+
+/* 5 Fehler finden: Getriebewelle */
+tasks.push({id:'t5',type:'Fehler finden',title:'Getriebewelle',
+text:'In dieser Zeichnung sind zwei der vier Toleranzrahmen falsch. Klicke die falschen Rahmen an. Dann prüfe.',
+errors:['e1','e2'],
+draw(){
+  const {svg,g}=sheet({title:'Getriebewelle',subtitle:'Vorgelege',material:'C45E/1.1191',partno:'LW 105 033',ra:'3,2'});
+  const cy=80;
+  const xs=shaft(g,60,cy,[[20,30,1,0],[30,50,0,0],[40,40,0,0],[30,30,0,1]]);const x=xs[4];
+  ctr(g,xs[0]-6,cy,x+6,cy);
+  dim(g,xs[0],cy+20,xs[1],cy+20,12,'30');
+  dim(g,xs[1],cy+20,xs[2],cy+20,12,'50');
+  dim(g,xs[2],cy+20,xs[3],cy+20,12,'40');
+  dim(g,xs[3],cy+20,xs[4],cy+20,12,'30');
+  dim(g,xs[0],cy+20,xs[4],cy+20,20,'150');
+  dim(g,xs[0]+1,cy-10,xs[0]+1,cy+10,-11,'⌀20 k6');
+  dim(g,x-1,cy-15,x-1,cy+15,10,'⌀30 k6');
+  dim(g,xs[3],cy-20,xs[3],cy+20,48,'⌀40');
+  note(g,xs[0]+0.5,cy+9.5,'1×45°',xs[0]-4,cy+19);
+  surf(g,xs[0]+10,cy-10,'0,8');surf(g,xs[3]+5,cy-15,'0,8');
+  datum(g,x+9,cy+15,'A','down',8);
+  const mk=mkf(g);
+  mk('k1',56,30,'koaxialitaet','⌀0,02',['A'],[[xs[0]-10,33.5],[xs[0]-10,cy-10]]);
+  mk('k2',106,30,'zylindrizitaet','0,01',[],[[100,33.5],[100,cy-15]]);
+  mk('e2',156,30,'rundlauf','0,03',[],[[150,33.5],[150,cy-20]]);
+  L(g,x,cy-15,x,40);
+  mk('e1',236,40,'ebenheit','0,02',['A'],[[x,43.5]]);
+  return svg;
+},
+explainMap:{
+ e1:'Falsch. Ebenheit ist eine Formtoleranz. Ein Bezug ist nicht erlaubt. Richtig wäre: Ebenheit 0,02 ohne Bezug. Will man die Stirnfläche zur Achse A beziehen, dann nimmt man Planlauf 0,02 A oder Rechtwinkligkeit 0,02 A.',
+ e2:'Falsch. Rundlauf ist eine Lauftoleranz. Sie braucht immer eine Bezugsachse. Um welche Achse soll das Teil drehen? Richtig wäre: Rundlauf 0,03 A.',
+ k1:'Richtig. Koaxialität ist eine Ortstoleranz. Der Bezug A ist vorhanden. Der Pfeil steht in der Verlängerung der Masslinie ⌀20, also gilt die Toleranz für die Achse. Das ⌀ vor dem Wert ist richtig, weil die Zone ein Zylinder um die Bezugsachse ist.',
+ k2:'Richtig. Zylindrizität ist eine Formtoleranz. Kein Bezug, kein ⌀ vor dem Wert. Der Wert ist der radiale Abstand der beiden Zylinder.'}
+});
+
+/* 6 Fehler finden: Lagerbock */
+tasks.push({id:'t6',type:'Fehler finden',title:'Lagerbock',
+text:'Auch hier sind zwei der vier Rahmen falsch. Schau genau auf das Bezugssystem. Klicke die falschen Rahmen an.',
+errors:['e1','e2'],
+draw(){
+  const {svg,g}=sheet({title:'Lagerbock',subtitle:'Welle ⌀20',material:'EN-GJL-200/5.1300',partno:'LW 106 041',ra:'12,5'});
+  const x0=48,yb=96;
+  P(g,[[x0,yb],[x0+90,yb],[x0+90,yb-15],[x0+65,yb-15],[x0+65,yb-70],[x0+25,yb-70],[x0+25,yb-15],[x0,yb-15],[x0,yb]]);
+  const bx=x0+45,by=yb-50;
+  C(g,bx,by,10);C(g,bx,by,10.8);
+  ctr(g,bx-14,by,bx+14,by);ctr(g,bx,by-14,bx,by+14);
+  [x0+12,x0+78].forEach(xx=>{L(g,xx-4.5,yb,xx-4.5,yb-15,'hidden');L(g,xx+4.5,yb,xx+4.5,yb-15,'hidden');ctr(g,xx,yb-18,xx,yb+3);});
+  dim(g,x0+90,yb-15,x0+90,yb,8,'15');
+  dim(g,x0+25,yb-70,x0,yb,-43,'70');
+  dim(g,bx-14,by,x0,yb,-39,'50');
+  T(g,bx+27,by-13,'⌀20 H7');leader(g,[[bx+27,by-12],[bx+7.07,by-7.07]]);
+  surf(g,x0+48,yb-70,'1,6');
+  datum(g,x0+5,yb,'A','down',3);
+  const ty=112;
+  g.appendChild(E('rect',{x:x0,y:ty,width:90,height:30,class:'thick'}));
+  L(g,x0+25,ty,x0+25,ty+30,'thick');L(g,x0+65,ty,x0+65,ty+30,'thick');
+  L(g,bx-10,ty,bx-10,ty+30,'hidden');L(g,bx+10,ty,bx+10,ty+30,'hidden');
+  ctr(g,bx,ty-3,bx,ty+33);
+  [x0+12,x0+78].forEach(xx=>{C(g,xx,ty+15,4.5);ctr(g,xx,ty+8,xx,ty+22);});
+  ctr(g,x0-4,ty+15,x0+94,ty+15);
+  dim(g,x0+12,ty+30,x0+78,ty+30,7,'66');
+  dim(g,x0,ty+30,x0+90,ty+30,13,'90');
+  dim(g,x0,ty,x0,ty+30,-8,'30');
+  dim(g,x0+25,ty,x0+65,ty,-6,'40');
+  const mk=mkf(g);
+  T(g,152,ty+9.5,'2× ⌀9');
+  mk('e1',152,ty+11,'position','0,2',['A'],[[x0+78+4.5,ty+14.6]]);
+  mk('e2',146,100,'rechtwinkligkeit','0,05',['A'],[[x0+86,103.5],[x0+86,yb]]);
+  mk('k1',36,12,'parallelitaet','0,1',['A'],[[x0+31,15.5],[x0+31,yb-70]]);
+  mk('k2',152,by-8,'rundheit','0,02',[],[[bx+9.95,by-1]]);
+  return svg;
+},
+explainMap:{
+ e1:'Falsch. Die Bohrungen sind rund. Die Toleranzzone der Position muss ein Zylinder sein. Es fehlt das ⌀ vor dem Wert: Position ⌀0,2 A. Ohne ⌀ wäre die Zone nur in einer Richtung begrenzt.',
+ e2:'Falsch. Die Unterseite ist selbst der Bezug A. Ein Element kann nicht rechtwinklig zu sich selbst sein. Für die Unterseite passt eine Formtoleranz, zum Beispiel Ebenheit 0,05 ohne Bezug.',
+ k1:'Richtig. Parallelität ist eine Richtungstoleranz. Die Oberseite wird auf die Unterseite A bezogen. Das ist sinnvoll und vollständig.',
+ k2:'Richtig. Rundheit ist eine Formtoleranz. Kein Bezug. Kein ⌀, denn die Zone liegt zwischen zwei konzentrischen Kreisen mit Abstand 0,02.'}
+});
+
+/* 7 Toleranzzone: Führungsleiste */
+tasks.push({id:'t7',type:'Toleranzzone',title:'Führungsleiste – Geradheit',
+text:'Die Oberkante der Führungsleiste hat die Eintragung Geradheit 0,1. Unten siehst du die Kante stark vergrössert. Drei Leisten wurden gemessen. Welche sind in Ordnung?',
+draw(){
+  const {svg,g}=sheet({title:'Führungsleiste',subtitle:'Schlitten',material:'16MnCr5/1.7131',partno:'LW 107 050',ra:'3,2'});
+  const x0=60,y0=52,len=120;
+  g.appendChild(E('rect',{x:x0,y:y0,width:len,height:14,class:'thick'}));
+  [x0+20,x0+100].forEach(xx=>{L(g,xx-3.3,y0,xx-3.3,y0+14,'hidden');L(g,xx+3.3,y0,xx+3.3,y0+14,'hidden');ctr(g,xx,y0-3,xx,y0+17);});
+  dim(g,x0,y0+14,x0+len,y0+14,10,'120');
+  dim(g,x0+len,y0,x0+len,y0+14,8,'14');
+  surf(g,x0+70,y0,'0,8');
+  tol(g,x0+46,30,'geradheit','0,1',[],[[x0+40,33.5],[x0+40,y0]]);
+  const ty=90;
+  g.appendChild(E('rect',{x:x0,y:ty,width:len,height:20,class:'thick'}));
+  [x0+20,x0+100].forEach(xx=>{C(g,xx,ty+10,3.3);ctr(g,xx,ty+4,xx,ty+16);});
+  ctr(g,x0-4,ty+10,x0+len+4,ty+10);
+  dim(g,x0+len,ty,x0+len,ty+20,8,'20');
+  dim(g,x0,ty+20,x0+20,ty+20,10,'20');
+  dim(g,x0+20,ty+20,x0+100,ty+20,10,'80');
+  T(g,x0+len+16,ty-3,'2× ⌀6,6');leader(g,[[x0+len+16,ty-2],[x0+100+2.6,ty+10-2]]);
+  return svg;
+},
+zone(){
+  const W=200,Hh=52,s=E('svg',{viewBox:`0 0 ${W} ${Hh}`});const g=E('g');s.appendChild(g);
+  const profiles=[{n:'Leiste 1',dev:0.06,c:'#1f7a3a'},{n:'Leiste 2',dev:0.12,c:'#b3261e'},{n:'Leiste 3',dev:0.10,c:'#0b5fa5'}];
+  profiles.forEach((p,i)=>{
+    const ox=5+i*66,oy=14,w=56;
+    T(g,ox,oy-6,p.n+' – gemessen: '+p.dev.toFixed(2).replace('.',','),{'font-size':'3','font-family':'Barlow'});
+    L(g,ox,oy,ox+w,oy,'thin',{'stroke-dasharray':'2 1'});L(g,ox,oy+20,ox+w,oy+20,'thin',{'stroke-dasharray':'2 1'});
+    T(g,ox+w+1,oy+11,'0,1',{'font-size':'2.8'});
+    const amp=p.dev*200;
+    let d='';for(let k=0;k<=w;k++){const t=k/w;const yv=oy+20-amp*(0.5-0.5*Math.cos(t*2*Math.PI));d+=(k?'L':'M')+(ox+k)+','+yv.toFixed(2)+' ';}
+    g.appendChild(E('path',{d,stroke:p.c,'stroke-width':'.9',fill:'none'}));
+    T(g,ox,oy+28,'Vergrösserung 200:1',{'font-size':'2.4',fill:'#5f6670','font-family':'Barlow'});
+  });
+  return s;
+},
+questions:[
+ {q:'Wie sieht die Toleranzzone der Geradheit 0,1 für diese Kante aus?',opts:[
+  'Ein Zylinder mit Durchmesser 0,1.',
+  'Zwei parallele Geraden im Abstand 0,1 in der Zeichnungsebene.',
+  'Ein Kreis mit Radius 0,1.',
+  'Zwei parallele Ebenen im Abstand 0,1 um die ganze Fläche.'],a:1,
+  why:'Die Kante ist eine Linie in der Ansicht. Für eine Linie ist die Zone der Bereich zwischen zwei parallelen Geraden. Ihr Abstand ist der Toleranzwert 0,1. Ein Zylinder gilt nur für Achsen und nur mit ⌀ vor dem Wert.'},
+ {q:'Welche Leisten sind in Ordnung?',multi:true,opts:['Leiste 1 (0,06)','Leiste 2 (0,12)','Leiste 3 (0,10)'],a:[0,2],
+  why:'Die ganze Kante muss zwischen den beiden Geraden liegen. Leiste 1 mit 0,06 passt. Leiste 3 mit genau 0,10 passt auch, der Grenzwert ist erlaubt. Leiste 2 mit 0,12 ragt aus der Zone. Sie ist Ausschuss oder muss nachgearbeitet werden.'}
+]});
+
+/* 8 Toleranzzone: Stufenwelle */
+tasks.push({id:'t8',type:'Toleranzzone',title:'Stufenwelle – Koaxialität',
+text:'Der Zapfen ⌀12 muss koaxial zur Bezugsachse A sein. Eintragung: Koaxialität ⌀0,05 A. Unten siehst du den Querschnitt mit der Toleranzzone. Verschiebe die Ist-Achse mit dem Regler.',
+draw(){
+  const {svg,g}=sheet({title:'Stufenwelle',subtitle:'Antrieb',material:'C45E/1.1191',partno:'LW 108 061',ra:'3,2'});
+  const cy=80,xa=70,xb=130,xc=170;
+  ctr(g,xa-6,cy,xc+6,cy);
+  shaft(g,xa,cy,[[30,60,1,0],[12,40,0,1]]);
+  dim(g,xa+1,cy-15,xa+1,cy+15,-13,'⌀30 h7');
+  dim(g,xc-1,cy-6,xc-1,cy+6,13,'⌀12 h6',{dy:-15});
+  dim(g,xa,cy+15,xb,cy+15,12,'60');dim(g,xb,cy+15,xc,cy+15,12,'40');
+  dim(g,xa,cy+15,xc,cy+15,20,'100');
+  note(g,xa+0.5,cy-14.5,'1×45°',xa-5,cy-24);note(g,xc-0.5,cy+5.5,'1×45°',xc+7,cy+15);
+  surf(g,xa+30,cy-15,'0,8');surf(g,xb+8,cy-6,'0,8');
+  datum(g,xa-12,cy+15,'A','down',5);
+  tol(g,140,36,'koaxialitaet','⌀0,05',['A'],[[xc+12,39.5],[xc+12,cy-6]]);
+  return svg;
+},
+zone(){
+  const s=E('svg',{viewBox:'0 0 200 70'});const g=E('g');s.appendChild(g);
+  const cx=60,cy=35,R=28;
+  g.appendChild(E('circle',{cx,cy,r:R,class:'thin','stroke-dasharray':'2 1'}));
+  ctr(g,cx-34,cy,cx+34,cy);ctr(g,cx,cy-34,cx,cy+34);
+  T(g,cx+R+2,cy-2,'Zone ⌀0,05',{'font-size':'3'});
+  T(g,cx-2,cy-3,'A',{'font-size':'3','text-anchor':'end'});
+  const pt=E('circle',{cx,cy,r:1.6,fill:'#b3261e'});g.appendChild(pt);
+  const lab=T(g,cx+3,cy+9,'',{'font-size':'3',fill:'#b3261e'});
+  T(g,120,20,'Bezugsachse A = Mitte',{'font-size':'3','font-family':'Barlow'});
+  T(g,120,26,'Roter Punkt = Ist-Achse des ⌀12',{'font-size':'3','font-family':'Barlow'});
+  T(g,120,32,'Vergrösserung ca. 1000:1',{'font-size':'2.6',fill:'#5f6670','font-family':'Barlow'});
+  const st=T(g,120,44,'',{'font-size':'3.6','font-weight':'600','font-family':'Barlow'});
+  s._set=e=>{pt.setAttribute('cx',cx+e/0.025*R);lab.textContent='e = '+e.toFixed(3).replace('.',',');
+    const ok=e<=0.025+1e-9;st.textContent=ok?'Innerhalb der Zone':'Ausserhalb der Zone';st.setAttribute('fill',ok?'#1f7a3a':'#b3261e');pt.setAttribute('fill',ok?'#1f7a3a':'#b3261e');};
+  s._set(0);
+  return s;
+},
+slider:true,
+questions:[
+ {q:'Wie sieht die Toleranzzone der Koaxialität ⌀0,05 A aus?',opts:[
+  'Zwei parallele Ebenen im Abstand 0,05.',
+  'Ein Zylinder mit Durchmesser 0,05. Seine Achse ist die Bezugsachse A.',
+  'Ein Kreis mit Durchmesser 0,05 auf der Stirnfläche.',
+  'Der Zapfen darf ⌀12 ± 0,05 haben.'],a:1,
+  why:'Das ⌀ vor dem Wert macht die Zone zylindrisch. Die Ist-Achse des ⌀12 muss überall im Zylinder ⌀0,05 liegen. Der Zylinder liegt genau auf der Bezugsachse A.'},
+ {q:'Wie gross darf der Achsversatz e höchstens sein? Gib den Wert in mm ein.',num:true,a:0.025,
+  why:'Die Zone hat den Durchmesser 0,05. Die Ist-Achse darf also nach jeder Seite höchstens den Radius abweichen. Radius = 0,05 / 2 = 0,025 mm. Das ist ein häufiger Fehler: Der Wert im Rahmen ist der Durchmesser, nicht der Versatz.'}
+]});
+
+/* 9 Lesen: Lagerplatte, Parallelität Achse zu Achse */
+tasks.push({id:'t9',type:'Zeichnung lesen',title:'Lagerplatte mit zwei Bohrungen',
+text:'In den beiden Bohrungen laufen zwei Wellen mit Zahnrädern. Die Achsen müssen parallel sein. Lies die Eintragung im Schnitt B-B.',
+draw(){
+  const {svg,g}=sheet({title:'Lagerplatte',subtitle:'Zahnradstufe',material:'EN-GJL-250/5.1300',partno:'LW 109 070',ra:'6,3'});
+  const x0=56,yt=32,yb=112,cx=x0+25,y1=54,y2=90;
+  g.appendChild(E('rect',{x:x0,y:yt,width:50,height:80,class:'thick'}));
+  C(g,cx,y2,10);C(g,cx,y1,6);
+  ctr(g,cx-14,y2,cx+14,y2);ctr(g,cx-10,y1,cx+10,y1);
+  dim(g,x0,yb,x0+50,yb,20,'50');
+  dim(g,x0+50,yt,x0+50,yb,10,'80');
+  dim(g,cx-10,y1,cx-10,y2,-27,'36 ±0,02');
+  dim(g,cx-14,y2,x0,yb,-23,'22');
+  section(g,cx,yt-9,cx,yb+9,'B','right');
+  // Schnitt B-B (Ansicht von links, rechts angeordnet)
+  const sx=160,sw=15;
+  viewLabel(g,sx+sw/2,yt-8,'B-B');
+  PG(g,[[sx,yt],[sx+sw,yt],[sx+sw,y1-6],[sx,y1-6]]);
+  PG(g,[[sx,y1+6],[sx+sw,y1+6],[sx+sw,y2-10],[sx,y2-10]]);
+  PG(g,[[sx,y2+10],[sx+sw,y2+10],[sx+sw,yb],[sx,yb]]);
+  L(g,sx,y1-6,sx,y1+6,'thick');L(g,sx+sw,y1-6,sx+sw,y1+6,'thick');
+  L(g,sx,y2-10,sx,y2+10,'thick');L(g,sx+sw,y2-10,sx+sw,y2+10,'thick');
+  ctr(g,sx-4,y1,sx+sw+4,y1);ctr(g,sx-4,y2,sx+sw+4,y2);
+  dim(g,sx+sw,y1-6,sx+sw,y1+6,13,'⌀12 H7',{dy:-15});
+  tol(g,sx+sw+19,yt-10,'parallelitaet','⌀0,03',['A'],[[sx+sw+13,yt-6.5],[sx+sw+13,y1-6]]);
+  dim(g,sx+sw,y2-10,sx+sw,y2+10,13,'⌀20 H7');
+  datum(g,sx+sw+13,y2+10,'A','down',5);
+  dim(g,sx,yb,sx+sw,yb,10,'15');
+  return svg;
+},
+questions:[
+ {q:'Der Pfeil des Toleranzrahmens steht in der Verlängerung der Masslinie ⌀12 H7. Was ist toleriert?',opts:[
+  'Die Wandfläche der Bohrung ⌀12.',
+  'Die Achse der Bohrung ⌀12.',
+  'Der Durchmesser ⌀12.',
+  'Die Stirnfläche der Platte.'],a:1,
+  why:'Steht der Pfeil in der Verlängerung der Masslinie, dann ist das abgeleitete Element toleriert. Bei einer Bohrung ist das die Achse. Steht der Pfeil deutlich neben der Masslinie auf der Kontur, dann ist die Fläche toleriert.'},
+ {q:'Wie sieht die Toleranzzone der Parallelität ⌀0,03 A aus?',opts:[
+  'Zwei parallele Ebenen im Abstand 0,03, parallel zur Bezugsachse A.',
+  'Ein Zylinder mit Durchmesser 0,03. Der Zylinder liegt parallel zur Bezugsachse A.',
+  'Ein Zylinder mit Durchmesser 0,03 um die Bezugsachse A.',
+  'Zwei konzentrische Kreise mit Abstand 0,03.'],a:1,
+  why:'Das ⌀ vor dem Wert macht die Zone zum Zylinder. Der Zylinder ist parallel zur Bezugsachse A ausgerichtet. Die Ist-Achse der Bohrung ⌀12 muss ganz in diesem Zylinder liegen. So steht es auch in Tabelle 186/1 im Normen-Auszug.'},
+ {q:'Begrenzt die Parallelitätstoleranz auch den Achsabstand 36?',opts:[
+  'Ja. Der Achsabstand darf nur um 0,03 abweichen.',
+  'Nein. Eine Richtungstoleranz begrenzt nur die Richtung. Der Abstand gilt nach dem Mass 36 ±0,02.',
+  'Ja. Der Achsabstand darf nur um 0,015 abweichen.',
+  'Nein. Für den Achsabstand gilt gar keine Toleranz.'],a:1,
+  why:'Richtungstoleranzen legen nur die Richtung fest. Der Zylinder ⌀0,03 darf sich parallel verschieben. Den Ort begrenzt hier das Mass 36 ±0,02. Will man den Ort geometrisch tolerieren, dann braucht man eine Positionstoleranz.'}
+]});
+
+/* 10 Lesen: Lochplatte mit TED-Massen */
+tasks.push({id:'t10',type:'Zeichnung lesen',title:'Lochplatte mit theoretisch exakten Massen',
+text:'Die sechs Bohrungen nehmen Passstifte auf. Ihre Lage ist mit einer Positionstoleranz festgelegt. Achte auf die Masse im Rahmen.',
+draw(){
+  const {svg,g}=sheet({title:'Lochplatte',subtitle:'Vorrichtung',material:'C45E/1.1191',partno:'LW 110 082',ra:'3,2'});
+  const x0=50,yt=42,yb=92;const hx=[x0+20,x0+60,x0+100],hy=[yb-38,yb-12];
+  g.appendChild(E('rect',{x:x0,y:yt,width:120,height:50,class:'thick'}));
+  hy.forEach(y=>{ctr(g,x0+12,y,x0+108,y);hx.forEach(x=>{C(g,x,y,5);});});
+  hx.forEach(x=>ctr(g,x,yt+5,x,yb-5));
+  dim(g,x0,yb,hx[0],yb,10,'20',{ted:1});dim(g,hx[0],yb,hx[1],yb,10,'40',{ted:1});dim(g,hx[1],yb,hx[2],yb,10,'40',{ted:1});
+  dim(g,x0,hy[1],x0,yb,-10,'12',{ted:1});dim(g,x0,hy[0],x0,hy[1],-10,'26',{ted:1});
+  dim(g,x0,yb,x0+120,yb,20,'120');
+  dim(g,x0+120,yt,x0+120,yb,9,'50');
+  datum(g,x0+112,yb,'B','down',3);
+  datum(g,x0,yt+4,'C','left',5);
+  T(g,124,20.5,'6× ⌀10 H7');
+  tol(g,124,22,'position','⌀0,1',['A','B','C'],[[118,25.5],[hx[1]+1.45,hy[0]-4.8]]);
+  // Seitenansicht
+  const sx=196;
+  g.appendChild(E('rect',{x:sx,y:yt,width:10,height:50,class:'thick'}));
+  hy.forEach(y=>{L(g,sx,y-5,sx+10,y-5,'hidden');L(g,sx,y+5,sx+10,y+5,'hidden');ctr(g,sx-3,y,sx+13,y);});
+  dim(g,sx,yb,sx+10,yb,10,'10');
+  datum(g,sx+10,yt+25,'A','right',5);
+  return svg;
+},
+questions:[
+ {q:'Die Masse 20, 40, 12 und 26 stehen in einem rechteckigen Rahmen. Was bedeutet das?',opts:[
+  'Es sind Prüfmasse. Die Kontrolle muss sie besonders genau messen.',
+  'Es sind theoretisch exakte Masse (TED). Sie legen die ideale Lage der Toleranzzone fest.',
+  'Es sind Hilfsmasse ohne Bedeutung für die Fertigung.',
+  'Es sind Rohmasse vor der Bearbeitung.'],a:1,
+  why:'Masse im Rahmen sind theoretisch exakte Masse, abgekürzt TED. Sie bestimmen den idealen Ort der Bohrungsachse. An diesem Ort sitzt die Toleranzzone. Hilfsmasse stehen dagegen in runden Klammern.'},
+ {q:'Gilt für das Mass 40 im Rahmen die Allgemeintoleranz ISO 2768-m?',opts:[
+  'Ja, ±0,3 wie für jedes Mass ohne Toleranzangabe.',
+  'Nein. Ein theoretisch exaktes Mass hat keine Toleranz. Die Abweichung begrenzt nur die Positionstoleranz ⌀0,1.',
+  'Ja, aber nur die halbe Allgemeintoleranz.',
+  'Nein, es gilt die Toleranz H7.'],a:1,
+  why:'Theoretisch exakte Masse dürfen nicht toleriert werden. Auch die Allgemeintoleranz gilt nicht. Die zulässige Abweichung steht allein im Toleranzrahmen: Die Ist-Achse muss im Zylinder ⌀0,1 um den idealen Ort liegen.'},
+ {q:'Im Rahmen steht «A B C». Warum ist die Fläche A der erste Bezug?',opts:[
+  'Weil A im Alphabet zuerst kommt.',
+  'Weil die Platte mit der grossen Fläche A aufliegt. Die Bohrungen stehen dann senkrecht zu A.',
+  'Weil A die kleinste Fläche ist.',
+  'Die Reihenfolge ist frei wählbar und hat keine Wirkung.'],a:1,
+  why:'Der erste Bezug richtet das Teil am stärksten aus. Die grosse Auflagefläche A legt fest, in welche Richtung die Zylinderzonen stehen: senkrecht zu A. Die Kanten B und C legen danach die Lage in der Ebene fest. Der Normen-Auszug sagt das in der Anmerkung zur Bohrlehre ebenfalls.'}
+]});
+
+/* 11 Eintragen: Zapfenplatte */
+tasks.push({id:'t11',type:'Toleranzen eintragen',title:'Zapfenplatte',
+text:'Funktion: Auf dem Zapfen ⌀16 h6 sitzt ein Zahnrad. Die Achse des Zapfens muss senkrecht auf der Auflagefläche A stehen. Die Achse muss in einem Zylinder mit Durchmesser 0,01 liegen. Wähle Symbol, Zonenform, Wert und Bezug.',
+entry:{feature:'Achse des Zapfens ⌀16 h6', correct:{sym:'rechtwinkligkeit',val:0.01,dat:'A',dia:true}},
+draw(){
+  const {svg,g}=sheet({title:'Zapfenplatte',subtitle:'Zwischenrad',material:'C45E/1.1191',partno:'LW 111 090',ra:'3,2'});
+  const x0=60,yb=82,pt=yb-12,px=x0+30;
+  g.appendChild(E('rect',{x:x0,y:pt,width:60,height:12,class:'thick'}));
+  P(g,[[px-8,pt],[px-8,pt-29],[px-7,pt-30],[px+7,pt-30],[px+8,pt-29],[px+8,pt]]);
+  L(g,px-8,pt-29,px+8,pt-29,'thick');
+  ctr(g,px,pt-35,px,yb+4);
+  dim(g,px-8,pt-29,px+8,pt-29,-11,'⌀16 h6',{dx:-16,arrowsOut:1});
+  dim(g,px+8,pt-30,x0+60,pt,12,'30');
+  dim(g,x0+60,pt,x0+60,yb,20,'12');
+  datum(g,x0+10,yb,'A','down',4);
+  // Draufsicht
+  const ty=104;
+  g.appendChild(E('rect',{x:x0,y:ty,width:60,height:40,class:'thick'}));
+  C(g,px,ty+20,8);C(g,px,ty+20,7);
+  ctr(g,px-12,ty+20,px+12,ty+20);ctr(g,px,ty+8,px,ty+32);
+  dim(g,x0,ty+40,x0+60,ty+40,9,'60');
+  dim(g,x0,ty,x0,ty+40,-9,'40');
+  const pv=E('g');g.appendChild(pv);
+  svg._pv=pv;svg._anchor={fx:px+22,fy:pt-43.5,pts:[[px+8,pt-40]]};
+  return svg;
+},
+extraQ:{q:'Woran erkennt man in der Zeichnung, dass die Achse toleriert ist und nicht die Mantelfläche?',opts:[
+  'Der Pfeil steht in der Verlängerung der Masslinie ⌀16 h6.',
+  'Der Rahmen steht rechts vom Zapfen.',
+  'Im Rahmen steht der Bezug A.',
+  'Der Pfeil zeigt von oben auf das Teil.'],a:0,
+  why:'Die Lage des Pfeils entscheidet. In der Verlängerung der Masslinie: Achse oder Mittelebene. Direkt auf der Kontur, deutlich neben der Masslinie: Fläche oder Mantellinie.'},
+explain:'Rechtwinkligkeit ist eine Richtungstoleranz. Toleriert ist die Achse. Darum ist die Zone ein Zylinder und vor dem Wert steht ⌀. Der Zylinder ⌀0,01 steht senkrecht auf der Bezugsebene A. So zeigt es Tabelle 186/1 im Normen-Auszug.'
+});
+
+/* 12 Eintragen: Bundbolzen */
+tasks.push({id:'t12',type:'Toleranzen eintragen',title:'Bundbolzen',
+text:'Funktion: An der rechten Planfläche des Bundes liegt ein Lager an. Die Planfläche muss zwischen zwei parallelen Ebenen im Abstand 0,08 liegen. Die Ebenen stehen senkrecht zur Bezugsachse A. Wähle Symbol, Zonenform, Wert und Bezug.',
+entry:{feature:'Planfläche des Bundes', correct:{sym:'rechtwinkligkeit',val:0.08,dat:'A',dia:false}},
+draw(){
+  const {svg,g}=sheet({title:'Bundbolzen',subtitle:'Lagerung',material:'C45E/1.1191',partno:'LW 112 101',ra:'3,2'});
+  const cy=82,x0=70;
+  const xs=shaft(g,x0,cy,[[16,50,1,0],[36,10,1,1]]);const xe=xs[2];
+  ctr(g,x0-6,cy,xe+6,cy);
+  dim(g,x0+1,cy-8,x0+1,cy+8,-13,'⌀16 h6');
+  datum(g,x0-12,cy+8,'A','down',5);
+  dim(g,xe-1,cy-18,xe-1,cy+18,12,'⌀36');
+  dim(g,x0,cy+18,xs[1],cy+18,12,'50');dim(g,xs[1],cy+18,xe,cy+18,12,'10',{arrowsOut:1,dx:12});
+  surf(g,x0+28,cy-8,'0,8');
+  L(g,xe,cy-17,xe,cy-34);
+  const pv=E('g');g.appendChild(pv);
+  svg._pv=pv;svg._anchor={fx:xe+14,fy:cy-33.5,pts:[[xe,cy-30]]};
+  return svg;
+},
+explain:'Rechtwinkligkeit ist eine Richtungstoleranz. Toleriert ist eine Fläche, darum steht kein ⌀ vor dem Wert. Die Zone liegt zwischen zwei parallelen Ebenen im Abstand 0,08. Die Ebenen stehen senkrecht zur Bezugsachse A. Der Pfeil zeigt auf die Masshilfslinie der Planfläche. Hinweis: Eine verwandte Angabe ist Planlauf 0,08 A. Dort misst man beim Drehen um A.'
+});
+
+/* 13 Fehler finden: Führungsschiene */
+tasks.push({id:'t13',type:'Fehler finden',title:'Führungsschiene',
+text:'Zwei der vier Toleranzrahmen sind falsch. Achte auf die Zonenform und auf die Bezugsbuchstaben. Klicke die falschen Rahmen an.',
+errors:['e1','e2'],
+draw(){
+  const {svg,g}=sheet({title:'Führungsschiene',subtitle:'Lineareinheit',material:'16MnCr5/1.7131',partno:'LW 113 115',ra:'3,2'});
+  const x0=60,yt=58,yb=70,gt=48;
+  P(g,[[x0,yb],[x0,yt],[x0+30,yt],[x0+30,gt],[x0+130,gt],[x0+130,yt],[x0+160,yt],[x0+160,yb],[x0,yb]]);
+  [x0+15,x0+145].forEach(xx=>{L(g,xx-4.5,yt,xx-4.5,yb,'hidden');L(g,xx+4.5,yt,xx+4.5,yb,'hidden');ctr(g,xx,yt-3,xx,yb+3);});
+  dim(g,x0+160,yt,x0+160,yb,8,'12');
+  dim(g,x0+130,gt,x0+160,yb,46,'22');
+  datum(g,x0+40,yb,'A','down',4);
+  surf(g,x0+70,gt,'0,8');
+  const mk=mkf(g);
+  mk('k1',x0+108,24,'parallelitaet','0,01/100',['A'],[[x0+102,27.5],[x0+102,gt]]);
+  mk('e1',x0+31,24,'ebenheit','⌀0,02',[],[[x0+25,27.5],[x0+25,yt]]);
+  mk('e2',22,60.5,'rechtwinkligkeit','0,05',['C'],[[x0,64]]);
+  mk('k2',x0+106,78,'ebenheit','0,02',[],[[x0+100,81.5],[x0+100,yb]]);
+  // Draufsicht
+  const ty=98;
+  g.appendChild(E('rect',{x:x0,y:ty,width:160,height:30,class:'thick'}));
+  L(g,x0+30,ty,x0+30,ty+30,'thick');L(g,x0+130,ty,x0+130,ty+30,'thick');
+  [x0+15,x0+145].forEach(xx=>{C(g,xx,ty+15,4.5);ctr(g,xx,ty+8,xx,ty+22);});
+  ctr(g,x0-4,ty+15,x0+164,ty+15);
+  dim(g,x0,ty,x0+160,ty,-7,'160');
+  dim(g,x0,ty+30,x0+30,ty+30,7,'30');dim(g,x0+30,ty+30,x0+130,ty+30,7,'100');
+  dim(g,x0,ty,x0,ty+30,-8,'30');
+  T(g,x0+170,ty+5,'2× ⌀9');leader(g,[[x0+170,ty+6],[x0+145+3.6,ty+15-2.7]]);
+  return svg;
+},
+explainMap:{
+ e1:'Falsch. Toleriert ist eine ebene Fläche. Die Zone der Ebenheit liegt zwischen zwei parallelen Ebenen. Ein ⌀ vor dem Wert ist nur erlaubt, wenn die Zone ein Zylinder oder Kreis ist, also bei Achsen und Punkten. Richtig wäre: Ebenheit 0,02.',
+ e2:'Falsch. Im Rahmen steht der Bezug C. In der Zeichnung gibt es aber nur den Bezug A. Ein Bezugsbuchstabe im Rahmen muss immer an einem Bezugselement eingetragen sein. Richtig wäre: Rechtwinkligkeit 0,05 A.',
+ k1:'Richtig. Die Angabe 0,01/100 ist eine einschränkende Festlegung. Die Toleranz 0,01 gilt auf jeder beliebigen Länge von 100 mm der Führungsfläche. So steht es in Fig. 201/1 im Normen-Auszug.',
+ k2:'Richtig. Auch ein Bezugselement darf eine Formtoleranz haben. Das ist sogar sinnvoll: Eine ebene Auflage ergibt einen guten Bezug. Ebenheit braucht keinen Bezug.'}
+});
+
+/* 14 Toleranzzone: Position rechnen */
+tasks.push({id:'t14',type:'Toleranzzone',title:'Stiftplatte – Position prüfen',
+text:'Die drei Bohrungen ⌀8 H7 haben die Positionstoleranz ⌀0,1. Die Messmaschine liefert für jede Bohrung die Abweichung Δx und Δy vom idealen Ort. Unten siehst du die Toleranzzone stark vergrössert.',
+draw(){
+  const {svg,g}=sheet({title:'Stiftplatte',subtitle:'Vorrichtung',material:'C45E/1.1191',partno:'LW 114 120',ra:'3,2'});
+  const x0=60,yt=50,yb=90;const hx=[x0+20,x0+50,x0+80],hy=yb-20;
+  g.appendChild(E('rect',{x:x0,y:yt,width:100,height:40,class:'thick'}));
+  ctr(g,x0+12,hy,x0+88,hy);hx.forEach(x=>{C(g,x,hy,4);ctr(g,x,hy-7,x,hy+7);});
+  dim(g,x0,yb,hx[0],yb,10,'20',{ted:1});dim(g,hx[0],yb,hx[1],yb,10,'30',{ted:1});dim(g,hx[1],yb,hx[2],yb,10,'30',{ted:1});
+  dim(g,x0,hy,x0,yb,-10,'20',{ted:1});
+  dim(g,x0,yb,x0+100,yb,20,'100');
+  dim(g,x0+100,yt,x0+100,yb,9,'40');
+  datum(g,x0+92,yb,'B','down',3);
+  datum(g,x0,yt+4,'C','left',5);
+  T(g,124,28.5,'3× ⌀8 H7');
+  tol(g,124,30,'position','⌀0,1',['A','B','C'],[[118,33.5],[hx[1]+0.9,hy-3.9]]);
+  const sx=188;
+  g.appendChild(E('rect',{x:sx,y:yt,width:8,height:40,class:'thick'}));
+  L(g,sx,hy-4,sx+8,hy-4,'hidden');L(g,sx,hy+4,sx+8,hy+4,'hidden');ctr(g,sx-3,hy,sx+11,hy);
+  dim(g,sx,yb,sx+8,yb,10,'8');
+  datum(g,sx+8,yt+8,'A','right',5);
+  return svg;
+},
+zone(){
+  const s=E('svg',{viewBox:'0 0 200 66'});const g=E('g');s.appendChild(g);
+  const pts=[{n:'Bohrung 1',dx:0.03,dy:0.04},{n:'Bohrung 2',dx:0.04,dy:-0.04},{n:'Bohrung 3',dx:-0.05,dy:0}];
+  const R=20,f=n=>(n>0?'+':'')+n.toFixed(2).replace('.',',').replace('-','−');
+  pts.forEach((p,i)=>{
+    const cx=34+i*66,cy=36;
+    T(g,cx-28,7,p.n,{'font-size':'3.2','font-family':'Barlow','font-weight':'600'});
+    T(g,cx-28,12,'Δx = '+f(p.dx)+'   Δy = '+f(p.dy),{'font-size':'3','font-family':'Barlow'});
+    g.appendChild(E('circle',{cx,cy,r:R,class:'thin','stroke-dasharray':'2 1'}));
+    ctr(g,cx-26,cy,cx+26,cy);ctr(g,cx,cy-22,cx,cy+22);
+    const px=cx+p.dx/0.05*R,py=cy-p.dy/0.05*R;
+    L(g,px,cy,px,py,'thin',{'stroke-dasharray':'1 1'});L(g,cx,py,px,py,'thin',{'stroke-dasharray':'1 1'});
+    g.appendChild(E('circle',{cx:px,cy:py,r:1.3,fill:'#0b5fa5'}));
+    T(g,cx-R*0.72-9,cy-R*0.72-1,'⌀0,1',{'font-size':'2.8'});
+  });
+  return s;
+},
+questions:[
+ {q:'Wie gross ist bei Bohrung 1 der Abstand e der Ist-Achse vom idealen Ort? Gib den Wert in mm ein.',num:true,a:0.05,
+  why:'Formel: e = √(Δx² + Δy²). Dabei ist e der Abstand der Ist-Achse vom idealen Ort in mm. Δx und Δy sind die gemessenen Abweichungen in mm. Rechnung: e = √(0,03² + 0,04²) = √0,0025 = 0,05 mm.'},
+ {q:'Welche Bohrungen sind in Ordnung?',multi:true,opts:['Bohrung 1','Bohrung 2','Bohrung 3'],a:[0,2],
+  why:'Die Zone hat den Durchmesser 0,1. Der Abstand e darf also höchstens 0,05 mm sein. Bohrung 1: e = 0,05 mm, das ist genau die Grenze und erlaubt. Bohrung 2: e = √(0,04² + 0,04²) = 0,057 mm, das ist zu gross. Bohrung 3: e = 0,05 mm, erlaubt.'},
+ {q:'Bei Bohrung 2 sind Δx und Δy beide kleiner als 0,05. Warum ist sie trotzdem Ausschuss?',opts:[
+  'Weil die Zone ein Kreis ist und kein Quadrat. Es zählt der Abstand e, nicht Δx und Δy einzeln.',
+  'Weil Δy negativ ist.',
+  'Weil die Messmaschine falsch misst.',
+  'Weil die Summe Δx + Δy grösser als 0,05 ist.'],a:0,
+  why:'Das ⌀ vor dem Wert macht die Zone rund. In den Ecken eines gedachten Quadrats ±0,05 liegt man schon ausserhalb des Kreises. Darum muss man immer den Abstand e rechnen.'}
+]});
+
+/* ============ Kap. 10 Geometrische Tolerierung ============ */
+function svgS(w,h){const s=E('svg',{viewBox:`0 0 ${w} ${h}`});const g=E('g');s.appendChild(g);return {svg:s,g};}
+function gauge(g,x,y,v,lbl){C(g,x,y,4,'thin');L(g,x,y,x+2.6,y-2.6,'thin');L(g,x,y+4,x,y+8,'thin');T(g,x,y-6,v,{'text-anchor':'middle','font-size':'3'});if(lbl)T(g,x,y+12,lbl,{'text-anchor':'middle','font-size':'3'});}
+function judge(n,ok,why){return {q:`Teil ${n}: verwendbar oder Ausschuss?`,opts:['verwendbar','Ausschuss'],a:ok?0:1,why};}
+const K10=[];
+K10.push({id:'k10a',kap:'10',type:'Kap. 10 · Grundlagen',title:'Form- oder Lagetoleranz?',
+text:'Form- und Lagetoleranzen heissen zusammen geometrische Toleranzen. Formtoleranzen begrenzen die Form eines einzelnen Elements. Lagetoleranzen begrenzen Richtung, Ort oder Lauf eines Elements zu einem Bezug.',
+draw(){const {svg,g}=svgS(215,40);const ks=['geradheit','ebenheit','rundheit','zylindrizitaet','parallelitaet','rechtwinkligkeit','neigung','position','koaxialitaet','symmetrie','rundlauf','gesamtlauf'];ks.forEach((k,i)=>{const x=6+(i%6)*32,y=4+Math.floor(i/6)*18;frame(g,x,y,k,'',[]);T(g,x+12,y+12,SYM[k].n.split(' ')[0],{'font-size':'2.6'});});return svg;},
+questions:[
+ {q:'Welche Gruppe begrenzt die Form eines einzelnen Elements ohne Bezug?',opts:['Formtoleranzen','Richtungstoleranzen','Ortstoleranzen','Lauftoleranzen'],a:0,why:'Formtoleranzen (Geradheit, Ebenheit, Rundheit, Zylinderform) brauchen nie einen Bezug.'},
+ {q:'Zu welcher Gruppe gehört die Parallelität?',opts:['Form','Richtung','Ort','Lauf'],a:1,why:'Parallelität, Rechtwinkligkeit und Neigung sind Richtungstoleranzen. Sie legen den Winkel zum Bezug fest.'},
+ {q:'Zu welcher Gruppe gehört die Symmetrie?',opts:['Form','Richtung','Ort','Lauf'],a:2,why:'Position, Koaxialität und Symmetrie sind Ortstoleranzen. Sie legen den Ort zum Bezug fest.'},
+ {q:'Welche Toleranzen brauchen immer einen Bezug? (mehrere)',multi:1,opts:['Ebenheit','Rechtwinkligkeit','Rundlauf','Zylinderform','Position'],a:[1,2,4],why:'Richtungs-, Orts- und Lauftoleranzen beziehen sich immer auf einen Bezug. Formtoleranzen nie.'},
+ {q:'Ein Bauteil hält alle Masstoleranzen ein, ist aber gebogen. Was fehlt in der Zeichnung?',opts:['eine Geradheitstoleranz','eine engere Masstoleranz','eine Oberflächenangabe','ein Bezug'],a:0,why:'Masstoleranzen prüfen nur örtliche Masse. Ein gleichmässig dicker, aber gebogener Stab hält alle Masse ein. Erst eine Formtoleranz (Geradheit) verbietet die Krümmung.'}]});
+K10.push({id:'k10b',kap:'10',type:'Kap. 10 · Rahmen lesen',title:'Was steht im Toleranzrahmen?',
+text:'Lies den Toleranzrahmen am Winkelstück. Beantworte die Fragen.',
+draw(){const {svg,g}=svgS(160,70);P(g,[[20,15],[30,15],[30,45],[80,45],[80,55],[20,55],[20,15]]);datum(g,40,55,'A','down',4);tol(g,48,22,'rechtwinkligkeit','0,05',['A'],[[30,25.5]]);return svg;},
+questions:[
+ {q:'Welche Eigenschaft ist toleriert?',opts:['Parallelität','Rechtwinkligkeit','Neigung','Ebenheit'],a:1,why:'Das Symbol ⊥ steht für Rechtwinkligkeit.'},
+ {q:'Wie gross ist die Toleranzzone in mm?',num:1,a:0.05,why:'Der Wert im zweiten Feld ist die Breite der Toleranzzone in mm.'},
+ {q:'Was ist A?',opts:['der Bezugsbuchstabe der Basisfläche','die Werkstoffangabe','die Toleranzklasse','die Ansicht A'],a:0,why:'Das dritte Feld nennt den Bezug. Das schwarze Dreieck mit dem Kästchen A markiert die Basisfläche.'},
+ {q:'Wie sieht die Toleranzzone aus?',opts:['zwei parallele Ebenen im Abstand 0,05, senkrecht zur Fläche A','ein Zylinder ⌀0,05','zwei Ebenen im Abstand 0,05 parallel zu A','ein Kreisring 0,05'],a:0,why:'Ohne ⌀ ist die Zone der Raum zwischen zwei parallelen Ebenen. Bei Rechtwinkligkeit stehen sie senkrecht zum Bezug.'}]});
+const STP=(id,title,sym,t,dat,text,rows,whys,draw)=>K10.push({id,kap:'10',type:'Kap. 10 · Stichprobe prüfen',title,text,draw,questions:rows.map((r,i)=>judge(i+1,r,whys[i]))});
+STP('k10c','Rechtwinkligkeit 0,05 zu A','rechtwinkligkeit',0.05,'A','Aus einer Serie wurden drei Winkel gemessen. Das Teil liegt mit der Fläche A auf dem Messtisch. Die Messuhr fährt an der senkrechten Fläche von unten nach oben. Die Abweichung ist grösster minus kleinster Zeigerwert.',[true,false,true],['0,03 − 0,00 = 0,03 ≤ 0,05: verwendbar.','0,07 − 0,00 = 0,07 > 0,05: Ausschuss.','0,06 − 0,02 = 0,04 ≤ 0,05: verwendbar. Es zählt die Differenz, nicht der grösste Wert.'],
+ ()=>{const {svg,g}=svgS(200,70);tol(g,6,6,'rechtwinkligkeit','0,05',['A'],[]);[['0,00','0,03'],['0,00','0,07'],['0,02','0,06']].forEach(([u,o],i)=>{const x=40+i*55;P(g,[[x,20],[x+6,20],[x+6,52],[x+30,52],[x+30,58],[x,58],[x,20]]);gauge(g,x+14,26,o);gauge(g,x+14,46,u);T(g,x+15,67,'Teil '+(i+1),{'text-anchor':'middle'});});return svg;});
+STP('k10d','Geradheit 0,4 an einer Leiste','geradheit',0.4,'','Eine 2000 mm lange Leiste hat die Geradheitstoleranz 0,4. Drei Messuhren stehen auf einer geraden Messschiene an Anfang, Mitte und Ende. Vereinfachung: Die Abweichung ist grösster minus kleinster Zeigerwert.',[true,false,true],['0,30 − 0,00 = 0,30 ≤ 0,4: verwendbar.','0,35 − (−0,10) = 0,45 > 0,4: Ausschuss. Negative Werte zählen mit!','0,40 − 0,05 = 0,35 ≤ 0,4: verwendbar.'],
+ ()=>{const {svg,g}=svgS(200,80);tol(g,6,4,'geradheit','0,4',[],[]);[['0,00','0,15','0,30'],['−0,10','0,00','0,35'],['0,05','0,25','0,40']].forEach((r,i)=>{const y=20+i*20;P(g,[[50,y+6],[170,y+6],[170,y+10],[50,y+10],[50,y+6]]);r.forEach((v,j)=>gauge(g,60+j*50,y,v));T(g,20,y+10,'Teil '+(i+1));});return svg;});
+STP('k10e','Parallelität 0,1 an einem Z-Profil','parallelitaet',0.1,'A','Ein abgekantetes Z-Profil liegt mit der unteren Fläche A auf dem Messtisch. Zwei Messuhren tasten die obere Fläche ab.',[true,false],['0,08 − 0,00 = 0,08 ≤ 0,1: verwendbar.','0,13 − 0,00 = 0,13 > 0,1: Ausschuss.'],
+ ()=>{const {svg,g}=svgS(200,60);tol(g,6,4,'parallelitaet','0,1',['A'],[]);[['0,00','0,08'],['0,00','0,13']].forEach((r,i)=>{const x=40+i*80;P(g,[[x,50],[x+20,50],[x+30,30],[x+60,30]]);gauge(g,x+36,20,r[0]);gauge(g,x+55,20,r[1]);T(g,x+30,58,'Teil '+(i+1),{'text-anchor':'middle'});});return svg;});
+K10.push({id:'k10f',kap:'10',type:'Kap. 10 · Stichprobe prüfen',title:'Symmetrie einer Nut 0,1 zu A',
+text:'Ein Block (Breite 45) hat eine Nut 15 H7. Die Mittelebene der Nut muss in einer Zone von 0,1 symmetrisch zur Mittelebene A liegen. Das heisst: Sie darf höchstens ±0,05 versetzt sein. Gemessen werden die Wandstärken x (links) und y (rechts). Der Versatz ist e = |x − y| : 2.',
+draw(){const {svg,g}=svgS(200,70);tol(g,6,4,'symmetrie','0,1',['A'],[]);[[15.02,14.98],[15.12,14.90],[15.03,14.97]].forEach(([x,y],i)=>{const o=30+i*58;P(g,[[o,25],[o+15,25],[o+15,40],[o+30,40],[o+30,25],[o+45,25],[o+45,60],[o,60],[o,25]]);T(g,o+7,22,'x='+fmt(x),{'text-anchor':'middle','font-size':'2.8'});T(g,o+38,22,'y='+fmt(y),{'text-anchor':'middle','font-size':'2.8'});T(g,o+22,67,'Teil '+(i+1),{'text-anchor':'middle'});});return svg;},
+questions:[{q:'Wie gross ist der Versatz e bei Teil 2 in mm?',num:1,a:0.11,tol:0.0005,why:'e = (15,12 − 14,90) : 2 = 0,11 mm.'},judge(1,true,'e = 0,04 : 2 = 0,02 ≤ 0,05: verwendbar.'),judge(2,false,'e = 0,11 > 0,05: Ausschuss.'),judge(3,true,'e = 0,06 : 2 = 0,03 ≤ 0,05: verwendbar.'),
+ {q:'Warum vergleicht man e mit 0,05 und nicht mit 0,1?',opts:['Weil die Zone 0,1 breit ist und symmetrisch zu A liegt: je 0,05 auf jeder Seite.','Weil die Messung ungenau ist.','Weil H7 die Toleranz halbiert.'],a:0,why:'Die Toleranzzone liegt mittig zur Bezugsebene. Die Hälfte der Zonenbreite ist der erlaubte Versatz.'}]});
+K10.push({id:'k10g',kap:'10',type:'Kap. 10 · Rechnen',title:'Neigung: 1° schief ist zu viel',
+text:'Zwei Bohrungen in einer 12,5 mm dicken Platte sollen parallel sein (Neigung 0,1 zu A). Die rechte Bohrung ist um 1° schief gebohrt. Die Achse wandert dann über die Plattendicke seitlich um GK = 12,5 mm · tan 1°.',
+draw(){const {svg,g}=svgS(160,60);PG(g,[[20,20],[140,20],[140,32.5],[20,32.5]]);[60,100].forEach((x,i)=>{L(g,x,12,x+(i?2.2:0),42,'center');});tol(g,104,4,'neigung','0,1',['A'],[[102,13]]);L(g,60,10,60,6,'thin');datum(g,60,6,'A','up',0.01);T(g,148,30,'12,5',{'font-size':'3'});return svg;},
+questions:[{q:'Wie gross ist GK in mm (auf 2 Stellen)?',num:1,a:0.22,tol:0.005,why:'GK = 12,5 · tan 1° = 12,5 · 0,01746 = 0,218 ≈ 0,22 mm.'},{q:'Ist das Teil verwendbar?',opts:['verwendbar','Ausschuss'],a:1,why:'0,22 mm > 0,1 mm: Die Achse verlässt die Toleranzzone. Ausschuss.'},
+ {q:'Bis zu welchem Winkel wäre die Bohrung noch gut (auf 0,01° genau)?',num:1,a:0.46,tol:0.006,why:'tan α = 0,1 : 12,5 = 0,008 ⇒ α = 0,46°. Kleine Winkel, grosse Wirkung.'}]});
+const ENT=(id,title,text,feature,correct,shape,explain)=>K10.push({id,kap:'10',type:'Kap. 10 · Rahmen aus Text',title,text,entry:{feature,correct},explain,draw(){const {svg,g}=svgS(160,80);const a=shape(g);const pv=E('g');g.appendChild(pv);svg._pv=pv;svg._anchor=a;return svg;}});
+ENT('k10h','Obere Fläche parallel','Die obere Fläche muss zwischen zwei parallelen Ebenen im Abstand 0,04 mm liegen. Die Ebenen liegen parallel zur Basisfläche A. Trage den Rahmen ein.','obere Fläche',{sym:'parallelitaet',val:0.04,dat:'A',dia:false},g=>{P(g,[[40,40],[110,40],[110,58],[40,58],[40,40]]);datum(g,75,58,'A','down',4);return {fx:90,fy:20,pts:[[75,23.5],[75,40]]};},'Parallelität ist eine Richtungstoleranz mit Bezug. Eine Fläche ist toleriert, darum kein ⌀.');
+ENT('k10i','U-Profil: Seitenflächen rechtwinklig','Jede Seitenfläche des U-Profils muss zwischen zwei parallelen Ebenen im Abstand 0,15 mm liegen. Die Ebenen stehen senkrecht zur Basisfläche A (Boden). Trage den Rahmen ein.','Seitenflächen',{sym:'rechtwinkligkeit',val:0.15,dat:'A',dia:false},g=>{P(g,[[50,20],[60,20],[60,50],[100,50],[100,20],[110,20],[110,60],[50,60],[50,20]]);datum(g,80,60,'A','down',4);return {fx:68,fy:6,pts:[[60,9.5],[60,30]]};},'Rechtwinkligkeit zur Bodenfläche A. Ein Rahmen mit zwei Pfeilen kann beide Seitenflächen tolerieren.');
+ENT('k10j','Schräge Fläche 45°','Die schräge Fläche muss zwischen zwei parallelen Ebenen im Abstand 0,05 mm liegen. Die Ebenen sind um 45° zur Basisfläche A geneigt. Der Winkel 45° ist theoretisch exakt. Trage den Rahmen ein.','schräge Fläche',{sym:'neigung',val:0.05,dat:'A',dia:false},g=>{P(g,[[40,60],[120,60],[120,30],[90,30],[60,60]]);datum(g,100,60,'A','down',4);T(g,62,42,'45°',{'font-size':'3.5'});E;return {fx:30,fy:20,pts:[[75,23.5],[75,45]]};},'Neigung ist eine Richtungstoleranz. Der Winkel wird als theoretisch exaktes Mass im Kästchen angegeben.');
+K10.push({id:'k10k',kap:'10',type:'Kap. 10 · Messen',title:'Womit prüfe ich das in der Werkstatt?',
+text:'Ordne jeder Toleranz ein passendes Prüfmittel zu.',draw(){const {svg,g}=svgS(160,30);frame(g,6,10,'ebenheit','0,05',[]);frame(g,56,10,'parallelitaet','0,01',['A']);frame(g,106,10,'rechtwinkligkeit','0,02',['A']);return svg;},
+questions:[{q:'Ebenheit 0,05',opts:['Haarlineal und Fühlerlehre','Bügelmessschraube','Grenzlehrdorn','Rauheitsmessgerät'],a:0,why:'Das Haarlineal liegt auf der Fläche. Mit der Fühlerlehre misst man den grössten Spalt.'},
+ {q:'Parallelität 0,01 zu A',opts:['Teil mit A auf den Messtisch legen, Messuhr über die Fläche führen','Messschieber an zwei Stellen','Haarwinkel','Gewindelehre'],a:0,why:'Der Messtisch verkörpert den Bezug A. Die Differenz der Zeigerwerte ist die Parallelitätsabweichung.'},
+ {q:'Rechtwinkligkeit 0,02 zu A',opts:['Haarwinkel und Fühlerlehre (oder Messtisch, Winkel und Messuhr)','Winkelmesser mit 1° Teilung','Lehrring','Endmass allein'],a:0,why:'Der Haarwinkel steht auf A. Den Lichtspalt misst man mit der Fühlerlehre. Ein Winkelmesser ist viel zu ungenau.'}]});
+K10.push({id:'k10l',kap:'10',type:'Kap. 10 · Aus Anforderungen',title:'Gestell: Anforderungen in Symbole übersetzen',
+text:'Ein Gussgestell hat vier Auflagestellen (Bezug A), eine Bohrung ⌀60H7 (Bezug B), ein Stiftloch ⌀4H7 (Bezug C) und eine Planfläche an der Bohrung (Bezug D). Wähle für jede Anforderung das Symbol.',
+draw(){const {svg,g}=svgS(160,72);P(g,[[20,50],[140,50],[140,15],[20,15],[20,50]]);C(g,80,32,10);C(g,115,25,2);T(g,80,12,'⌀60H7 (B), Planfläche D',{'text-anchor':'middle','font-size':'3'});T(g,118,22,'⌀4H7 (C)',{'font-size':'3'});[30,60,100,130].forEach(x=>PG(g,[[x-4,50],[x+4,50],[x+4,54],[x-4,54]]));datum(g,60,54,'A','down',3);T(g,100,64,'4 Auflagestellen',{'font-size':'3'});return svg;},
+questions:[{q:'Die 4 Auflagestellen bilden eine gemeinsame Zone von 0,1.',opts:['Ebenheit','Geradheit','Parallelität','Position'],a:0,why:'Gemeinsame Ebenheit (Hinweis «4× gemeinsame Toleranzzone»). Formtoleranz ohne Bezug.'},
+ {q:'Die Achse der Bohrung ⌀60 muss parallel zu A sein, Zone Zylinder ⌀0,1.',opts:['Parallelität mit ⌀','Parallelität ohne ⌀','Koaxialität','Rechtwinkligkeit'],a:0,why:'Eine Achse wird toleriert, die Zone ist ein Zylinder: ⌀ vor dem Wert.'},
+ {q:'Die Planfläche an der Bohrung muss rechtwinklig zu B sein, 0,02.',opts:['Rechtwinkligkeit 0,02 B','Planlauf 0,02 B','Parallelität 0,02 B','Ebenheit 0,02'],a:0,why:'Rechtwinkligkeit einer Fläche zu einer Achse. Planlauf wäre auch möglich, misst aber beim Drehen und erfasst zusätzlich Welligkeit.'},
+ {q:'Das Stiftloch ⌀4 muss auf D und B bezogen sein, Zone Zylinder ⌀0,1.',opts:['Position ⌀0,1 D B','Koaxialität ⌀0,1 D','Symmetrie 0,1 B','Rundlauf 0,1 D B'],a:0,why:'Der Ort einer Bohrung zu mehreren Bezügen: Position. Reihenfolge der Bezüge: D zuerst (Primärbezug), dann B.'}]});
+/* Kreativ */
+K10.push({id:'k10m',kap:'10',type:'Kap. 10 · Kreativ: umgekehrt',title:'Bis wohin darf die Messuhr ausschlagen?',
+text:'Parallelität 0,08 zu A. Am Anfang der Fläche zeigt die Messuhr −0,02. Unterwegs misst du weiter.',draw(){const {svg,g}=svgS(160,50);tol(g,6,4,'parallelitaet','0,08',['A'],[]);P(g,[[30,40],[130,40],[130,30],[30,30],[30,40]]);gauge(g,40,22,'−0,02');gauge(g,120,22,'?');return svg;},
+questions:[{q:'Welcher grösste Zeigerwert ist noch erlaubt, wenn −0,02 der kleinste Wert bleibt?',num:1,a:0.06,tol:0.0005,why:'Max − Min ≤ 0,08 ⇒ Max ≤ −0,02 + 0,08 = 0,06.'},{q:'Die zweite Messuhr zeigt +0,05. Wie gross ist die Abweichung?',num:1,a:0.07,tol:0.0005,why:'0,05 − (−0,02) = 0,07 ≤ 0,08: Das Teil ist verwendbar. Negative Werte zählen mit.'}]});
+K10.push({id:'k10n',kap:'10',type:'Kap. 10 · Kreativ: Fehler finden',title:'Falsch beurteilt?',
+text:'Ein Kollege beurteilt Rechtwinkligkeit 0,05 zu A. Er misst unten 0,04 und oben 0,08. Er schreibt: «0,08 > 0,05, Ausschuss.»',draw(){const {svg,g}=svgS(160,50);tol(g,6,4,'rechtwinkligkeit','0,05',['A'],[]);P(g,[[60,10],[66,10],[66,40],[100,40],[100,46],[60,46],[60,10]]);gauge(g,76,16,'0,08');gauge(g,76,34,'0,04');return svg;},
+questions:[{q:'Was ist falsch?',opts:['Er hat den grössten Wert statt der Differenz verglichen.','Er hätte den Bezug B nehmen müssen.','Rechtwinkligkeit misst man nicht mit der Messuhr.'],a:0,why:'Massgebend ist max − min = 0,08 − 0,04 = 0,04. Die Messuhr kann vorher beliebig genullt sein.'},{q:'Wie gross ist die Abweichung wirklich?',num:1,a:0.04,tol:0.0005,why:'0,08 − 0,04 = 0,04 ≤ 0,05: Das Teil ist verwendbar.'}]});
+tasks.push(...K10);
+/* ============ Kap. 9 Masstoleranzen ============ */
+function tolT(g,x,y,n,o,u,big=4.5){T(g,x,y,n,{'font-size':big,'text-anchor':'end'});if(u===undefined){T(g,x+0.8,y,o,{'font-size':big*0.75});return;}T(g,x+0.8,y-2.2,o,{'font-size':big*0.62});T(g,x+0.8,y+1.4,u,{'font-size':big*0.62});}
+function shaftS(g,x,y,w,h){P(g,[[x,y],[x+w,y],[x+w,y+h],[x,y+h],[x,y]]);L(g,x-4,y+h/2,x+w+4,y+h/2,'center');}
+function boreS(g,x,y,w,h,d){PG(g,[[x,y],[x+w,y],[x+w,y+h],[x,y+h]]);E;g.appendChild(E('rect',{x:x+w/2-d/2,y,width:d,height:h,fill:'#fff',stroke:'#000','stroke-width':.5}));L(g,x+w/2,y-4,x+w/2,y+h+4,'center');}
+function fitDia(g,x0,y0,fs,k=0.9){L(g,x0-6,y0,x0+40*fs.length+6,y0,'thick');T(g,x0-8,y0+1.2,'0',{'text-anchor':'end'});fs.forEach((f,i)=>{const x=x0+i*40,y1=y0-f.hi*k,y2=y0-f.lo*k;g.appendChild(E('rect',{x:x+6,y:y1,width:22,height:Math.max(0.6,y2-y1),fill:f.c||'#cfe0f3',stroke:'#000','stroke-width':.3}));T(g,x+17,y1-2,(f.hi>0?'+':'')+f.hi,{'text-anchor':'middle','font-size':'3'});T(g,x+17,y2+4,(f.lo>0?'+':'')+f.lo,{'text-anchor':'middle','font-size':'3'});T(g,x+17,y0+(f.lo<0?Math.max(-f.lo*k+10,12):12),f.n,{'text-anchor':'middle','font-size':'3.6'});});T(g,x0-8,y0-12,'µm',{'text-anchor':'end','font-size':'3'});}
+const K9=[];const Q=(q,a,why,tol=0.0005)=>({q,num:1,a,tol,why});const O=(q,opts,a,why)=>({q,opts,a,why});
+K9.push({id:'k9a',kap:'9',type:'Kap. 9 · Begriffe',title:'Abmasse lesen: 24 +0,12/+0,04',text:'Eine Bohrung ist mit 24 +0,12/+0,04 bemasst. Bestimme die Begriffe.',
+draw(){const {svg,g}=svgS(160,50);boreS(g,40,10,60,30,24);tolT(g,120,27,'⌀24','+0,12','+0,04');return svg;},
+questions:[Q('Höchstmass in mm',24.12,'Nennmass + oberes Abmass = 24 + 0,12 = 24,12.'),Q('Mindestmass in mm',24.04,'Nennmass + unteres Abmass = 24 + 0,04 = 24,04.'),Q('Masstoleranz in mm',0.08,'Höchstmass − Mindestmass = 0,12 − 0,04 = 0,08.'),O('Wie heisst die Zahl 24?',['Nennmass','Istmass','Grösstmass'],0,'Das Nennmass ist das Mass ohne Abmasse. Das Istmass misst man am fertigen Teil.')]});
+K9.push({id:'k9b',kap:'9',type:'Kap. 9 · Spiel berechnen',title:'Bohrung und Welle 32',text:'Eine Bohrung 32 +0,1/0 nimmt eine Welle 32 −0,05/−0,15 auf.',
+draw(){const {svg,g}=svgS(160,55);boreS(g,20,10,50,35,26);tolT(g,62,8,'⌀32','+0,1','0');shaftS(g,95,15,50,25);tolT(g,140,12,'⌀32','−0,05','−0,15');return svg;},
+questions:[Q('Grösstspiel in mm',0.25,'Grösste Bohrung − kleinste Welle = 32,10 − 31,85 = 0,25.'),Q('Kleinstspiel in mm',0.05,'Kleinste Bohrung − grösste Welle = 32,00 − 31,95 = 0,05.'),O('Welche Passungsart ist das?',['Spielpassung','Übergangspassung','Presspassung'],0,'Auch im ungünstigsten Fall bleibt Spiel (0,05 > 0).')]});
+K9.push({id:'k9c',kap:'9',type:'Kap. 9 · Abmasse eintragen',title:'Aus Grenzmassen werden Abmasse',text:'Ein Mass darf zwischen 9,96 mm und 10,05 mm liegen. Das Nennmass ist 10.',
+draw(){const {svg,g}=svgS(160,45);P(g,[[40,10],[120,10],[120,35],[40,35],[40,10]]);T(g,130,25,'10 ? / ?',{'font-size':'4.5'});return svg;},
+questions:[Q('Oberes Abmass in mm',0.05,'10,05 − 10 = +0,05.'),Q('Unteres Abmass in mm',-0.04,'9,96 − 10 = −0,04. Das Vorzeichen gehört dazu!'),O('Wie schreibt man es normgerecht?',['10 +0,05 / −0,04 (grösserer Wert oben)','10 −0,04 / +0,05','10 ±0,045'],0,'Merke: Der grössere Wert steht immer oben, der kleinere unten.')]});
+K9.push({id:'k9d',kap:'9',type:'Kap. 9 · Istmass beurteilen',title:'Gut, Nacharbeit oder Ausschuss?',text:'Bei Wellen kann man ein zu grosses Teil nacharbeiten. Bei Bohrungen kann man ein zu kleines Loch nacharbeiten. Beurteile die Istmasse.',
+draw(){const {svg,g}=svgS(170,40);[['Welle 25 −0,1/−0,2','Ist 24,99'],['Bohrung 18 +0,05/0','Ist 18,06'],['Welle 40 −0,02/−0,06','Ist 39,96'],['Bohrung 32 +0,1/0','Ist 31,93']].forEach(([a,b],i)=>{T(g,6+(i%2)*85,12+Math.floor(i/2)*16,(i+1)+') '+a+',  '+b,{'font-size':'3.2'});});return svg;},
+questions:[O('1) Welle 25 −0,1/−0,2, Istmass 24,99',['gut','Nacharbeit','Ausschuss'],1,'Höchstmass 24,9. Die Welle ist 0,09 zu dick. Man kann noch Material abnehmen.'),Q('1) Wie viel muss mindestens abgenommen werden (mm)?',0.09,'24,99 − 24,90 = 0,09.'),O('2) Bohrung 18 +0,05/0, Istmass 18,06',['gut','Nacharbeit','Ausschuss'],2,'Höchstmass 18,05. Die Bohrung ist zu gross. Material kann man nicht zurückgeben: Ausschuss.'),O('3) Welle 40 −0,02/−0,06, Istmass 39,96',['gut','Nacharbeit','Ausschuss'],0,'39,94 ≤ 39,96 ≤ 39,98: gut.'),O('4) Bohrung 32 +0,1/0, Istmass 31,93',['gut','Nacharbeit','Ausschuss'],1,'Die Bohrung ist 0,07 zu klein. Sie kann aufgebohrt werden.')]});
+K9.push({id:'k9e',kap:'9',type:'Kap. 9 · Allgemeintoleranz',title:'ISO 2768-m: Kettenmass oder Gesamtmass?',text:'Allgemeintoleranz ISO 2768-m (über 6 bis 30: ±0,2; über 30 bis 120: ±0,3). Eine Welle hat die Absätze 12, 25 und 40 mm. Das Gesamtmass ist 77 mm.',
+draw(){const {svg,g}=svgS(170,50);P(g,[[20,20],[44,20],[44,15],[94,15],[94,22],[154,22],[154,28],[94,28],[94,35],[44,35],[44,30],[20,30],[20,20]]);T(g,32,44,'12');T(g,69,44,'25');T(g,124,44,'40');T(g,87,8,'77');return svg;},
+questions:[Q('Höchstmass der Summe der Teilmasse (12 + 25 + 40) in mm',77.7,'12,2 + 25,2 + 40,3 = 77,7.'),Q('Mindestmass der Summe in mm',76.3,'11,8 + 24,8 + 39,7 = 76,3.'),Q('Toleranz des direkt bemassten Gesamtmasses 77 in mm',0.6,'77 liegt über 30 bis 120: ±0,3, also Toleranz 0,6.'),O('Was folgt daraus?',['Kettenbemassung summiert die Toleranzen. Wichtige Masse direkt bemassen.','Kettenbemassung ist genauer.','Es ist egal.'],0,'Die Kette hat Toleranz 1,4, das Gesamtmass nur 0,6.')]});
+K9.push({id:'k9f',kap:'9',type:'Kap. 9 · Allgemeintoleranz',title:'Lochreihe: 18 Abstände à 50',text:'Allgemeintoleranz ISO 2768-c (über 30 bis 120: ±0,8; über 400 bis 1000: ±2). Eine Lochreihe hat 18 Abstände à 50 mm, total 900 mm.',
+draw(){const {svg,g}=svgS(170,40);L(g,10,20,160,20,'thick');for(let i=0;i<=18;i++)C(g,12+i*8.2,20,1.4,'thin');T(g,16,32,'50  50  50 …',{'font-size':'3'});T(g,85,10,'900',{'text-anchor':'middle'});return svg;},
+questions:[Q('Toleranz für 900 bei Kettenbemassung (18 × ±0,8) in mm',28.8,'18 · 0,8 = ±14,4, also 28,8 mm.',0.01),Q('Toleranz für 900, wenn es direkt bemasst ist, in mm',4,'±2 ⇒ 4 mm.',0.01),O('Welche Bemassung wählst du für eine Lochreihe mit Gegenstück?',['Bezugsbemassung ab einer Kante','Kettenbemassung'],0,'Bezugsbemassung verhindert, dass sich Toleranzen aufsummieren.')]});
+K9.push({id:'k9g',kap:'9',type:'Kap. 9 · Massketten',title:'In welchem Bereich liegt x?',text:'Ein Bauteil ist 120 ±0,2 lang. Der Absatz links ist 45 +0,2/0. x ist der Rest.',
+draw(){const {svg,g}=svgS(160,45);P(g,[[20,15],[140,15],[140,35],[20,35],[20,15]]);L(g,62,15,62,35);T(g,41,10,'45 +0,2/0',{'text-anchor':'middle','font-size':'3.2'});T(g,101,10,'x = ?',{'text-anchor':'middle'});T(g,80,43,'120 ±0,2',{'text-anchor':'middle'});return svg;},
+questions:[Q('Kleinstmass von x in mm',74.6,'Kleinste Länge − grösster Absatz = 119,8 − 45,2 = 74,6.'),Q('Grösstmass von x in mm',75.2,'Grösste Länge − kleinster Absatz = 120,2 − 45,0 = 75,2.'),Q('Toleranz von x in mm',0.6,'75,2 − 74,6 = 0,6. Das ist die Summe beider Toleranzen (0,4 + 0,2).')]});
+K9.push({id:'k9h',kap:'9',type:'Kap. 9 · ISO-System',title:'Was bedeutet 30 H7?',text:'Lies die ISO-Toleranzangabe. Für 30 H7 gilt: oberes Abmass +21 µm, unteres 0.',
+draw(){const {svg,g}=svgS(160,40);T(g,40,24,'30',{style:'font-size:9px','text-anchor':'end'});T(g,42,24,'H',{style:'font-size:9px'});T(g,50,24,'7',{style:'font-size:9px'});T(g,30,34,'Nennmass',{'font-size':'3','text-anchor':'middle'});T(g,45,9,'Lage',{'font-size':'3','text-anchor':'middle'});T(g,58,34,'Qualität (IT)',{'font-size':'3'});return svg;},
+questions:[O('Grossbuchstabe H bedeutet:',['Innenmass (Bohrung)','Aussenmass (Welle)','harte Oberfläche'],0,'Grossbuchstaben für Innenmasse, Kleinbuchstaben für Aussenmasse.'),O('Die Zahl 7 ist …',['die Qualität (Grösse der Toleranz)','die Lage des Toleranzfelds','die Anzahl Messungen'],0,'Die Zahl ist der IT-Grad. Je grösser, desto grösser die Toleranz.'),Q('Gutseite des Grenzlehrdorns in mm',30.0,'Die Gutseite verkörpert das Mindestmass der Bohrung: 30,000.'),Q('Ausschussseite in mm',30.021,'Höchstmass: 30 + 0,021 = 30,021.',0.0002)]});
+K9.push({id:'k9i',kap:'9',type:'Kap. 9 · Passung rechnen',title:'Drei Passungen auf ⌀25 im Vergleich',text:'Einheitsbohrung 25 H7 (0/+21 µm). Wellen: g6 (−7/−20), n6 (+15/+28), r6 (+28/+41). Rechne in mm.',
+draw(){const {svg,g}=svgS(190,90);fitDia(g,30,55,[{n:'H7',lo:0,hi:21,c:'#d7dbe2'},{n:'g6',lo:-20,hi:-7},{n:'n6',lo:15,hi:28},{n:'r6',lo:28,hi:41}]);return svg;},
+questions:[Q('H7/g6: Grösstspiel in mm',0.041,'0,021 − (−0,020) = 0,041.',0.0002),Q('H7/g6: Kleinstspiel in mm',0.007,'0 − (−0,007) = 0,007.',0.0002),O('H7/n6 ist eine …',['Spielpassung','Übergangspassung','Presspassung'],1,'Grösstspiel 0,021 − 0,015 = 0,006; Grösstübermass 0,028. Je nach Teil Spiel oder Übermass.'),Q('H7/r6: Kleinstübermass in mm',0.007,'0,028 − 0,021 = 0,007. Immer Übermass: Presspassung.',0.0002)]});
+K9.push({id:'k9j',kap:'9',type:'Kap. 9 · Passungen anwenden',title:'Welche Passung wofür?',text:'Ordne zu.',draw(){const {svg,g}=svgS(160,20);T(g,10,12,'H7/h6 · H7/n6 · H7/r6 · H8/f7 · D10/h9',{'font-size':'4'});return svg;},
+questions:[O('Gleitlager einer Welle, die sich gut drehen soll',['H8/f7','H7/r6','H7/n6'],0,'Deutliches Spiel: Spielpassung H8/f7.'),O('Buchse fest im Gehäuse eingepresst',['H7/r6','H7/h6','H8/f7'],0,'Immer Übermass: Presspassung.'),O('Lagerbuchse, die man mit leichten Schlägen montiert',['H7/n6','H8/f7','D10/h9'],0,'Übergangspassung.'),O('Einheitswelle heisst …',['alle Wellen h, die Bohrungen werden angepasst','alle Bohrungen H','Wellen und Bohrungen gleich'],0,'Bei gekauften blanken Wellen (h) passt man die Bohrung an. D10/h9 ist ein Beispiel.')]});
+K9.push({id:'k9k',kap:'9',type:'Kap. 9 · Tabellenwerte',title:'Grenzmasse aus der ISO-Tabelle',text:'Auszug Tabelle: 50 H8 = 0/+39 µm; 30 h6 = 0/−13 µm; 80 js8 = ±23 µm; 100 H13 = 0/+540 µm.',
+draw(){const {svg,g}=svgS(160,30);[['50 H8','+39','0'],['30 h6','0','−13'],['80 js8','+23','−23'],['100 H13','+540','0']].forEach(([n,o,u],i)=>{T(g,10+i*38,16,n,{'font-size':'4'});T(g,10+i*38,24,o+' / '+u+' µm',{'font-size':'3'});});return svg;},
+questions:[Q('50 H8: Grösstmass in mm',50.039,'50 + 0,039.',0.0002),Q('30 h6: Kleinstmass in mm',29.987,'30 − 0,013.',0.0002),Q('80 js8: Toleranz in mm',0.046,'±0,023 ⇒ 0,046.',0.0002),O('Was ist grösser: die Toleranz von 30 H6 oder 30 H8?',['30 H8','30 H6','gleich'],0,'Höhere Qualitätszahl = grössere Toleranz (H6: 13 µm, H8: 33 µm).')]});
+K9.push({id:'k9l',kap:'9',type:'Kap. 9 · Kreativ: umgekehrt',title:'Welle für ein gewünschtes Spiel',text:'Eine Passung ⌀40 soll mindestens 0,05 mm und höchstens 0,15 mm Spiel haben. Die Bohrung ist 40 +0,04/0. Welche Abmasse braucht die Welle?',
+draw(){const {svg,g}=svgS(160,40);boreS(g,30,8,40,26,20);tolT(g,64,6,'⌀40','+0,04','0');shaftS(g,100,12,40,18);T(g,138,10,'⌀40 ? / ?',{'font-size':'3.5','text-anchor':'end'});return svg;},
+questions:[Q('Oberes Abmass der Welle in mm',-0.05,'Kleinstspiel = kleinste Bohrung − grösste Welle ⇒ grösste Welle = 40,00 − 0,05 = 39,95 ⇒ −0,05.'),Q('Unteres Abmass der Welle in mm',-0.11,'Grösstspiel = grösste Bohrung − kleinste Welle ⇒ kleinste Welle = 40,04 − 0,15 = 39,89 ⇒ −0,11.')]});
+K9.push({id:'k9m',kap:'9',type:'Kap. 9 · Kreativ: Fehler finden',title:'Grenzlehrdorn falsch eingestellt?',text:'Ein Kollege prüft 30 H7 (0/+21 µm). Er sagt: «Die Gutseite des Dorns ist 30,021, die Ausschussseite 30,000.»',
+draw(){const {svg,g}=svgS(160,30);P(g,[[30,10],[70,10],[70,20],[30,20],[30,10]]);P(g,[[90,10],[130,10],[130,20],[90,20],[90,10]]);L(g,70,15,90,15,'thick');T(g,50,27,'Gut: 30,021?',{'text-anchor':'middle','font-size':'3'});T(g,110,27,'Ausschuss: 30,000?',{'text-anchor':'middle','font-size':'3'});return svg;},
+questions:[O('Was ist falsch?',['Gut- und Ausschussseite sind vertauscht.','Die Werte gehören zu einer Welle.','Nichts.'],0,'Die Gutseite muss in jede gute Bohrung passen, also auch in die kleinste: Gutseite = Mindestmass 30,000.'),O('Welche Seite gilt bei der Grenzrachenlehre (Welle) als Gutseite?',['das Höchstmass','das Mindestmass'],0,'Die Rachenlehre muss über jede gute Welle gehen, auch über die dickste.')]});
+K9.push({id:'k9n',kap:'9',type:'Kap. 9 · Kreativ: im Kopf',title:'µm in mm',text:'Ohne Taschenrechner: Rechne die Abmasse um.',draw(){const {svg,g}=svgS(160,20);T(g,10,12,'1 mm = 1000 µm',{'font-size':'4.5'});return svg;},
+questions:[Q('+21 µm in mm',0.021,'21 : 1000.',0.0002),Q('−185 µm in mm',-0.185,'−185 : 1000.',0.0002),Q('0,039 mm in µm',39,'0,039 · 1000.',0.01)]});
+tasks.push(...K9);
+/* Kap. 9: Begriffe ES, EI, es, ei */
+function drawTolSit(g,o={}){const y0=45,k=1;/* Nulllinie y0 */
+  PG(g,[[60,8],[110,8],[110,18],[60,18]]);PG(g,[[60,72],[110,72],[110,82],[60,82]]);
+  g.appendChild(E('rect',{x:62,y:18,width:46,height:9,fill:'#d9d4f0',stroke:'#000','stroke-width':.3}));T(g,85,24,'Toleranzfeld Bohrung',{'text-anchor':'middle',style:'font-size:2.6px'});
+  P(g,[[70,72],[70,52],[135,52],[135,72]]);g.appendChild(E('rect',{x:85,y:52,width:40,height:6,fill:'#cfe0f3',stroke:'#000','stroke-width':.3}));T(g,105,56.3,'Toleranzfeld Welle',{'text-anchor':'middle',style:'font-size:2.6px'});
+  L(g,20,y0,170,y0,'center');T(g,150,y0-1.5,'Nulllinie',{style:'font-size:3px'});
+  const lab=o.lab||{};const arr=(x,ya,yb,t)=>{L(g,x,ya,x,yb,'thin',{'marker-start':'url(#arr)','marker-end':'url(#arr)'});T(g,x+1.2,(ya+yb)/2+1,t,{style:'font-size:3.2px'});};
+  arr(30,18,y0,lab.ES||'ES');arr(45,27,y0,lab.EI||'EI');arr(140,y0,52,lab.es||'es');arr(155,y0,58,lab.ei||'ei');
+  L(g,25,18,62,18,'thin');L(g,40,27,62,27,'thin');L(g,128,52,160,52,'thin');L(g,128,58,160,58,'thin');
+  T(g,10,y0+2,o.N||'N',{style:'font-size:3.4px'});return g;}
+const KES=[];
+KES.push({id:'k9o',kap:'9',type:'Kap. 9 · Begriffe',title:'ES, EI, es, ei: Abmasse von Bohrung und Welle',text:'Grossbuchstaben gelten für die Bohrung (Innenmass), Kleinbuchstaben für die Welle (Aussenmass). S = supérieur (oberes), I = inférieur (unteres). Die Abmasse zählen ab der Nulllinie (Nennmass): nach oben positiv, nach unten negativ.',
+draw(){const {svg,g}=svgS(175,90);drawTolSit(g,{lab:{ES:'1',EI:'2',es:'3',ei:'4'}});return svg;},
+questions:[O('Pfeil 1 ist …',['ES: oberes Abmass der Bohrung','EI: unteres Abmass der Bohrung','es: oberes Abmass der Welle'],0,'Von der Nulllinie bis zur Oberkante des Bohrungs-Toleranzfelds.'),O('Pfeil 2 ist …',['EI: unteres Abmass der Bohrung','ES','ei'],0,'Unterkante des Bohrungsfelds.'),O('Pfeil 4 ist …',['ei: unteres Abmass der Welle','es','EI'],0,'Unterkante des Wellenfelds, hier negativ.'),O('Die Masstoleranz der Bohrung ist …',['ES − EI','ES + es','es − ei'],0,'Abstand der beiden Grenzen eines Toleranzfelds. Für die Welle: es − ei.'),O('In diesem Bild hat die Passung …',['immer Spiel','immer Übermass','Spiel oder Übermass'],0,'Das Bohrungsfeld liegt ganz über dem Wellenfeld: Spielpassung.')]});
+KES.push({id:'k9p',kap:'9',type:'Kap. 9 · Rechnen',title:'Mit ES, EI, es und ei rechnen',text:'Bohrung ⌀30: ES = +0,033, EI = +0,020. Welle ⌀30: es = −0,007, ei = −0,020.',
+draw(){const {svg,g}=svgS(190,90);fitDia(g,40,55,[{n:'Bohrung',lo:20,hi:33,c:'#d9d4f0'},{n:'Welle',lo:-20,hi:-7}],0.9);return svg;},
+questions:[Q('Höchstmass der Bohrung in mm',30.033,'N + ES = 30 + 0,033.',0.0002),Q('Mindestmass der Welle in mm',29.98,'N + ei = 30 − 0,020.',0.0002),Q('Grösstspiel = ES − ei in mm',0.053,'0,033 − (−0,020) = 0,053.',0.0002),Q('Kleinstspiel = EI − es in mm',0.027,'0,020 − (−0,007) = 0,027.',0.0002),O('Merkregel für das Grösstspiel?',['ES − ei: grösste Bohrung minus kleinste Welle','EI − es','ES − es'],0,'Grösstspiel = ES − ei, Kleinstspiel = EI − es. Ist das Ergebnis negativ, ist es Übermass.')]});
+tasks.push(...KES);
+
+/* ============ Kap. 12 Zeichnungen und Stücklisten ============ */
+function slist(g,x,y,rows,ws=[10,10,38,62,26]){const hd=['Pos.','Stk.','Benennung','Norm-Kurzbezeichnung','Bemerkung'];const all=[...rows,hd];const h=6;all.forEach((r,i)=>{let cx=x;r.forEach((c,j)=>{g.appendChild(E('rect',{x:cx,y:y+i*h,width:ws[j],height:h,class:'thin'}));T(g,cx+1,y+i*h+4.3,String(c),{style:'font-size:3px'});cx+=ws[j];});});}
+function zylS(g,x,y,d,l,k){P(g,[[x,y-d*0.8],[x+k,y-d*0.8],[x+k,y+d*0.8],[x,y+d*0.8],[x,y-d*0.8]]);P(g,[[x+k,y-d/2],[x+k+l,y-d/2],[x+k+l,y+d/2],[x+k,y+d/2]]);L(g,x+k,y-d/2+0.6,x+k+l,y-d/2+0.6,'thin');L(g,x+k,y+d/2-0.6,x+k+l,y+d/2-0.6,'thin');L(g,x-4,y,x+k+l+4,y,'center');}
+const K12=[];
+K12.push({id:'k12a',kap:'12',type:'Kap. 12 · Stückliste',title:'Regeln für Gruppenzeichnung und Stückliste',text:'Eine Gruppenzeichnung zeigt eine Baugruppe zusammengebaut. Die Stückliste nennt alle Teile.',
+draw(){const {svg,g}=svgS(160,50);slist(g,6,4,[['3','2','Zylinderstift','ISO 2338 – 6 m6 × 25','Bohrung H7'],['2','4','Zylinderschraube','ISO 4762 – M8 × 20 – 8.8','–'],['1','1','Grundplatte','LF3 – 001','S235JR']]);return svg;},
+questions:[O('In welcher Reihenfolge stehen die Positionen in der Stückliste über dem Schriftfeld?',['Pos. 1 unten, nach oben steigend','Pos. 1 oben, nach unten steigend','alphabetisch'],0,'Die Stückliste steht auf dem Schriftfeld und wächst nach oben.'),O('Wie wird benannt, wenn Pos. 2 aus 4 Schrauben besteht?',['in der Einzahl: Zylinderschraube','in der Mehrzahl: Zylinderschrauben'],0,'Die Benennung steht immer in der Einzahl. Die Menge steht in der Spalte Stk.'),O('Welche Teile bekommen eine Positionsnummer?',['alle Teile','nur Normteile','nur wichtige Teile'],0,'Jedes Teil der Gruppenzeichnung erhält eine Positionsnummer.'),O('In welcher Lage zeichnet man Gruppenzeichnungen vorzugsweise?',['Gebrauchslage','Fertigungslage','immer im Querformat'],0,'Gruppenzeichnungen zeigen die Baugruppe so, wie sie eingebaut ist.'),O('Ein Werkstück ist mit Strich-Zweipunkt-Linie gezeichnet. Das bedeutet:',['angrenzendes Teil, gehört nicht zur Baugruppe (oder Endlage)','verdeckte Kante','Mittellinie'],0,'Schmale Strich-Zweipunkt-Linie: angrenzende Teile, Grenzstellungen beweglicher Teile, Schwerpunktlinien.')]});
+K12.push({id:'k12b',kap:'12',type:'Kap. 12 · Normbezeichnung lesen',title:'Was steckt in ISO 4762 – M8 × 20 – 8.8?',text:'Lies die Normbezeichnungen.',
+draw(){const {svg,g}=svgS(160,40);zylS(g,30,20,8,40,8);T(g,54,10,'l = ?',{'text-anchor':'middle'});T(g,90,34,'Zylinderschraube ISO 4762 – M8 × 20 – 8.8',{'text-anchor':'middle'});return svg;},
+questions:[O('Was bedeutet 20?',['Länge ohne Kopf (Schaftlänge)','Gesamtlänge mit Kopf','Gewindelänge'],0,'Bei Schrauben mit Kopf, die nicht versenkt werden, ist l die Länge ab Kopfauflage.'),O('Was bedeutet 8.8?',['Festigkeitsklasse','Toleranzklasse','Steigung'],0,'Festigkeitsklasse: Rm = 8 · 100 = 800 N/mm², Re = 8 · 8 · 10 = 640 N/mm².'),Q('Re der Klasse 8.8 in N/mm²',640,'8 · 8 · 10 = 640.',0.5),O('Zylinderstift ISO 2338 – 6 m6 × 16: Was bedeutet m6?',['ISO-Toleranz des Durchmessers 6','Werkstoff','Härte'],0,'6 m6 = +6/+15 µm. Der Stift sitzt fest in einer H7-Bohrung (Übergang bis Übermass).'),O('Sicherungsring DIN 471 – 40 × 1,75: Wofür steht 40?',['Wellendurchmesser','Bohrungsdurchmesser','Ringbreite'],0,'DIN 471 ist für Wellen (aussen), DIN 472 für Bohrungen (innen). 1,75 ist die Ringdicke.')]});
+K12.push({id:'k12c',kap:'12',type:'Kap. 12 · Normteile',title:'Welche Norm gehört zu welchem Teil?',text:'Ordne die Normnummern zu.',draw(){const {svg,g}=svgS(160,16);T(g,6,10,'ISO 4032 · DIN 935 · ISO 7040 · ISO 1234 · DIN 6885 · ISO 4762 · ISO 8752 · ISO 7435',{style:'font-size:3.2px'});return svg;},
+questions:[O('Kronenmutter',['DIN 935','ISO 4032','ISO 7040'],0,'Die Kronenmutter wird mit einem Splint gesichert.'),O('Sechskantmutter mit Klemmteil (selbstsichernd)',['ISO 7040','ISO 4032','DIN 935'],0,'Der Kunststoffring klemmt im Gewinde.'),O('Splint',['ISO 1234','ISO 2338','ISO 8752'],0,'Splint ISO 1234 – d × l.'),O('Passfeder',['DIN 6885','DIN 6888','DIN 471'],0,'DIN 6888 ist die Scheibenfeder.'),O('Spannstift (geschlitzt)',['ISO 8752','ISO 2338','ISO 8734'],0,'ISO 2338 ist der ungehärtete Zylinderstift, ISO 8734 der gehärtete.'),O('Gewindestift mit Zapfen',['ISO 7435','ISO 4762','ISO 4014'],0,'Der Zapfen drückt ohne Druckspuren und lässt sich von oben verstellen.')]});
+K12.push({id:'k12d',kap:'12',type:'Kap. 12 · Rechnen',title:'Festigkeitsklasse in N/mm²',text:'Festigkeitsklasse a.b: Rm = a · 100 N/mm², Re = a · b · 10 N/mm².',draw(){const {svg,g}=svgS(160,16);T(g,6,10,'5.6 · 8.8 · 10.9 · 12.9',{style:'font-size:5px'});return svg;},
+questions:[Q('5.6: Rm',500,'5 · 100.',0.5),Q('5.6: Re',300,'5 · 6 · 10.',0.5),Q('10.9: Re',900,'10 · 9 · 10.',0.5),O('Welche Schraube trägt mehr?',['10.9','8.8','gleich'],0,'Höhere Klasse = höhere Streckgrenze.')]});
+K12.push({id:'k12e',kap:'12',type:'Kap. 12 · Werkstoffe',title:'Werkstoffbezeichnungen lesen',text:'Lies die Werkstoffangaben aus Stücklisten.',draw(){const {svg,g}=svgS(160,16);T(g,6,10,'CuZn39Pb3 · X5CrNi18-10 · 20MnCr5 · S235JR · E295',{style:'font-size:3.6px'});return svg;},
+questions:[Q('CuZn39Pb3: Kupferanteil in %',58,'100 − 39 − 3 = 58 %.',0.5),Q('X5CrNi18-10: Kohlenstoff in %',0.05,'Hochlegiert (X): Kennzahl : 100 ⇒ 0,05 %.',0.001),Q('20MnCr5: Mangan in %',1.25,'Niedriglegiert: Faktor 4 für Mn ⇒ 5 : 4 = 1,25 %.',0.01),O('S235JR: Was bedeutet 235?',['Mindeststreckgrenze 235 N/mm²','Zugfestigkeit 235 N/mm²','Kohlenstoff 2,35 %'],0,'Baustahl mit Re ≥ 235 N/mm². JR = Kerbschlagarbeit bei Raumtemperatur.')]});
+K12.push({id:'k12f',kap:'12',type:'Kap. 12 · Passungen im Bauteil',title:'Klemmstück in der Nut: 18 F8/h9',text:'Die Nut der Spannplatte ist 18 F8 (+16/+43 µm), das Klemmstück 18 h9 (0/−43 µm).',
+draw(){const {svg,g}=svgS(190,80);fitDia(g,40,40,[{n:'F8',lo:16,hi:43,c:'#d7dbe2'},{n:'h9',lo:-43,hi:0}],0.6);return svg;},
+questions:[Q('Höchstspiel in mm',0.086,'18,043 − 17,957 = 0,086.',0.0002),Q('Mindestspiel in mm',0.016,'18,016 − 18,000 = 0,016.',0.0002),O('Welche Passung wäre ebenfalls leicht beweglich?',['H8/f7','H7/r6','H7/n6'],0,'H8/f7, H8/e8 oder H7/d9 sind Spielpassungen.')]});
+K12.push({id:'k12g',kap:'12',type:'Kap. 12 · Rechnen',title:'Gestreckte Länge eines Bügels',text:'Ein Bügel aus Rundstahl hat zwei gerade Schenkel und einen Halbkreis. Gerade Länge links 50 mm, rechts 45 mm, mittlerer Biegedurchmesser d_m = 24 mm.',
+draw(){const {svg,g}=svgS(160,60);PATH(g,'M30,15 L90,15 A12,12 0 0 1 90,39 L36,39','thick');L(g,30,27,110,27,'center');T(g,60,11,'50',{'text-anchor':'middle'});T(g,63,45,'45',{'text-anchor':'middle'});T(g,108,20,'d_m = 24');return svg;},
+questions:[Q('Bogenlänge l_2 = π · d_m : 2 in mm',37.7,'π · 24 : 2 = 37,70.',0.06),Q('Gestreckte Länge in mm',132.7,'50 + 37,7 + 45 = 132,7.',0.06),O('Wo rechnet man beim Biegen von Rundmaterial?',['in der neutralen Faser (Mitte)','am Aussendurchmesser','am Innendurchmesser'],0,'Die neutrale Faser wird weder gestreckt noch gestaucht.')]});
+K12.push({id:'k12h',kap:'12',type:'Kap. 12 · Zeichnung lesen',title:'Keiltreiber: Fragen zur Teilzeichnung',text:'Eine Teilzeichnung eines Keiltreibers hat ein Schriftfeld mit «ISO 2768-m». Die Länge a ist 175 mm, gezeichnet 87,5 mm. Die Zeichnung hat eine Tabelle für Massreihe 1 und 2.',
+draw(){const {svg,g}=svgS(160,40);PG(g,[[20,15],[120,18],[120,24],[20,27]]);T(g,70,10,'a',{'text-anchor':'middle'});P(g,[[135,12],[145,12],[145,30],[135,30],[135,12]]);return svg;},
+questions:[O('Massstab der Zeichnung?',['1:2','2:1','1:1'],0,'87,5 : 175 = 1 : 2 (Verkleinerung).'),Q('Höchstmass von a (ISO 2768-m: über 120 bis 400 ±0,5) in mm',175.5,'175 + 0,5.',0.01),O('Die rechte Ansicht ist nach Methode 1 (europäisch) gezeichnet. Es ist …',['die Seitenansicht von links','die Seitenansicht von rechts','die Draufsicht'],0,'Bei Methode 1 liegt die Ansicht von links rechts neben der Vorderansicht.'),O('Wozu dient die Tabelle mit Massreihen?',['eine Zeichnung für ähnliche Teile mit verschiedenen Massen','für die Stückliste','für die Toleranzen'],0,'Tabellenzeichnung: Formgleiche Teile, nur die Masse ändern.'),O('Warum stehen beim ⌀5 die Masspfeile aussen?',['zu wenig Platz zwischen den Masshilfslinien','weil es eine Bohrung ist','Normfehler'],0,'Bei kleinen Massen setzt man die Pfeile von aussen an.')]});
+K12.push({id:'k12i',kap:'12',type:'Kap. 12 · Funktion verstehen',title:'Spannvorrichtung mit Spanneisen',text:'Eine Spannvorrichtung: Ein Spanneisen (2) wird über einen Gewindebolzen (10) mit Kugelgriffmutter (5) auf das Werkstück gedrückt. Darunter liegen eine Kugelscheibe (4) und Scheiben (3). Eine Druckfeder (6) hebt das Spanneisen. Ein Gewindestift mit Zapfen (7) stützt das hintere Ende.',
+draw(){const {svg,g}=svgS(160,55);P(g,[[20,45],[140,45]]);PG(g,[[30,25],[120,25],[120,32],[30,32]]);L(g,75,10,75,45,'thick');C(g,75,20,3);PATH(g,'M70,40 l2,-2 l2,2 l2,-2 l2,2 l2,-2','thin');T(g,32,22,'2 Spanneisen');T(g,80,12,'5 Kugelgriff');T(g,120,40,'7');T(g,30,40,'Werkstück');return svg;},
+questions:[O('Wozu dient die Kugelscheibe (4)?',['Sie gleicht Schräglage des Spanneisens aus.','Sie sichert die Mutter.','Sie isoliert.'],0,'Kugelige Fläche: Die Mutter liegt auch bei schräg stehendem Spanneisen voll auf.'),O('Wozu dient die Druckfeder (6)?',['Sie hält das Spanneisen in seiner Lage oben, wenn gelöst.','Sie erzeugt die Spannkraft.','Sie dämpft Vibrationen.'],0,'Beim Lösen hebt die Feder das Spanneisen. So kann man das Werkstück wechseln.'),O('Mangel: Der Gewindestift (7) kann sich verstellen. Abhilfe?',['Kontermutter','grössere Feder','längeres Spanneisen'],0,'Eine Kontermutter sichert die Einstellung.'),O('Warum ein Gewindestift mit Zapfen (ISO 7435)?',['Er lässt sich von oben verstellen und hinterlässt keine Druckspuren.','Er ist billiger.','Er hat Linksgewinde.'],0,'Der Zapfen liegt auf, ohne einzukerben.')]});
+K12.push({id:'k12j',kap:'12',type:'Kap. 12 · Rechnen',title:'Axialspiel in einem Einstich',text:'Ein Haltestück (Breite 16 0/−0,1) greift in einen Einstich (Länge 16 +0,15/+0,05).',
+draw(){const {svg,g}=svgS(160,45);P(g,[[20,30],[60,30],[60,18],[100,18],[100,30],[140,30]]);PG(g,[[64,8],[96,8],[96,26],[64,26]]);tolT(g,90,40,'16','+0,15','+0,05',4);T(g,80,6,'16 0/−0,1',{'text-anchor':'middle'});return svg;},
+questions:[Q('Grösstes Axialspiel in mm',0.25,'16,15 − 15,90 = 0,25.'),Q('Kleinstes Axialspiel in mm',0.05,'16,05 − 16,00 = 0,05.'),O('Soll das Spiel kleiner werden: Was änderst du?',['Einstich-Toleranz enger (z. B. +0,1/+0,05)','Haltestück breiter als 16,05','nichts'],0,'Enger tolerieren senkt das Grösstspiel. Ein breiteres Haltestück würde klemmen.')]});
+K12.push({id:'k12k',kap:'12',type:'Kap. 12 · Werkstatt',title:'Gewindebohrersatz und Rändel',text:'Fragen aus der Fertigung zum Schlüsselring.',draw(){const {svg,g}=svgS(160,30);[1,2,3].forEach(i=>{const x=20+i*35;L(g,x,6,x,26,'thick');for(let r=0;r<i;r++)L(g,x-3,9+r*2,x+3,9+r*2,'thin');});T(g,6,28,'Ringe am Schaft');return svg;},
+questions:[O('Wie viele Ringe hat der Vorschneider?',['1','2','3'],0,'Vorschneider 1 Ring, Mittelschneider 2 Ringe, Fertigschneider 3 oder keine.'),O('«DIN 82 – RGE 0,8» bedeutet:',['Rändel, links-rechts mit erhöhten Spitzen, Teilung 0,8 mm','Gewinde M0,8','Rauheit 0,8'],0,'RGE = Kreuzrändel mit Spitzen erhöht. 0,8 ist die Teilung in mm.'),O('Zu welcher Hauptgruppe gehört das Schrauben?',['Fügen','Trennen','Umformen'],0,'Fügen: Teile werden verbunden (Schrauben, Schweissen, Löten, Kleben, Nieten).')]});
+K12.push({id:'k12l',kap:'12',type:'Kap. 12 · Kreativ: Fehler finden',title:'Was ist falsch in dieser Stücklistenzeile?',text:'Eine Lernende schreibt: «5 | 4 | Zylinderschrauben | M8 × 20 | –»',draw(){const {svg,g}=svgS(160,20);slist(g,6,2,[['5','4','Zylinderschrauben','M8 × 20','–']]);return svg;},
+questions:[O('Fehler 1:',['Benennung in der Mehrzahl','Positionsnummer zu hoch','Menge fehlt'],0,'Richtig: «Zylinderschraube».'),O('Fehler 2:',['Normnummer und Festigkeitsklasse fehlen','Länge zu kurz','keiner'],0,'Vollständig: ISO 4762 – M8 × 20 – 8.8. Ohne Norm weiss niemand, welche Kopfform gemeint ist.')]});
+K12.push({id:'k12m',kap:'12',type:'Kap. 12 · Kreativ: umgekehrt',title:'Normbezeichnung selbst bilden',text:'Bilde die vollständige Normbezeichnung aus der Beschreibung.',draw(){const {svg,g}=svgS(160,16);T(g,6,10,'Beschreibung → Normbezeichnung',{style:'font-size:4px'});return svg;},
+questions:[O('Zylinderschraube mit Innensechskant, M10, 35 mm lang, Festigkeit 8.8',['ISO 4762 – M10 × 35 – 8.8','ISO 4014 – M10 × 35 – 8.8','DIN 935 – M10 × 35'],0,'ISO 4762 = Innensechskant. ISO 4014 = Sechskantschraube mit Schaft.'),O('Zylinderstift gehärtet, ⌀8, 30 mm lang, Form A',['ISO 8734 – 8 × 30 – A','ISO 2338 – 8 m6 × 30','ISO 1234 – 8 × 30'],0,'ISO 8734 ist der gehärtete Zylinderstift.'),O('Scheibe mit Fase für M16, Härte 200 HV',['ISO 7090 – 16 – 200 HV','DIN 471 – 16','ISO 7091 – 16 – 100 HV'],0,'ISO 7090 = flache Scheibe mit Fase.')]});
+K12.push({id:'k12n',kap:'12',type:'Kap. 12 · Kreativ: Montage',title:'In welcher Reihenfolge demontieren?',text:'Das Haltestück einer Spannvorrichtung ist mit 4 Senkschrauben befestigt und mit einem Zylinderstift fixiert. Es soll ausgewechselt werden.',draw(){const {svg,g}=svgS(160,30);PG(g,[[30,10],[130,10],[130,20],[30,20]]);[45,70,95,120].forEach(x=>C(g,x,15,2));C(g,80,15,1.2,'thin');return svg;},
+questions:[O('Was kommt zuerst?',['Zylinderstift austreiben','Schrauben lösen','Haltestück abschlagen'],0,'Bei Stift und Schrauben: Zuerst den Stift austreiben (Durchtreiber, Hammer), dann die Schrauben lösen. Beim Einbau umgekehrt: Teil ausrichten, Stift setzen, Schrauben anziehen.'),O('Womit treibst du den Stift aus, ohne die Bohrung zu beschädigen?',['Durchtreiber oder Bolzen aus CuZn, Hammer','Meissel','Bohrmaschine'],0,'Weicher Durchtreiber schont die Passbohrung.')]});
+tasks.push(...K12);
+/* ============ Kap. 11 Oberflächenbeschaffenheit ============ */
+function sym11(g,x,y,o={}){const w=o.w||14;P(g,[[x-2.89,y-5],[x,y],[x+6.35,y-11]],'thin');if(o.long!==false&&(o.ra||o.proc))L(g,x+6.35,y-11,x+6.35+w,y-11,'thin');
+  if(o.t==='mr')L(g,x-2.89,y-5,x+2.89,y-5,'thin');if(o.t==='nmr')C(g,x,y-3.2,1.75,'thin');
+  if(o.ra)T(g,x+6.8,y-6.8,o.ra,{style:'font-size:3.2px'});if(o.ra2)T(g,x+6.8,y-3.2,o.ra2,{style:'font-size:3.2px'});if(o.proc)T(g,x+6.8,y-12,o.proc,{style:'font-size:3.2px'});if(o.lay)T(g,x+3.8,y-0.4,o.lay,{style:'font-size:3.2px'});if(o.e)T(g,x-4.5,y-1.5,o.e,{style:'font-size:3.2px','text-anchor':'end'});if(o.lbl)T(g,x,y+5,o.lbl,{'text-anchor':'middle',style:'font-size:3.4px'});}
+const K11=[];
+K11.push({id:'k11a',kap:'11',type:'Kap. 11 · Symbole',title:'Drei Grundsymbole',text:'Das Oberflächensymbol sagt, ob spanend bearbeitet werden muss.',
+draw(){const {svg,g}=svgS(160,30);sym11(g,30,22,{t:'mr',lbl:'1'});sym11(g,80,22,{t:'nmr',lbl:'2'});sym11(g,130,22,{lbl:'3'});return svg;},
+questions:[O('Symbol 1 (mit Querstrich) bedeutet:',['spanende Bearbeitung vorgeschrieben','spanende Bearbeitung verboten','Verfahren freigestellt'],0,'Der Querstrich schliesst das Dreieck: Material wird abgetragen.'),O('Symbol 2 (mit Kreis) bedeutet:',['spanende Bearbeitung verboten','spanend vorgeschrieben','freigestellt'],0,'Der Kreis heisst: Oberfläche bleibt im Anlieferungszustand oder wird spanlos erzeugt (walzen, ziehen, pressen).'),O('Symbol 3 (offen) bedeutet:',['Herstellungsverfahren freigestellt','spanend vorgeschrieben','poliert'],0,'Das Grundsymbol allein lässt das Verfahren offen (z. B. stanzen, laserschneiden).'),O('Welches Verfahren passt zu Symbol 2?',['Walzen','Fräsen','Schleifen'],0,'Walzen, ziehen, biegen, pressen sind spanlos.'),O('Ein Blechteil wird gestanzt. Welches Symbol?',['Grundsymbol (freigestellt) oder gar keines','Symbol mit Querstrich','Symbol mit Kreis'],0,'Blechteile erhalten in der Regel kein Bearbeitungszeichen: Das Verfahren ist freigestellt.')]});
+K11.push({id:'k11b',kap:'11',type:'Kap. 11 · Messwerte',title:'Rz, Rmax und Ra aus einem Profil',text:'Ein Taster misst 5 Einzelmessstrecken. Die Einzelrautiefen sind Z1 = 6, Z2 = 8, Z3 = 12, Z4 = 7, Z5 = 7 µm.',
+draw(){const {svg,g}=svgS(170,40);let d='M10,20';const z=[6,8,12,7,7];for(let i=0;i<5;i++){for(let j=0;j<6;j++){const x=10+i*30+j*5;d+=` L${x+2.5},${20-z[i]*0.6} L${x+5},${20+z[i]*0.6}`;}}PATH(g,d,'thin');for(let i=0;i<=5;i++)L(g,10+i*30,4,10+i*30,36,'center');z.forEach((v,i)=>T(g,25+i*30,38,'Z'+(i+1)+'='+v,{'text-anchor':'middle',style:'font-size:3px'}));return svg;},
+questions:[Q('Rz in µm',8,'(6 + 8 + 12 + 7 + 7) : 5 = 40 : 5 = 8 µm.',0.01),Q('Rmax in µm',12,'Die grösste Einzelrautiefe: Z3 = 12 µm.',0.01),O('Warum ist Rmax unsicher?',['Ein einzelner Kratzer macht ihn gross.','Er ist immer zu klein.','Er hat keine Einheit.'],0,'Ein Ausreisser bestimmt den Wert, obwohl die übrige Fläche gut ist.'),O('Ra ist …',['der arithmetische Mittelwert der Profilabweichungen','die grösste Rautiefe','die Summe aller Z'],0,'Ra = Fläche über und unter der Mittellinie : Messstrecke. Er ist ruhiger und aussagekräftiger.')]});
+K11.push({id:'k11c',kap:'11',type:'Kap. 11 · Rauheitsklassen',title:'N-Klassen und Ra',text:'Alte Rauheitsklassen: N1 = 0,025 µm … N12 = 50 µm. Jede Klasse verdoppelt Ra etwa.',draw(){const {svg,g}=svgS(170,22);const ra=['0,025','0,05','0,1','0,2','0,4','0,8','1,6','3,2','6,3','12,5','25','50'];ra.forEach((v,i)=>{T(g,8+i*13.5,9,'N'+(i+1),{style:'font-size:3px'});T(g,8+i*13.5,17,v,{style:'font-size:2.8px'});});return svg;},
+questions:[Q('Ra von N8 in µm',3.2,'N8 = 3,2 µm.',0.01),Q('Ra von N6 in µm',0.8,'N6 = 0,8 µm.',0.01),O('Welche Fläche ist feiner: Ra 0,4 oder Ra 6,3?',['Ra 0,4','Ra 6,3'],0,'Kleinerer Ra-Wert = glattere Fläche.'),O('Ein Lagersitz braucht Ra 0,4. Welches Verfahren?',['Längsschleifen (Ra 0,2 bis 0,8)','Bohren ins Volle (Ra 6,3 bis 12,5)','Wasserstrahlschneiden (Ra 6,3 bis 25)'],0,'Nur Schleifen erreicht so feine Werte sicher.')]});
+K11.push({id:'k11d',kap:'11',type:'Kap. 11 · Symbol lesen',title:'Wo steht was am Symbol?',text:'Lies das vollständige Oberflächensymbol.',
+draw(){const {svg,g}=svgS(140,32);sym11(g,50,26,{t:'mr',ra:'Ra 2,5',proc:'gefräst',lay:'⊥',e:'0,25',w:20});T(g,38,30,'(A)');T(g,54,31,'(B)');T(g,84,20,'(C)');T(g,84,11,'(D)');return svg;},
+questions:[O('Die Zahl 0,25 links ist …',['die Bearbeitungszugabe in mm','der Ra-Wert','die Rillentiefe'],0,'Position e: Bearbeitungszugabe in mm.'),O('Das Zeichen ⊥ rechts unten ist …',['die Rillenrichtung (senkrecht zur Projektionsebene)','ein Rechtwinkligkeitssymbol','die Härte'],0,'Position d: Rillenrichtung.'),Q('Ra-Wert in µm',2.5,'Unter der Verlängerung steht Ra 2,5 µm.',0.01),O('«gefräst» über der Linie ist …',['das Fertigungsverfahren','der Werkstoff','die Oberflächenbehandlung nach dem Fräsen'],0,'Position c: Verfahren, Behandlung oder Überzug.')]});
+K11.push({id:'k11e',kap:'11',type:'Kap. 11 · Rillenrichtung',title:'Riefen: =, ⊥, X, M, C, R',text:'Die Rillenrichtung sagt, wie die Bearbeitungsspuren zur Projektionsebene liegen.',draw(){const {svg,g}=svgS(160,30);['=','⊥','X','M','C','R'].forEach((s,i)=>{sym11(g,14+i*26,24,{t:'mr',lay:s,long:false});});return svg;},
+questions:[O('= bedeutet:',['parallel zur Projektionsebene','senkrecht','gekreuzt'],0,'Typisch für Gleit- und Wälzflächen.'),O('X bedeutet:',['gekreuzt in zwei schrägen Richtungen','beliebig','radial'],0,'Typisch beim Honen von Zylinderlaufflächen.'),O('C bedeutet:',['etwa konzentrisch um die Mitte','parallel','gekreuzt'],0,'Plandrehen von Dichtflächen bei Ventilen und Flanschen.'),O('M bedeutet:',['mehrere Richtungen ohne Ausrichtung','Mitte','Messfläche'],0,'Läppen, feinstbearbeitete Flächen.')]});
+K11.push({id:'k11f',kap:'11',type:'Kap. 11 · Text in Symbol',title:'Welches Symbol passt zur Beschreibung?',text:'Wähle die richtige Eintragung.',draw(){const {svg,g}=svgS(160,30);sym11(g,20,24,{t:'mr',ra:'Ra 3,2',lbl:'A'});sym11(g,60,24,{t:'nmr',ra:'Ra 3,2',lbl:'B'});sym11(g,100,24,{ra:'Ra 3,2',lbl:'C'});sym11(g,140,24,{t:'mr',ra:'Ra 3,2',ra2:'Ra 0,8',w:12,lbl:'D'});return svg;},
+questions:[O('Spanlos fertigen, Ra höchstens 3,2 µm',['A','B','C','D'],1,'Kreis = spanlos.'),O('Spanend, Ra zwischen 0,8 und 3,2 µm',['A','B','C','D'],3,'Zwei Werte: oben der Höchstwert, unten der Mindestwert.'),O('Verfahren beliebig, Ra höchstens 3,2 µm',['A','B','C','D'],2,'Grundsymbol mit Wert.'),O('Spanend, Ra höchstens 3,2 µm',['A','B','C','D'],0,'Querstrich = spanend.')]});
+K11.push({id:'k11g',kap:'11',type:'Kap. 11 · Regeln',title:'Wo kommt kein Symbol hin?',text:'Ohne besondere Anforderung erhalten einige Elemente kein Oberflächensymbol.',draw(){const {svg,g}=svgS(160,30);P(g,[[20,8],[140,8],[140,24],[20,24],[20,8]]);C(g,50,16,4);L(g,90,8,90,24,'thin');T(g,80,29,'M8',{style:'font-size:3px'});return svg;},
+questions:[O('Welche brauchen kein Symbol? (mehrere)',['Gewinde','Fasen und Kantenbruch','Senkungen für Schrauben','ein Lagersitz ⌀30 k6','gebohrte Bohrungen'],[0,1,2,4],'Gewinde, Bohrungen, Fasen, Senkungen und Kantenbruch erhalten ohne Sonderwunsch kein Symbol. Ein Lagersitz braucht immer eines.',1),O('Wie müssen Symbole lesbar sein?',['von unten oder von rechts','von oben','beliebig'],0,'Wie Masszahlen. Die Spitze zeigt von aussen auf die Fläche oder die Masshilfslinie.')].map(q=>q.why&&q.opts&&Array.isArray(q.a)?Object.assign(q,{multi:1}):q)});
+K11.push({id:'k11h',kap:'11',type:'Kap. 11 · Zeichnung lesen',title:'Bolzen: wahr oder falsch?',text:'Ein Bolzen aus blankgezogenem Rundstahl ⌀16 hat Gewinde M12 an beiden Enden. Das allgemeine Symbol ist Ra 12,5 mit Klammer (Ra 6,3). Die Stirnflächen sind mit Ra 6,3 bezeichnet.',
+draw(){const {svg,g}=svgS(160,40);P(g,[[30,14],[130,14],[130,26],[30,26],[30,14]]);L(g,20,20,140,20,'center');sym11(g,120,14,{t:'mr',ra:'Ra 6,3'});T(g,100,37,'Ra 12,5 ( Ra 6,3 )',{style:'font-size:3.4px'});return svg;},
+questions:[O('Bei den Gewinden M12 muss Ra 12,5 eingetragen werden.',['wahr','falsch'],1,'Gewinde erhalten in der Regel kein Symbol. Es gilt die Allgemeinangabe.'),O('Die Fasen 1,5 × 45° erhalten kein eigenes Symbol.',['wahr','falsch'],0,'Fasen bekommen kein Symbol.'),O('Alle nicht bezeichneten Flächen haben höchstens Ra 12,5.',['wahr','falsch'],0,'Die Angabe beim Schriftfeld gilt für alle Flächen ohne eigenes Symbol. In der Klammer stehen die abweichenden Werte.'),O('Die Stirnflächen dürfen Ra 3,2 haben.',['wahr','falsch'],0,'Ra 6,3 ist ein Höchstwert. Feiner ist erlaubt.')]});
+K11.push({id:'k11i',kap:'11',type:'Kap. 11 · Kreativ: umgekehrt',title:'Welche Rauheit braucht die Funktion?',text:'Wähle eine sinnvolle Rauheit nach der Funktion.',draw(){const {svg,g}=svgS(160,20);T(g,6,12,'Funktion → Ra',{style:'font-size:4px'});return svg;},
+questions:[O('Lagersitz einer Welle (k6)',['Ra 0,4 bis 0,8','Ra 6,3','Ra 25'],0,'Passflächen brauchen feine Oberflächen, sonst setzen sich die Spitzen und die Passung ändert sich.'),O('Sichtfläche eines gesägten Rahmens ohne Funktion',['Ra 12,5 bis 25','Ra 0,2','Ra 0,8'],0,'Feine Oberflächen kosten viel Zeit. Nur so fein wie nötig.'),O('Dichtfläche eines Flansches',['Ra 1,6 bis 3,2 mit Rillenrichtung C','Ra 50','Ra 12,5 mit X'],0,'Konzentrische Riefen dichten besser als radiale.')]});
+K11.push({id:'k11j',kap:'11',type:'Kap. 11 · Kreativ: Fehler finden',title:'µm oder mm?',text:'Ein Lernender schreibt in den Arbeitsplan: «Zapfen ⌀20 schleifen auf Ra 0,8 mm.»',draw(){const {svg,g}=svgS(160,20);T(g,6,12,'Ra 0,8 mm ?',{style:'font-size:5px'});return svg;},
+questions:[O('Was ist falsch?',['Ra wird in µm angegeben, nicht in mm.','Ra 0,8 kann man nicht schleifen.','Es müsste Rz heissen.'],0,'0,8 mm wäre 1000-mal zu grob, etwa wie eine gesägte Fläche. Ra-Werte stehen immer in µm.'),Q('0,8 µm in mm',0.0008,'0,8 : 1000 = 0,0008 mm.',0.00001)]});
+/* ============ Kap. 7 Bemassung ============ */
+const K7=[];
+K7.push({id:'k7a',kap:'7',type:'Kap. 7 · Grundregeln',title:'Massarten und Grundregeln',text:'Masse sind für Funktion, Herstellung und Prüfung wichtig.',draw(){const {svg,g}=svgS(160,40);P(g,[[30,25],[130,25],[130,35],[30,35],[30,25]]);dim(g,30,25,80,25,-8,'50');dim(g,80,25,130,25,-8,'(50)');return svg;},
+questions:[O('Was bedeutet ein Mass in runden Klammern?',['Hilfsmass, nur zur Information','besonders wichtiges Mass','Prüfmass'],0,'Hilfsmasse sind nicht toleriert und nicht verbindlich.'),O('Die eingetragenen Masse sind …',['Fertigmasse','Rohmasse','Mittelwerte'],0,'Die Zeichnung zeigt das fertige Teil.'),O('Welche Einheit steht hinter der Masszahl?',['keine; es sind immer mm','mm','cm'],0,'Masse in mm ohne Einheit. Andere Einheiten muss man angeben.'),O('Wohin gehören Masslinien in der Regel?',['ausserhalb der Figur','in die Mitte des Teils','auf die Körperkanten'],0,'Ausserhalb ist übersichtlicher. Masslinien sollen andere Linien möglichst nicht schneiden.'),O('Zu wenig Platz zwischen den Masshilfslinien. Was tun?',['Pfeile von aussen ansetzen oder Punkt bzw. Schrägstrich verwenden','Mass weglassen','Pfeile übereinander zeichnen'],0,'So bleibt das Mass lesbar.')]});
+K7.push({id:'k7b',kap:'7',type:'Kap. 7 · Bemassungsarten',title:'Reihe, Parallel, steigend, Koordinaten',text:'Erkenne die Bemassungsart und wann man sie wählt.',draw(){const {svg,g}=svgS(160,40);P(g,[[20,25],[140,25],[140,32],[20,32],[20,25]]);[50,80,110].forEach(x=>L(g,x,25,x,32,'thin'));dim(g,20,25,50,25,-6,'30');dim(g,50,25,80,25,-6,'30');dim(g,80,25,110,25,-6,'30');return svg;},
+questions:[O('Das Bild zeigt …',['Reihenbemassung (Kettenbemassung)','Parallelbemassung','Koordinatenbemassung'],0,'Masse aneinandergereiht.'),O('Nachteil der Reihenbemassung?',['Toleranzen summieren sich','unübersichtlich','nicht normgerecht'],0,'Darum nur, wenn die Summe die Funktion nicht stört.'),O('Wann wählt man Parallelbemassung?',['Wenn Masse eine gemeinsame Bezugskante haben','immer bei Wellen','nie'],0,'Alle Masse starten an derselben Bezugsfläche.'),O('Steigende Bemassung erkennt man an …',['einem kleinen Kreis am Ursprung, Masszahlen an den Masshilfslinien','Klammern','Rahmen um die Zahl'],0,'Spart Platz, nur eine Masslinie.'),O('Koordinatenbemassung ist besonders zweckmässig für …',['CNC-Bearbeitung von Lochbildern','Drehteile mit Fasen','Schweissnähte'],0,'Die Koordinaten kann man direkt programmieren, auch als Tabelle.')]});
+K7.push({id:'k7c',kap:'7',type:'Kap. 7 · Fasen und Senkungen',title:'2 × 45° und ⌀15 × 90°',text:'Lies die Angaben für Fasen und Senkungen.',draw(){const {svg,g}=svgS(160,40);P(g,[[30,30],[30,14],[34,10],[90,10],[90,30],[30,30]]);T(g,22,8,'2 × 45°');PATH(g,'M110,10 L114,16 L114,30 M126,10 L122,16 L122,30','thick');T(g,118,6,'⌀15 × 90°',{'text-anchor':'middle'});return svg;},
+questions:[O('2 × 45° bedeutet:',['Fasenbreite 2 mm unter 45°','zwei Fasen','Fasenlänge 45 mm'],0,'Nur bei 45° (und Senkungen 90°) darf man so kurz bemassen.'),O('⌀15 × 90° bedeutet:',['Senkung mit Aussendurchmesser 15 und Senkwinkel 90°','Bohrung 15 tief 90','Winkel 15°'],0,'Typisch für Senkschrauben.'),O('Fase 30° statt 45°: Wie bemassen?',['mit zwei Massen: Länge und Winkel getrennt','30 × 2','gar nicht'],0,'Die Kurzform gilt nur für 45°.')]});
+K7.push({id:'k7d',kap:'7',type:'Kap. 7 · Kantenangaben',title:'Werkstückkanten nach ISO 13715',text:'Das Kantensymbol gibt Grat oder Abtrag an. + heisst Grat erlaubt (Übergang nach aussen), − heisst Abtrag (gratfrei).',draw(){const {svg,g}=svgS(160,30);P(g,[[30,10],[60,10],[60,25]]);L(g,62,8,72,4,'thin');T(g,74,5,'+0,5');P(g,[[100,10],[130,10],[130,25]]);L(g,132,8,142,4,'thin');T(g,144,4,'−0,1',{style:'font-size:2.8px'});T(g,144,8,'−0,4',{style:'font-size:2.8px'});return svg;},
+questions:[O('+0,5 bedeutet:',['Grat bis 0,5 mm erlaubt','Fase 0,5 mm Pflicht','Kante muss scharf sein'],0,'Positiver Wert: Werkstoff darf über die Kante stehen (Grat).'),O('−0,1 / −0,4 bedeutet:',['gratfrei, Abtrag zwischen 0,1 und 0,4 mm','Grat zwischen 0,1 und 0,4','Toleranz des Masses'],0,'Negativer Wert: Material wird abgetragen, die Kante ist gebrochen.'),O('Bei welchen Verfahren entsteht oft ein Grat?',['Fräsen, Bohren, Drehen, Stanzen','Lackieren','Glühen'],0,'Spanende und trennende Verfahren hinterlassen Grat.')]});
+K7.push({id:'k7e',kap:'7',type:'Kap. 7 · Teilungen',title:'Teilungsmasse rechnen',text:'Teilungsmasse schreibt man als Anzahl × Abstand (= Summe).',draw(){const {svg,g}=svgS(160,40);L(g,15,20,150,20,'thick');for(let i=0;i<=17;i++)C(g,15+i*7.9,20,1.3,'thin');T(g,80,12,'17 × 18 (= ?)',{'text-anchor':'middle'});return svg;},
+questions:[Q('17 × 18 = ? mm',306,'17 · 18 = 306.',0.01),O('Wann gibt man das Teilungsmass an?',['wenn Verwechslung mit der Anzahl möglich ist','immer','nie'],0,'Bei Kreisteilungen 2, 3, 4, 6 oder 8 ist die Teilung eindeutig und darf fehlen.'),Q('8 Bohrungen gleichmässig auf Teilkreis ⌀50: Teilungswinkel in °',45,'360° : 8 = 45°.',0.01),Q('Abstand zweier benachbarter Bohrungen (Sehne) in mm',19.13,'s = d · sin(22,5°) = 50 · 0,3827 = 19,13 mm.',0.02)]});
+K7.push({id:'k7f',kap:'7',type:'Kap. 7 · Formsymbole',title:'⌀, R, □, S⌀, SR, SW',text:'Formsymbole stehen immer vor der Masszahl.',draw(){const {svg,g}=svgS(160,20);T(g,8,12,'⌀20 · R5 · □17 · S⌀30 · SR10 · SW19',{style:'font-size:4.5px'});return svg;},
+questions:[O('□17 bedeutet:',['Vierkant 17 × 17','Fläche 17 mm²','Quadratzahl'],0,'Quadratischer Querschnitt.'),O('S⌀30 bedeutet:',['Kugeldurchmesser 30','Senkung 30','Schlüsselweite 30'],0,'S steht für Kugel (Sphäre).'),O('SW19 bedeutet:',['Abstand von zwei parallelen Flächen 19 (Schlüsselweite)','Schweissnaht 19','Stahlwelle 19'],0,'Für Sechskant und Zweiflach.'),O('Wie viele Masspfeile hat ein Radiusmass?',['einen, am Kreisbogen','zwei','keinen'],0,'Radien: ein Pfeil am Bogen, Masslinie durch oder Richtung Mittelpunkt.'),O('Das ⌀-Zeichen steht …',['immer vor der Zahl, auch wenn die Bohrung in der Ansicht kreisförmig sichtbar ist','nur bei verdeckten Bohrungen','hinter der Zahl'],0,'So ist jedes Durchmessermass eindeutig.')]});
+K7.push({id:'k7g',kap:'7',type:'Kap. 7 · Systeme',title:'Funktions-, fertigungs- oder prüfgerecht?',text:'Eine Lochplatte mit 2 Bohrungen passt auf ein Gegenstück mit 2 Zylinderstiften.',draw(){const {svg,g}=svgS(160,40);P(g,[[30,10],[130,10],[130,32],[30,32],[30,10]]);C(g,55,21,3);C(g,105,21,3);dim(g,55,21,105,21,-15,'50 ±0,02');return svg;},
+questions:[O('Der Lochabstand 50 ±0,02 ist direkt bemasst, weil die Stifte passen müssen. Das ist …',['funktionsgerecht','fertigungsgerecht','prüfgerecht'],0,'Das funktionswichtige Mass wird direkt und toleriert angegeben.'),O('Alle Masse ab der linken Kante, weil die CNC dort nullt. Das ist …',['fertigungsgerecht','funktionsgerecht','prüfgerecht'],0,'Ausgerichtet auf das Herstellverfahren.'),O('Masse so, dass man sie mit dem vorhandenen Messmittel direkt messen kann. Das ist …',['prüfgerecht','funktionsgerecht','fertigungsgerecht'],0,'Zum Beispiel Lochabstand als Mass von Bohrungswand zu Bohrungswand für den Messschieber.')]});
+K7.push({id:'k7h',kap:'7',type:'Kap. 7 · Blechteile',title:'Gestreckte Länge: neutrale Faser oder Ausgleichswert',text:'Ein Blechwinkel: a = 50, b = 40 (Aussenmasse), t = 3 mm, R = 5 (innen), 90°.',
+draw(){const {svg,g}=svgS(160,50);PATH(g,'M40,10 L40,38 Q40,43 45,43 L100,43','thick');PATH(g,'M37,10 L37,38 Q37,46 45,46 L100,46','thick');T(g,30,26,'b = 40',{'text-anchor':'end'});T(g,72,40,'a = 50',{'text-anchor':'middle'});T(g,110,30,'t = 3, R5');return svg;},
+questions:[Q('a′ = a − t − R in mm',42,'50 − 3 − 5 = 42.',0.01),Q('b′ = b − t − R in mm',32,'40 − 3 − 5 = 32.',0.01),Q('Bogen in der neutralen Faser (R + t/2) · π/2 in mm',10.21,'6,5 · 1,5708 = 10,21.',0.02),Q('gestreckte Länge (neutrale Faser) in mm',84.21,'42 + 32 + 10,21 = 84,21.',0.03),O('Warum bemasst man Bohrungen in Blechteilen nicht ab der Biegekante?',['Sie werden vor dem Abkanten gefertigt; die Biegekante gibt es dann noch nicht.','Die Biegekante ist zu scharf.','Es ist erlaubt und üblich.'],0,'Bohrungen, Ausschnitte und Gewinde entstehen meist im flachen Zuschnitt.')]});
+K7.push({id:'k7i',kap:'7',type:'Kap. 7 · Kreativ: kombiniert',title:'Koordinatentabelle: Abstand zweier Bohrungen',text:'Aus einer Koordinatentabelle: Bohrung 1 bei X 17 / Y 10, Bohrung 2 bei X 54 / Y 49.',draw(){const {svg,g}=svgS(160,60);L(g,20,55,140,55,'thin');L(g,20,55,20,5,'thin');C(g,20+17*1.6,55-10,1.6);C(g,20+54*1.6,55-49,1.6);L(g,20+17*1.6,45,20+54*1.6,6,'thin',{'stroke-dasharray':'2 1'});T(g,24,52,'0');return svg;},
+questions:[Q('ΔX in mm',37,'54 − 17 = 37.',0.01),Q('ΔY in mm',39,'49 − 10 = 39.',0.01),Q('Abstand der Bohrungen in mm',53.76,'√(37² + 39²) = √2890 = 53,76.',0.02)]});
+K7.push({id:'k7j',kap:'7',type:'Kap. 7 · Kreativ: Fehler finden',title:'Was ist falsch bemasst?',text:'Eine Lernende bemasst: «R 10» mit zwei Pfeilen über den ganzen Bogen, «20» an einer Bohrung ohne ⌀, und die erste Masslinie liegt 3 mm neben dem Teil.',draw(){const {svg,g}=svgS(160,20);T(g,6,12,'R10 ↔ · 20 (Bohrung) · Masslinie zu nah',{style:'font-size:3.6px'});return svg;},
+questions:[O('Radius:',['nur ein Pfeil am Bogen','zwei Pfeile sind richtig'],0,'Ein Radius hat nur einen Masspfeil.'),O('Bohrung «20»:',['es fehlt das ⌀ vor der Zahl','richtig so'],0,'Das ⌀ steht immer vor Durchmessermassen.'),O('Abstand der ersten Masslinie:',['zu klein; im Kurs mindestens 15 mm (sonst normal etwa 10 mm)','genau richtig'],0,'Genug Abstand macht die Zeichnung lesbar.')]});
+K7.push({id:'k7k',kap:'7',type:'Kap. 7 · Kreativ: umgekehrt',title:'Von der Summe zur Teilung',text:'Ein Flacheisen hat Bohrungen im gleichen Abstand. Die Teilung ist als «n × 25 (= 175)» angegeben.',draw(){const {svg,g}=svgS(160,30);L(g,15,15,150,15,'thick');T(g,80,8,'n × 25 (= 175)',{'text-anchor':'middle'});return svg;},
+questions:[Q('Anzahl Teilungen n',7,'175 : 25 = 7.',0.01),Q('Anzahl Bohrungen',8,'7 Teilungen haben 8 Bohrungen (wie Zaunpfähle).',0.01)]});
+/* Kap. 11: Fehlersuche Oberflächensymbole (nach Top Design 7) */
+const R11=['1: Nicht auf der Mittellinie eintragen.','2: Von unten oder rechts lesbar, pro Fläche nur einmal.','3: Spitze zeigt von aussen auf die Fläche.','4: Dort eintragen, wo die Partie bemasst ist.','5: Gebohrte und gestanzte Löcher erhalten kein Symbol.','6: Spanende Bearbeitung verboten: Fläche bleibt im Anlieferungszustand.','7: Die Sammelangabe muss mit den Symbolen in der Zeichnung übereinstimmen.','richtig eingetragen'];
+const mark=(g,x,y,n)=>{g.appendChild(E('circle',{cx:x,cy:y,r:2.6,fill:'#fff',stroke:'#0b5fa5','stroke-width':.4}));T(g,x,y+1.1,String(n),{'text-anchor':'middle',style:'font-size:3.2px;fill:#0b5fa5'});};
+K11.push({id:'k11k',kap:'11',type:'Kap. 11 · Fehler finden',title:'Halter: Welche Oberflächenangaben sind falsch?',
+text:'Ein Halter wird aus blankgezogenem Flachstahl 50 hoch gefertigt. Ober- und Unterseite bleiben im Anlieferungszustand. Der Zapfen ⌀20 h6 wird gedreht und geschliffen. Die Bohrung ⌀12 wird nur gebohrt. Prüfe jedes nummerierte Symbol. Gib an, welche Regel verletzt ist, oder «richtig eingetragen».',
+draw(){const {svg,g}=svgS(190,108);
+  P(g,[[40,20],[140,20],[140,70],[40,70],[40,20]]);P(g,[[40,35],[22,35],[22,55],[40,55]]);L(g,15,45,150,45,'center');C(g,105,45,6);L(g,105,36,105,54,'center');
+  dim(g,22,35,22,55,-8,'⌀20 h6');dim(g,40,70,140,70,20,'100');dim(g,140,20,140,70,10,'50');
+  sym11(g,30,35,{t:'mr',ra:'Ra 0,8'});mark(g,18,25,1);
+  sym11(g,117,45,{t:'mr',ra:'Ra 3,2',w:12});mark(g,121,53,2);
+  sym11(g,105,39,{t:'mr',ra:'Ra 1,6'});mark(g,96,33,3);
+  sym11(g,70,20,{t:'nmr'});mark(g,66,9,4);
+  {const gg=E('g',{transform:'rotate(180 60 70)'});g.appendChild(gg);sym11(gg,60,70,{t:'mr',ra:'Ra 3,2'});}mark(g,68,81,5);
+  sym11(g,90,70,{t:'mr',ra:'Ra 3,2'});mark(g,82,61,6);
+  T(g,110,102,'Ra 3,2 ( Ra 0,8 )',{style:'font-size:3.6px'});mark(g,104,101,7);
+  return svg;},
+questions:[
+ O('Symbol 1 (Ra 0,8 am Zapfen ⌀20 h6)',R11,7,'Richtig: Der Zapfen ist dort bemasst, die Spitze zeigt von aussen auf die Fläche, lesbar von unten.'),
+ O('Symbol 2 (Ra 3,2, Spitze auf der Mittellinie)',R11,0,'Oberflächensymbole gehören an Flächen oder Masshilfslinien, nie an Mittellinien.'),
+ O('Symbol 3 (Ra 1,6 an der Bohrung ⌀12)',R11,4,'Die Bohrung wird nur gebohrt. Gebohrte Löcher erhalten kein Symbol.'),
+ O('Symbol 4 (Kreis-Symbol auf der Oberseite)',R11,7,'Richtig: Die Oberseite bleibt im Anlieferungszustand.'),
+ O('Symbol 5 (unten, auf dem Kopf stehend)',R11,1,'Die Schrift steht auf dem Kopf. Symbole müssen von unten oder rechts lesbar sein; an Unterseiten mit einer Bezugslinie eintragen.'),
+ O('Symbol 6 (Ra 3,2 spanend an der Unterseite, Spitze von innen)',R11,5,'Die Unterseite bleibt im Anlieferungszustand. Ein Symbol mit Querstrich verlangt aber spanende Bearbeitung. (Zusätzlich zeigt die Spitze von innen auf die Fläche: Regel 3.)'),
+ O('Sammelangabe 7: Ra 3,2 ( Ra 0,8 )',R11,6,'In der Klammer fehlt das Kreis-Symbol, das in der Zeichnung vorkommt. Richtig: Ra 3,2 ( Ra 0,8, Kreis-Symbol ).'),
+ O('Welche Flächen bekommen KEIN Symbol, obwohl sie spanend entstehen?',['Fasen, Senkungen und gebohrte Löcher','der Zapfen ⌀20 h6','alle Flächen mit Toleranz'],0,'Ohne besondere Anforderung erhalten Fasen, Senkungen, Gewinde und gebohrte Löcher kein Symbol. Sie fallen unter die Sammelangabe.')]});
+
+tasks.push(...K11,...K7);
+/* ============ Maschinenelemente (8.1) ============ */
+function scrIcon(g,x,y,k,n){const hd=(pts)=>P(g,pts);const sh=(x1,l,d=4)=>{P(g,[[x1,y-d/2],[x1+l,y-d/2],[x1+l,y+d/2],[x1,y+d/2]]);for(let t=x1+l*0.4;t<x1+l;t+=1.6)L(g,t,y-d/2,t+0.8,y+d/2,'thin');};
+  if(k==='zyl'){P(g,[[x,y-4],[x+6,y-4],[x+6,y+4],[x,y+4],[x,y-4]]);L(g,x+1,y-1.5,x+3,y+1.5,'thin');sh(x+6,18);}
+  if(k==='stift'){P(g,[[x,y-2.5],[x+18,y-2.5],[x+18,y+2.5],[x,y+2.5],[x,y-2.5]]);P(g,[[x+18,y-1.2],[x+22,y-1.2],[x+22,y+1.2],[x+18,y+1.2]]);for(let t=x+2;t<x+18;t+=1.6)L(g,t,y-2.5,t+0.8,y+2.5,'thin');}
+  if(k==='pass'){P(g,[[x,y-4.5],[x+6,y-4.5],[x+6,y+4.5],[x,y+4.5],[x,y-4.5]]);P(g,[[x+6,y-3],[x+16,y-3],[x+16,y+3],[x+6,y+3]]);sh(x+16,8,4);}
+  if(k==='auge'){C(g,x+4,y,4);C(g,x+4,y,2,'thin');sh(x+8,16);}
+  if(k==='holz'){P(g,[[x,y-4],[x+3,y-2],[x+3,y+2],[x,y+4],[x,y-4]]);PATH(g,`M${x+3},${y-2} L${x+18},${y-1.5} L${x+23},${y} L${x+18},${y+1.5} L${x+3},${y+2}`);for(let t=x+6;t<x+20;t+=2)L(g,t,y-2.6,t+1,y+2.6,'thin');}
+  if(k==='blech'){P(g,[[x,y-3.5],[x+4,y-3.5],[x+4,y+3.5],[x,y+3.5],[x,y-3.5]]);PATH(g,`M${x+4},${y-2} L${x+20},${y-2} L${x+22},${y} L${x+20},${y+2} L${x+4},${y+2}`);for(let t=x+6;t<x+21;t+=2.4)L(g,t,y-3,t+1.2,y+3,'thin');}
+  if(k==='schneid'){P(g,[[x,y-4],[x+5,y-4],[x+5,y+4],[x,y+4],[x,y-4]]);sh(x+5,16);L(g,x+15,y-2,x+21,y+1,'thin');L(g,x+17,y-2,x+21,y-0.5,'thin');}
+  if(k==='drei'){P(g,[[x,y-4],[x+5,y-4],[x+5,y+4],[x,y+4],[x,y-4]]);sh(x+5,18,3.6);}
+  T(g,x+11,y+9,String(n),{'text-anchor':'middle',style:'font-size:3.2px'});}
+const ME=[];
+ME.push({id:'me1',kap:'ME',type:'Maschinenelemente · Schrauben',title:'Welche Schraube ist das?',text:'Ordne Name, Norm und Einsatz zu. Lieferanten in der Schweiz sind zum Beispiel Bossard, Würth, SFS oder Hoffmann (Kataloge mit Normnummern).',
+draw(){const {svg,g}=svgS(200,46);['zyl','stift','pass','auge','holz','blech','schneid','drei'].forEach((k,i)=>scrIcon(g,8+(i%4)*48,10+Math.floor(i/4)*22,k,i+1));return svg;},
+questions:[
+ O('Schraube 1: Zylinderkopf mit Innensechskant',['ISO 4762, Kopf kann versenkt werden, wenig Platz für Schlüssel','DIN 444, gelenkig','DIN 97, für Holz'],0,'Der Kopf verschwindet in einer Senkung. Typisch im Vorrichtungs- und Maschinenbau.'),
+ O('Schraube 2: Gewindestift mit Zapfen',['ISO 7435: Stellschraube, Zapfen greift in Nut oder Bohrung','ISO 4762','DIN 7513'],0,'Ohne Kopf; der Zapfen fixiert oder führt ein Teil ohne Druckspuren.'),
+ O('Schraube 3: Pass-Schulterschraube',['ISO 7379: Schaft als Achse oder Drehpunkt für Hebel und Rollen','zum Verschrauben von Blech','zum Anschweissen'],0,'Der geschliffene Bund (Toleranz f9) dient als Lagerzapfen.'),
+ O('Schraube 4: Augenschraube',['DIN 444: gelenkige Verbindungen, Klapp- und Spannverschlüsse','Holzverbindungen','Wellen sichern'],0,'Das Auge nimmt einen Bolzen auf, die Schraube kann schwenken.'),
+ O('Schraube 5: Senkholzschraube',['DIN 97: Holz, Kopf liegt bündig','Metallbleche','Achsen'],0,'Holzgewinde mit Spitze, Senkkopf mit Schlitz.'),
+ O('Schraube 6: Zylinderblechschraube',['ISO 7049: formt ihr Gewinde selbst in dünnem Blech','in Gewindebohrungen M','als Achse'],0,'Blechschrauben haben eine Spitze und ein grobes Blechgewinde (ST).'),
+ O('Schraube 7: Schneidschraube (mit Schneidnut)',['DIN 7513: schneidet ihr Gewinde spanend in ein Kernloch','klebt sich fest','braucht immer eine Mutter'],0,'Kein Gewindeschneiden nötig; geeignet für dickere Bleche und Leichtmetall.'),
+ O('Schraube 8: Dreikantschraube (trilobular)',['DIN 7500: furcht das Gewinde spanlos, sitzt rüttelfest','Holzschraube','Augenschraube'],0,'Der dreieckige Querschnitt formt das Gewinde. Die Verbindung hält ohne Mutter.')]});
+ME.push({id:'me2',kap:'ME',type:'Maschinenelemente · Muttern',title:'Muttern und Scheiben',text:'Welche Mutter passt zur Aufgabe?',draw(){const {svg,g}=svgS(160,16);T(g,6,10,'Sicherungs-, Hut-, Schlitz-, Nut-, Rändel-, Schweissmutter, Spannscheibe',{style:'font-size:3.4px'});return svg;},
+questions:[O('Sichtbare Gewindeenden abdecken, Verletzungen vermeiden',['Hutmutter DIN 1587','Nutmutter','Schlitzmutter'],0,'Die Kappe schliesst das Gewindeende ab.'),O('Wälzlager auf der Welle axial festsetzen',['Nutmutter (KM) mit Sicherungsblech','Hutmutter','Rändelmutter'],0,'Nutmuttern zieht man mit dem Hakenschlüssel an; das Sicherungsblech greift in die Wellennut.'),O('Von Hand ohne Werkzeug anziehen',['Rändelmutter','Sechskantschweissmutter','Sicherungsmutter'],0,'Die Rändelung gibt Griff für die Finger.'),O('Gewinde an ein dünnes Blech bringen, das zu dünn für ein Gewinde ist',['Sechskantschweissmutter','Schlitzmutter','Hutmutter'],0,'Die Mutter wird mit ihren Buckeln aufgeschweisst.'),O('Flache Mutter, mit Zweilochschlüssel oder Stirnlochschlüssel, oft versenkt',['Schlitzmutter','Rändelmutter','Hutmutter'],0,'Die Schlitze nehmen den Schlüssel auf.'),O('Spannscheibe DIN 6796 dient …',['zum Ausgleich von Setzverlusten, die Vorspannkraft bleibt erhalten','als Dichtung','zum Zentrieren'],0,'Die gewölbte Scheibe federt nach, wenn sich die Verbindung setzt.')]});
+ME.push({id:'me3',kap:'ME',type:'Maschinenelemente · Schraubensicherung',title:'Welche Sicherung wofür?',text:'Schraubensicherungen verhindern das selbständige Losdrehen.',draw(){const {svg,g}=svgS(160,30);P(g,[[30,8],[50,8],[50,22],[30,22],[30,8]]);C(g,40,15,4);C(g,40,15,2,'thin');T(g,40,28,'Kunststoffring',{'text-anchor':'middle',style:'font-size:3px'});PATH(g,'M80,15 C95,5 105,25 120,15','thin');C(g,80,15,4);C(g,120,15,4);T(g,100,28,'Drahtsicherung',{'text-anchor':'middle',style:'font-size:3px'});return svg;},
+questions:[O('Selbstsichernde Mutter mit Kunststoffring: Grenze?',['etwa 80 °C, darüber Ganzmetallmuttern verwenden','keine','etwa 500 °C'],0,'Der Kunststoff wird bei Wärme weich.'),Q('Bis etwa wie viel °C halten anaerobe Klebstoffe (chemische Sicherung)?',200,'Etwa 200 °C. Achtung: Viele Lacke erweichen durch diese Klebstoffe.',1),O('«Anaerob» heisst:',['härtet unter Luftabschluss und Kontakt mit Metall aus','härtet an der Luft aus','braucht Wärme'],0,'Im engen Gewindespalt fehlt die Luft: Der Klebstoff polymerisiert.'),O('Sperrzahnschraube: Bedingung?',['Das Werkstück muss weicher sein als die Verzahnung','Das Werkstück muss gehärtet sein','nur bei Holz'],0,'Die Zähne müssen sich eindrücken können.'),O('Drahtsicherung wählt man …',['für nahe beieinander liegende Schrauben, z. B. im Fahrzeug- und Waggonbau','für Holzschrauben','bei Kunststoffteilen'],0,'Ein Draht verbindet die Schraubenköpfe so, dass sich keiner losdrehen kann.')]});
+ME.push({id:'me4',kap:'ME',type:'Maschinenelemente · Erkennen',title:'Welches Element erfüllt die Funktion?',text:'Wähle das passende Maschinenelement.',draw(){const {svg,g}=svgS(160,16);T(g,6,10,'Kupplung · Gelenk · Lager · Dichtung · Führung',{style:'font-size:4px'});return svg;},
+questions:[O('Zwei Wellen fest verbinden, die genau fluchten',['Feste Kupplung','Kreuzgelenk','Schwingungsdämpfer'],0,'Starr, gleicht keinen Versatz aus.'),O('Zwei Wellen unter einem Winkel verbinden',['Kreuzgelenk (Kardangelenk)','feste Kupplung','O-Ring'],0,'Das Gelenk überträgt Drehmoment auch bei Winkelversatz.'),O('Bohrer in einer Vorrichtung genau führen',['Bohrbuchse','Gleitlager','Spannelement'],0,'Gehärtete Buchse, z. B. DIN 179 (ohne Bund) oder DIN 172 (mit Bund).'),O('Drehende Welle gegen Öl abdichten',['Radial-Wellendichtring','O-Ring statisch','Gelenkkopf'],0,'Die Dichtlippe mit Feder liegt auf der drehenden Welle.'),O('Ruhende Fuge zwischen Deckel und Gehäuse abdichten',['O-Ring in einer Nut','Radial-Wellendichtring','Linearkugellager'],0,'Der O-Ring wird in der Nut verpresst.'),O('Nabe ohne Passfeder reibschlüssig auf der Welle befestigen',['Spannelement (Spannsatz)','Rollenkette','Kugelgelenk'],0,'Konische Ringe pressen sich beim Anziehen zwischen Welle und Nabe.'),O('Wagen auf einer runden Welle leicht längs verschieben',['Linearkugellager','Stehlagergehäuse','Wälzlager radial'],0,'Umlaufende Kugeln: geringe Reibung bei Längsbewegung.'),O('Kolbenstange eines Zylinders gelenkig anschliessen',['Gelenkkopf mit Innen- oder Aussengewinde','Hutmutter','Bohrbuchse'],0,'Das Kugelgelenk gleicht Schwenkbewegungen aus.')]});
+ME.push({id:'me5',kap:'ME',type:'Maschinenelemente · Kreativ: Fehler finden',title:'Falsche Wahl?',text:'Ein Kollege konstruiert eine Ofentür (Betriebstemperatur 150 °C). Er sichert die Scharnierschrauben mit selbstsichernden Muttern mit Kunststoffring und lackiert sie danach.',draw(){const {svg,g}=svgS(160,16);T(g,6,10,'Ofentür 150 °C, Kunststoffring-Mutter, lackiert',{style:'font-size:3.6px'});return svg;},
+questions:[O('Was ist das Problem?',['Der Kunststoffring ist nur bis etwa 80 °C geeignet.','Die Muttern sind zu gross.','Lack ist verboten.'],0,'Bei 150 °C verliert der Ring seine Klemmwirkung.'),O('Bessere Lösung?',['Ganzmetall-Sicherungsmutter (Klemmteil aus Stahl)','Rändelmutter','Hutmutter'],0,'Vorgeformte Stahlmuttern halten auch bei hohen Temperaturen.')]});
+ME.push({id:'me6',kap:'ME',type:'Maschinenelemente · Kreativ: umgekehrt',title:'Ich brauche … welches Teil?',text:'Beschreibe die Anforderung, wähle die Lösung.',draw(){const {svg,g}=svgS(160,16);T(g,6,10,'Anforderung → Element',{style:'font-size:4px'});return svg;},
+questions:[O('Ein Hebel soll sich um eine Schraube drehen, ohne dass das Gewinde verschleisst.',['Pass-Schulterschraube','Gewindestift','Senkholzschraube'],0,'Der Hebel dreht auf dem glatten Bund, nicht auf dem Gewinde.'),O('In ein 1 mm dünnes Blech soll eine Schraube ohne Mutter halten.',['Blechschraube (ISO 7049)','Zylinderschraube ISO 4762','Augenschraube'],0,'Die Blechschraube formt ihr Gegengewinde selbst.'),O('Ein Lager soll auf einer Welle axial gesichert werden.',['Nutmutter mit Sicherungsblech oder Sicherungsring DIN 471','Hutmutter','Schweissmutter'],0,'Beides legt den Innenring axial fest.')]});
+ME.push({id:'me7',kap:'ME',type:'Maschinenelemente · Formelemente',title:'Formelemente an Werkstücken',text:'Formelemente sind genormte Formen an Werkstücken: Zentrierbohrung, Wellenende, Freistich, Durchgangs- und Gewindebohrung, Anfräsung, Senkung, T-Nut.',
+draw(){const {svg,g}=svgS(190,40);PG(g,[[10,10],[60,10],[60,30],[10,30]]);g.appendChild(E('rect',{x:30,y:10,width:8,height:20,fill:'#fff',stroke:'#000','stroke-width':.5}));T(g,35,37,'Durchgang',{'text-anchor':'middle',style:'font-size:3px'});
+ PG(g,[[75,10],[125,10],[125,30],[75,30]]);g.appendChild(E('rect',{x:96,y:10,width:8,height:14,fill:'#fff',stroke:'#000','stroke-width':.5}));P(g,[[96,24],[100,27],[104,24]]);L(g,94.8,10,94.8,24,'thin');L(g,105.2,10,105.2,24,'thin');T(g,100,37,'Gewinde (Sackloch)',{'text-anchor':'middle',style:'font-size:3px'});
+ PG(g,[[140,10],[185,10],[185,30],[140,30]]);g.appendChild(E('polygon',{points:'154,10 170,10 166,15 166,30 158,30 158,15',fill:'#fff',stroke:'#000','stroke-width':.5}));T(g,162,37,'Senkung',{'text-anchor':'middle',style:'font-size:3px'});return svg;},
+questions:[O('Zentrierbohrung (DIN 332) dient …',['zum Aufnehmen der Welle zwischen Spitzen beim Drehen und Schleifen','zum Befestigen mit Schrauben','als Schmierloch'],0,'Die 60°-Senkung nimmt die Körnerspitze auf.'),O('Freistich (DIN 509) an einem Wellenabsatz dient …',['als Werkzeugauslauf beim Schleifen und damit die Gegenfläche plan anliegt','zur Gewichtsersparnis','als Schmiernut'],0,'Ohne Freistich bliebe in der Ecke ein Radius stehen. Das Gegenstück läge nicht an.'),Q('Kernlochbohrer für M8 in mm',6.8,'Faustregel: Kernloch ≈ d − P = 8 − 1,25 = 6,75 ⇒ 6,8 mm (Tabelle).',0.01),Q('Durchgangsbohrung für M8, Reihe mittel (ISO 273), in mm',9,'Reihe fein 8,4, mittel 9, grob 10.',0.01),O('Senkung für Zylinderschraube ISO 4762 nach …',['DIN 974','ISO 4762','DIN 332'],0,'DIN 974 gibt Durchmesser und Tiefe der Zylindersenkung. Für Senkschrauben gilt ISO 15065 (90°-Kegel).'),O('Anfräsung (Planfläche an einem Gussteil) dient …',['als ebene Auflage für Schraubenkopf oder Mutter','als Dichtnut','als Freistich'],0,'Rohgussflächen sind uneben; der Kopf würde schief anliegen.'),O('T-Nute (DIN 650) findet man …',['auf Maschinentischen zum Spannen mit T-Nutenschrauben','an Wellen für Passfedern','in Rohren'],0,'Der breite Grund nimmt den Kopf der T-Nutenschraube auf.')]});
+
+tasks.push(...ME);
+[['7','Bemassung'],['9','Masstoleranzen, Passungen'],['10','Form und Lage: Grundlagen'],['FL','Form und Lage: Zeichnungen'],['11','Oberfläche'],['12','Zeichnungen, Stücklisten'],['ME','Maschinenelemente']].forEach(([k,n])=>tasks.push({id:'test-'+k,kap:k,type:'Kapiteltest',title:'Kapiteltest: '+n,ktest:k,text:''}));
+
+
+
+
+
+/*@@FULL@@*/
+/* ============ Rendering ============ */
+const navEl=document.getElementById('nav'),host=document.getElementById('tasks');
+let cur=0;
+function fmt(n){return String(n).replace('.',',');}
+function parseNum(s){return parseFloat(String(s).trim().replace(',','.'));}
+function symSelect(){const sel=H('select');sel.appendChild(H('option',{value:''},'– Symbol wählen –'));for(const k in SYM)sel.appendChild(H('option',{value:k},SYM[k].ch+'  '+SYM[k].n+' ('+SYM[k].k+')'));sel.style.fontFamily="osifont,Barlow";return sel;}
+
+function tipOf(q){if(!q.num)return null;const w=q.why||'';const m=w.split(/(?=[0-9])/)[0].trim();return m.length>6?'Ansatz: '+m+' …':'Achte auf Vorzeichen und Einheit (mm).';}
+function buildTest(t,i){const card=H('div',{class:'card',id:'card-'+t.id});card.appendChild(H('span',{class:'tag'},'Kapiteltest'));card.appendChild(H('h2',{},t.title));
+  card.appendChild(H('p',{class:'task-text'},'Teste dein Wissen wie an einer Prüfung: 10 zufällige Fragen aus diesem Kapitel. Jede Frage gibt 1 Punkt. Wenn du nicht weiterkommst, nimm einen Tipp (bei Auswahlfragen fallen falsche Antworten weg). Nach «Antwort prüfen» siehst du die Lösung mit Erklärung. Am Schluss bekommst du eine Note.'));
+  const start=H('button',{class:'btn'},'Neuen Test starten');card.appendChild(start);const area=H('div');card.appendChild(area);
+  start.onclick=()=>{area.innerHTML='';const src=tasks.filter(u=>(u.kap||'FL')===t.ktest&&u.questions);let pool=[];src.forEach(u=>u.questions.forEach((q,qi)=>pool.push({u,q,qi})));
+    const sh=a=>a.map(x=>[Math.random(),x]).sort((x,y)=>x[0]-y[0]).map(x=>x[1]);pool=sh(pool);const used=new Set(),sel=[];pool.forEach(x=>{if(sel.length<10&&!used.has(x.u.id)){sel.push(x);used.add(x.u.id);}});pool.forEach(x=>{if(sel.length<10&&!sel.includes(x))sel.push(x);});
+    const res=[];sel.forEach(({u,q},n)=>{const b=H('div',{class:'q ktq'});b.appendChild(H('p',{class:'hint'},'Frage '+(n+1)+' · aus «'+u.title+'»'));if(u.text)b.appendChild(H('p',{class:'task-text'},u.text));const dw=H('div',{class:'draw'});try{dw.appendChild(u.draw());}catch(e){}b.appendChild(dw);
+      b.appendChild(H('p',{class:'lead'},q.q));let inp=null;const opts=[];if(q.num){inp=H('input',{type:'text',placeholder:'Zahl eingeben'});b.appendChild(inp);}else q.opts.forEach((o,oi)=>{const l=H('label',{class:'opt'});l.appendChild(H('input',{type:q.multi?'checkbox':'radio',name:t.id+'n'+n,value:oi}));l.appendChild(H('span',{},o));b.appendChild(l);opts.push(l);});
+      const r={done:false,ok:false,tip:false};res.push(r);const bt=H('div',{class:'actions'});const bc=H('button',{class:'btn'},'Antwort prüfen'),bh=H('button',{class:'btn sec'},'Tipp nehmen');const fb=H('div',{class:'fb'});
+      bh.onclick=()=>{if(r.done||r.tip)return;r.tip=true;bh.disabled=true;if(q.num){fb.className='fb info';fb.innerHTML='<b>Tipp:</b> '+tipOf(q);}else{const wrong=opts.map((l,k)=>k).filter(k=>q.multi?!q.a.includes(k):k!==q.a);sh(wrong).slice(0,Math.max(1,wrong.length-1)).forEach(k=>{opts[k].style.opacity=.35;opts[k].querySelector('input').disabled=true;});fb.className='fb info';fb.innerHTML='<b>Tipp:</b> '+(wrong.length>1?'Unwahrscheinliche Antworten sind ausgegraut.':'Eine falsche Antwort ist ausgegraut.');}};
+      bc.onclick=()=>{if(r.done)return;let ok=false;if(q.num){ok=Math.abs(parseNum(inp.value)-q.a)<=(q.tol||1e-6);inp.disabled=true;}else if(q.multi){const s2=[...b.querySelectorAll('input:checked')].map(x=>+x.value).sort();ok=JSON.stringify(s2)===JSON.stringify(q.a);}else{const c2=b.querySelector('input:checked');ok=!!c2&&+c2.value===q.a;}
+        r.done=true;r.ok=ok;b.querySelectorAll('input').forEach(x=>x.disabled=true);bc.disabled=true;bh.disabled=true;const sol=q.num?fmt(q.a):q.multi?q.a.map(k=>q.opts[k]).join(', '):q.opts[q.a];fb.className='fb '+(ok?'ok':'bad');fb.innerHTML='<h4>'+(ok?'Richtig':'Falsch')+(r.tip?' (mit Tipp)':'')+'</h4><p><b>Lösung:</b> '+sol+'</p><p>'+q.why+'</p>';};
+      bt.append(bc,bh);b.appendChild(bt);b.appendChild(fb);area.appendChild(b);});
+    const sum=H('div',{class:'q'});const sb=H('button',{class:'btn'},'Test auswerten');sum.appendChild(sb);const out=H('div');sum.appendChild(out);area.appendChild(sum);
+    sb.onclick=()=>{const got=res.filter(r=>r.ok).length,tips=res.filter(r=>r.tip).length,open=res.filter(r=>!r.done).length,note=Math.round((5*got/res.length+1)*10)/10;out.innerHTML='<h3>Resultat: '+got+' von '+res.length+' Punkten · Note '+fmt(note)+'</h3><p>'+(tips?'Du hast '+tips+' Tipp'+(tips>1?'s':'')+' genommen. An der Prüfung gibt es keine Tipps.':'Ohne Tipps, wie an der Prüfung.')+(open?' '+open+' Frage'+(open>1?'n':'')+' nicht beantwortet (0 Punkte).':'')+'</p><p>'+(note>=5?'Sehr gut, du bist bereit.':note>=4?'Genügend. Schau dir die falschen Fragen an und starte einen neuen Test.':'Noch unsicher. Arbeite die Aufgaben des Kapitels nochmals durch.')+'</p>';};
+    window.scrollTo({top:card.offsetTop,behavior:'smooth'});};
+  return card;}
+function buildTask(t,i){
+  if(t.ktest)return buildTest(t,i);
+  const card=H('div',{class:'card',id:'card-'+t.id});
+  card.appendChild(H('span',{class:'tag'},'Aufgabe '+(tasks.filter((u,j)=>j<=i&&(u.kap||'FL')===(t.kap||'FL')).length)+' · '+t.type.replace(/^(Kap\. \d+|Maschinenelemente) · /,'')));
+  card.appendChild(H('h2',{},t.title));
+  card.appendChild(H('p',{class:'task-text'},t.text));
+  const dw=H('div',{class:'draw'});const svg=t.draw();dw.appendChild(svg);card.appendChild(dw);
+  const fb=H('div',{class:'fb'});
+  let check;
+
+  if(t.questions){
+    const blocks=[];
+    t.questions.forEach((q,qi)=>{
+      const b=H('div',{class:'q'});b.appendChild(H('p',{class:'lead'},(qi+1)+'. '+q.q));
+      if(q.num){const inp=H('input',{type:'text',placeholder:'z. B. 0,1'});b.appendChild(inp);blocks.push({q,inp,b});}
+      else{q.opts.forEach((o,oi)=>{const l=H('label',{class:'opt'});l.appendChild(H('input',{type:q.multi?'checkbox':'radio',name:t.id+'q'+qi,value:oi}));l.appendChild(H('span',{},o));b.appendChild(l);});blocks.push({q,b});}
+      card.appendChild(b);
+    });
+    if(t.zone){const z=H('div',{class:'zone'});const zs=t.zone();z.appendChild(zs);card.insertBefore(z,blocks[0].b);
+      if(zs._set&&t.slider){const r=H('input',{type:'range',min:0,max:0.05,step:0.001,value:0,class:'slider'});const rl=H('div',{class:'hint'},'Achsversatz e verschieben');z.after(rl);rl.after(r);r.oninput=()=>zs._set(parseFloat(r.value));}
+    }
+    check=()=>{
+      let allOk=true;const items=[];
+      blocks.forEach(({q,b,inp},qi)=>{
+        let ok=false,given;
+        if(q.num){given=parseNum(inp.value);ok=Math.abs(given-q.a)<=(q.tol||1e-6);}
+        else if(q.multi){const sel=[...b.querySelectorAll('input:checked')].map(x=>+x.value).sort();ok=JSON.stringify(sel)===JSON.stringify(q.a);}
+        else{const s=b.querySelector('input:checked');ok=s&&+s.value===q.a;}
+        allOk=allOk&&ok;
+        const sol=q.num?fmt(q.a)+' mm':q.multi?q.a.map(k=>q.opts[k]).join(', '):q.opts[q.a];
+        items.push(`<li><b>Frage ${qi+1}: ${ok?'richtig':'falsch'}.</b> Lösung: ${sol}<br>${q.why}</li>`);
+      });
+      fb.className='fb '+(allOk?'ok':'bad');fb.innerHTML=`<h4>${allOk?'Alles richtig.':'Noch nicht alles richtig.'}</h4><ol>${items.join('')}</ol>`;
+      setResult(t.id,allOk);
+    };
+  }
+
+  if(t.entry){
+    const b=H('div',{class:'q'});b.appendChild(H('p',{class:'lead'},'Eintragung für: '+t.entry.feature));
+    const row=H('div',{class:'row'});
+    const ls=H('label',{},'Symbol');const sel=symSelect();ls.appendChild(sel);
+    const lv=H('label',{},'Toleranzwert');const val=H('input',{type:'text',placeholder:'z. B. 0,05'});lv.appendChild(val);
+    const lz=H('label',{},'Zonenform');const dia=H('select');[['0','ohne ⌀ (zwischen zwei Ebenen/Linien)'],['1','mit ⌀ (Zylinder)']].forEach(([v,o])=>dia.appendChild(H('option',{value:v},o)));lz.appendChild(dia);
+    const ld=H('label',{},'Bezug');const dat=H('select');['– keiner –','A','B'].forEach((o,i)=>dat.appendChild(H('option',{value:i?o:''},o)));ld.appendChild(dat);
+    row.append(ls,lz,lv,ld);b.appendChild(row);
+    const pv=H('div',{class:'preview'});const pvs=E('svg',{viewBox:'0 0 60 9'});pv.appendChild(pvs);pv.appendChild(H('span',{class:'hint'},'Vorschau des Rahmens'));b.appendChild(pv);
+    card.appendChild(b);
+    const update=()=>{
+      pvs.innerHTML='';svg._pv.innerHTML='';
+      const s=sel.value,v=val.value.trim(),d=dat.value?[dat.value]:[];
+      if(!s&&!v)return;
+      const vv=(dia.value==='1'?'⌀':'')+(v||'…');
+      frame(pvs,1,1,s,vv,d);
+      const a=svg._anchor;tol(svg._pv,a.fx,a.fy,s,vv,d,a.pts);
+    };
+    [sel,val,dat,dia].forEach(e=>e.addEventListener('input',update));
+    let eq=null;
+    if(t.extraQ){const q=t.extraQ;eq=H('div',{class:'q'});eq.appendChild(H('p',{class:'lead'},'Zusatzfrage: '+q.q));q.opts.forEach((o,oi)=>{const l=H('label',{class:'opt'});l.appendChild(H('input',{type:'radio',name:t.id+'x',value:oi}));l.appendChild(H('span',{},o));eq.appendChild(l);});card.appendChild(eq);}
+    check=()=>{
+      const c=t.entry.correct;const li=[];
+      const sOk=sel.value===c.sym;const vOk=Math.abs(parseNum(val.value)-c.val)<1e-9;const dOk=dat.value===c.dat;const zOk=(dia.value==='1')===!!c.dia;
+      li.push(`<li><b>Symbol: ${sOk?'richtig':'falsch'}.</b> Erwartet: ${SYM[c.sym].n}.${sOk?'':' Gewählt: '+(SYM[sel.value]?SYM[sel.value].n:'nichts')+'.'}</li>`);
+      li.push(`<li><b>Zonenform: ${zOk?'richtig':'falsch'}.</b> Erwartet: ${c.dia?'mit ⌀, weil eine Achse toleriert ist':'ohne ⌀, weil die Zone zwischen zwei Ebenen liegt'}.</li>`);
+      li.push(`<li><b>Wert: ${vOk?'richtig':'falsch'}.</b> Erwartet: ${fmt(c.val)}.</li>`);
+      li.push(`<li><b>Bezug: ${dOk?'richtig':'falsch'}.</b> Erwartet: ${c.dat}.${dOk?'':' Richtungs- und Ortstoleranzen brauchen immer einen Bezug.'}</li>`);
+      let xOk=true;
+      if(t.extraQ){const s=eq.querySelector('input:checked');xOk=s&&+s.value===t.extraQ.a;li.push(`<li><b>Zusatzfrage: ${xOk?'richtig':'falsch'}.</b> Lösung: ${t.extraQ.opts[t.extraQ.a]}<br>${t.extraQ.why}</li>`);}
+      const all=sOk&&vOk&&dOk&&xOk&&zOk;
+      fb.className='fb '+(all?'ok':(sOk||vOk||dOk)?'part':'bad');
+      fb.innerHTML=`<h4>${all?'Richtig eingetragen.':'Noch nicht ganz.'}</h4><ul>${li.join('')}</ul><p><b>Erklärung:</b> ${t.explain}</p>`;
+      if(all){update();}
+      setResult(t.id,all);
+    };
+    const show=H('button',{class:'btn sec'},'Musterlösung zeigen');show.onclick=()=>{const c=t.entry.correct;sel.value=c.sym;val.value=fmt(c.val);dat.value=c.dat;dia.value=c.dia?'1':'0';update();fb.className='fb part';fb.innerHTML=`<h4>Musterlösung: ${SYM[c.sym].n} ${c.dia?'⌀':''}${fmt(c.val)} ${c.dat}</h4><p>${t.explain}</p>`;setResult(t.id,false);};
+    card._extraBtn=show;
+  }
+
+  if(t.full){const r=buildFull(t,card,svg,fb);check=r.check;card._extraBtn=r.show;}
+
+  if(t.errors){
+    const sel=new Set();
+    svg.querySelectorAll('.clickable').forEach(el=>{el.addEventListener('click',()=>{const id=el.dataset.id;if(sel.has(id)){sel.delete(id);el.classList.remove('sel');}else{sel.add(id);el.classList.add('sel');}});});
+    card.appendChild(H('p',{class:'hint'},'Tipp: Ein Rahmen ist falsch, wenn Symbol, Bezug und Wert nicht zusammenpassen.'));
+    check=()=>{
+      const li=[];let all=true;
+      svg.querySelectorAll('.clickable').forEach(el=>{const id=el.dataset.id;const isErr=t.errors.includes(id);const picked=sel.has(id);el.classList.remove('sel');el.classList.add(isErr?'err':'good');
+        const ok=isErr===picked;all=all&&ok;
+        li.push(`<li><b>${isErr?'Fehler':'Korrekt'}${picked?' (von dir markiert)':''}: ${ok?'erkannt':'übersehen bzw. falsch markiert'}.</b> ${t.explainMap[id]}</li>`);});
+      fb.className='fb '+(all?'ok':'bad');fb.innerHTML=`<h4>${all?'Alle Fehler gefunden.':'Nicht alle richtig erkannt.'}</h4><ul>${li.join('')}</ul>`;
+      setResult(t.id,all);
+    };
+  }
+
+  const act=H('div',{class:'actions'});
+  const btn=H('button',{class:'btn'},'Prüfen');btn.onclick=check;act.appendChild(btn);
+  if(card._extraBtn)act.appendChild(card._extraBtn);
+  const nx=H('button',{class:'btn sec'},'Nächste Aufgabe →');nx.onclick=()=>go((i+1)%tasks.length);act.appendChild(nx);
+  card.appendChild(act);card.appendChild(fb);
+  return card;
+}
+tasks.forEach((t,i)=>host.appendChild(buildTask(t,i)));
+
+let KAP=(()=>{try{const k=localStorage.getItem('flt-kap');return (!k||k==='alle')?'7':k;}catch(e){return '7';}})();
+const KAPS=[['7','Bemassung'],['9','Masstoleranzen, Passungen'],['10','Form und Lage: Grundlagen'],['FL','Form und Lage: Zeichnungen'],['11','Oberfläche'],['12','Zeichnungen, Stücklisten'],['ME','Maschinenelemente']];
+let LISTOPEN=false;
+const kapOf=t=>t.kap||'FL';
+function renderNav(){
+  navEl.innerHTML='';
+  const r=H('div',{class:'kapchips'});KAPS.forEach(([k,n])=>{const b=H('button',{class:'kap'+(KAP===k?' on':'')},n);b.onclick=()=>{KAP=k;try{localStorage.setItem('flt-kap',k);}catch(e){}LISTOPEN=false;const fi=tasks.findIndex(t=>kapOf(t)===k);if(fi>=0)go(fi);else renderNav();};r.appendChild(b);});navEl.appendChild(r);
+  const idx=tasks.map((t,i)=>i).filter(i=>kapOf(tasks[i])===KAP);const pos=idx.indexOf(cur);
+  const bar=H('div',{class:'navbar'});
+  const prev=H('button',{class:'arrow'},'◀');prev.disabled=pos<=0;prev.onclick=()=>go(idx[pos-1]);
+  const next=H('button',{class:'arrow'},'▶');next.disabled=pos<0||pos>=idx.length-1;next.onclick=()=>go(idx[pos+1]);
+  const lbl=H('button',{class:'cur-lbl'},(pos>=0?`<b>${pos+1}</b> / ${idx.length} · ${tasks[cur].title}`:(cur===-1?'Erklärung':'Aufgabe wählen'))+` <span class="tog">${LISTOPEN?'▲':'▼'}</span>`);lbl.onclick=()=>{LISTOPEN=!LISTOPEN;renderNav();};
+  bar.append(prev,lbl,next);navEl.appendChild(bar);
+  if(LISTOPEN){const list=H('div',{class:'tasklist'});idx.forEach((i,n)=>{const t=tasks[i];const b=H('button',{},`<span class="no">${n+1}</span> ${t.title}`);if(i===cur)b.classList.add('cur');if(state[t.id]==='ok')b.classList.add('done');if(state[t.id]==='fail')b.classList.add('fail');b.onclick=()=>{LISTOPEN=false;go(i);};list.appendChild(b);});
+   if(KAP==='FL'){const b=H('button',{},'<span class="no">i</span> Erklärung: Rundlauf und Gesamtrundlauf');if(cur===-1)b.classList.add('cur');b.onclick=()=>{LISTOPEN=false;window.showLauf();};list.appendChild(b);}
+   navEl.appendChild(list);}
+  const n=tasks.filter(t=>state[t.id]==='ok').length;
+  document.getElementById('pbar').style.width=(n/tasks.length*100)+'%';
+  document.getElementById('pcount').textContent=n+' / '+tasks.length+' gelöst';
+}
+function go(i){cur=i;KAP=kapOf(tasks[i]);document.querySelectorAll('.card').forEach(c=>{if(c.id.startsWith('card-'))c.classList.remove('show');});document.getElementById('card-'+tasks[i].id).classList.add('show');renderNav();window.scrollTo({top:0,behavior:'smooth'});}
+document.getElementById('reset').onclick=()=>{state={};save();renderNav();};
+
+const leg=document.getElementById('legend');
+for(const k in SYM){const d=H('div');d.appendChild(H('b',{},SYM[k].ch));d.appendChild(H('span',{},SYM[k].n+'<br><span class="hint">'+SYM[k].k+'</span>'));leg.appendChild(d);}
+/* ============ Erklärung: Rundlauf und Gesamtrundlauf ============ */
+(function(){
+  const card=H('div',{class:'card',id:'card-lauf'});
+  card.innerHTML=`<span class="tag">Erklärung</span><h2>Rundlauf und Gesamtrundlauf</h2>
+  <p class="task-text">Beide Toleranzen sind Lauftoleranzen. Man dreht das Teil um die Bezugsachse A. Eine Messuhr tastet die Fläche ab. Der Unterschied: Beim Rundlauf steht die Messuhr still. Beim Gesamtrundlauf fährt sie zusätzlich der Länge nach über die ganze Fläche.</p>
+  <h3>1. Rundlauf <span id="lf-f1"></span></h3>
+  <p>Die Messuhr steht an einer Stelle. Das Teil dreht einmal um die Bezugsachse A. Die Rundlaufabweichung ist der grösste Zeigerwert minus der kleinste Zeigerwert. Sie muss kleiner oder gleich dem Toleranzwert t sein.</p>
+  <div class="zone" id="lf-z1"></div>
+  <div class="row">
+    <label>Exzentrizität e in mm: <b id="lf-ev">0,015</b><input type="range" id="lf-e" min="0" max="0.05" step="0.005" value="0.015" class="slider"></label>
+    <label>Unrundheit u in mm: <b id="lf-ov">0,000</b><input type="range" id="lf-o" min="0" max="0.03" step="0.005" value="0" class="slider"></label>
+    <button class="btn sec" id="lf-play">Drehung anhalten</button>
+  </div>
+  <div class="fb" id="lf-r1" style="display:block"></div>
+  <ul>
+    <li><b>Toleranzzone:</b> In jeder Messebene zwei konzentrische Kreise. Ihr Abstand ist t. Ihr Mittelpunkt liegt auf der Bezugsachse A.</li>
+    <li><b>Was der Rundlauf erfasst:</b> Exzentrizität (Koaxialität) und Unrundheit zusammen.</li>
+    <li><b>Merke:</b> Ist das Teil nur exzentrisch, dann gilt: Rundlaufabweichung = 2 · e. Dabei ist e der Versatz der Ist-Achse zur Bezugsachse in mm.</li>
+    <li><b>Wichtig:</b> Jede Messebene gilt für sich allein. Der Rundlauf vergleicht die Messebenen nicht miteinander.</li>
+  </ul>
+  <h3>2. Gesamtrundlauf <span id="lf-f2"></span></h3>
+  <p>Das Teil dreht um die Bezugsachse A. Gleichzeitig fährt die Messuhr parallel zur Achse über die ganze Länge. Die Gesamtrundlaufabweichung ist der grösste Zeigerwert minus der kleinste Zeigerwert über die ganze Fläche.</p>
+  <div class="zone" id="lf-z2"></div>
+  <div class="row">
+    <label>Exzentrizität e in mm: <b id="lf-e2v">0,010</b><input type="range" id="lf-e2" min="0" max="0.04" step="0.005" value="0.01" class="slider"></label>
+    <label>Konizität k in mm: <b id="lf-kv">0,040</b><input type="range" id="lf-k" min="0" max="0.08" step="0.005" value="0.04" class="slider"></label>
+    <label>Position der Messuhr<input type="range" id="lf-z" min="0" max="1" step="0.01" value="0.3" class="slider"></label>
+  </div>
+  <div class="actions"><button class="btn sec" id="lf-p1">Beispiel: nur exzentrisch</button><button class="btn sec" id="lf-p2">Beispiel: nur konisch</button><button class="btn sec" id="lf-p3">Beispiel: beides</button></div>
+  <div class="fb" id="lf-r2" style="display:block"></div>
+  <ul>
+    <li><b>Toleranzzone:</b> Zwei koaxiale Zylinder. Ihr radialer Abstand ist t. Ihre Achse ist die Bezugsachse A.</li>
+    <li><b>Was der Gesamtrundlauf erfasst:</b> Exzentrizität, Unrundheit und zusätzlich Konizität, Durchbiegung und Balligkeit. Also Zylindrizität und Koaxialität zusammen.</li>
+    <li><b>Merke:</b> Im Modell gilt: Gesamtrundlaufabweichung = 2 · e + k. Dabei ist k der Unterschied der Radien zwischen linkem und rechtem Ende in mm.</li>
+    <li><b>Der entscheidende Fall:</b> Ein konisches Teil ohne Exzentrizität hat die Rundlaufabweichung 0. Trotzdem kann der Gesamtrundlauf überschritten sein. Probiere das Beispiel «nur konisch».</li>
+  </ul>
+  <h3>3. Vergleich</h3>
+  <table style="border-collapse:collapse;width:100%;font-size:15px">
+   <tr><th style="text-align:left;border-bottom:1px solid #d4d8dd;padding:6px"></th><th style="text-align:left;border-bottom:1px solid #d4d8dd;padding:6px">Rundlauf</th><th style="text-align:left;border-bottom:1px solid #d4d8dd;padding:6px">Gesamtrundlauf</th></tr>
+   <tr><td style="padding:6px">Messuhr</td><td style="padding:6px">steht still</td><td style="padding:6px">fährt axial über die Fläche</td></tr>
+   <tr><td style="padding:6px">Geprüft wird</td><td style="padding:6px">jede Messebene einzeln</td><td style="padding:6px">die ganze Fläche auf einmal</td></tr>
+   <tr><td style="padding:6px">Toleranzzone</td><td style="padding:6px">zwei konzentrische Kreise</td><td style="padding:6px">zwei koaxiale Zylinder</td></tr>
+   <tr><td style="padding:6px">Erfasst Konizität</td><td style="padding:6px">nein</td><td style="padding:6px">ja</td></tr>
+   <tr><td style="padding:6px">Strenge</td><td style="padding:6px">weniger streng</td><td style="padding:6px">strenger und teurer zu prüfen</td></tr>
+  </table>
+  <p class="hint">Die Abweichungen sind stark vergrössert gezeichnet. Die Rechnung ist ein vereinfachtes Modell zum Verstehen. Für Planflächen gibt es dasselbe Paar: Planlauf und Gesamtplanlauf. Dort tastet die Messuhr axial.</p>`;
+  host.appendChild(card);
+  const q=id=>card.querySelector('#'+id);
+  // kleine Toleranzrahmen neben den Titeln
+  [['lf-f1','rundlauf'],['lf-f2','gesamtlauf']].forEach(([id,sym])=>{const s=E('svg',{viewBox:'0 0 31 9',style:'height:24px;vertical-align:middle;margin-left:8px'});frame(s,.5,1,sym,'0,05',['A']);q(id).appendChild(s);});
+  const U=(g,x,y,t,o={})=>T(g,x,y,t,{'font-family':'Barlow','font-size':'3.2',...o});
+  const f3=n=>n.toFixed(3).replace('.',',');
+  const TOL=0.05,SC=200;
+  let phi=0,run=true;
+
+  /* --- Panel 1 --- */
+  const s1=E('svg',{viewBox:'0 0 200 104'});q('lf-z1').appendChild(s1);
+  const g1=E('g');s1.appendChild(g1);
+  const A={x:52,y:64},R=26;
+  const zoneIn=E('circle',{cx:A.x,cy:A.y,r:R,fill:'none','stroke-width':'.4','stroke-dasharray':'2 1'}),zoneOut=E('circle',{cx:A.x,cy:A.y,r:R,fill:'none','stroke-width':'.4','stroke-dasharray':'2 1'});
+  const part=E('path',{fill:'#dfe6ee',stroke:'#000','stroke-width':'.6'});
+  const mark=E('line',{stroke:'#000','stroke-width':'.5'});
+  g1.append(part,zoneIn,zoneOut,mark);
+  ctr(g1,A.x-34,A.y,A.x+34,A.y);ctr(g1,A.x,A.y-30,A.x,A.y+34);
+  U(g1,A.x+2,A.y+5,'A');
+  const stem=E('line',{stroke:'#000','stroke-width':'.8'});const tip=E('circle',{r:1,fill:'#000'});
+  g1.append(stem,tip);
+  g1.appendChild(E('rect',{x:A.x-2,y:17,width:4,height:6,fill:'#fff',stroke:'#000','stroke-width':'.4'}));
+  g1.appendChild(E('circle',{cx:A.x,cy:10,r:8,fill:'#fff',stroke:'#000','stroke-width':'.5'}));
+  for(let i=-4;i<=4;i++){const a=(-90+i*30)*Math.PI/180;L(g1,A.x+6.6*Math.cos(a),10+6.6*Math.sin(a),A.x+7.8*Math.cos(a),10+7.8*Math.sin(a),'thin');}
+  const needle=E('line',{x1:A.x,y1:10,stroke:'#b3261e','stroke-width':'.6'});g1.appendChild(needle);
+  U(g1,A.x+11,9,'Messuhr steht still');U(g1,A.x+11,13.5,'Teil dreht um A');
+  PATH(g1,`M${A.x-22},${A.y+27} A35,35 0 0 0 ${A.x+22},${A.y+27}`,'thin',{'marker-end':'url(#arr)'});
+  // Diagramm
+  const px=112,pw=78,py=58,ph=40;
+  L(g1,px,py-ph/2-4,px,py+ph/2+4,'thin');L(g1,px,py,px+pw,py,'thin',{'stroke-dasharray':'1 1'});
+  U(g1,px,py-ph/2-7,'Zeigerwert');U(g1,px+pw-22,py+ph/2+9,'Drehwinkel 0° … 360°');
+  const band=E('rect',{x:px,width:pw,'fill-opacity':'.15'});const curve=E('path',{fill:'none',stroke:'#0b5fa5','stroke-width':'.7'});const dot=E('circle',{r:1.3,fill:'#b3261e'});
+  const lmax=E('line',{stroke:'#000','stroke-width':'.25','stroke-dasharray':'1.5 1'}),lmin=E('line',{stroke:'#000','stroke-width':'.25','stroke-dasharray':'1.5 1'});
+  g1.append(band,curve,lmax,lmin,dot);
+  const tmax=U(g1,px+pw+1,0,'max'),tmin=U(g1,px+pw+1,0,'min');
+  const rho=(a,e,o)=>e*Math.cos(a)+o*Math.cos(2*a);
+  function draw1(){
+    const e=+q('lf-e').value,o=+q('lf-o').value;
+    q('lf-ev').textContent=f3(e);q('lf-ov').textContent=f3(o);
+    let d='',mn=1e9,mx=-1e9,c='';
+    for(let i=0;i<=180;i++){const th=i/180*2*Math.PI;const v=rho(th,e,o);mn=Math.min(mn,v);mx=Math.max(mx,v);
+      const r=R+v*SC,a=th+phi;d+=(i?'L':'M')+(A.x+r*Math.cos(a)).toFixed(2)+','+(A.y-r*Math.sin(a)).toFixed(2);
+      c+=(i?'L':'M')+(px+pw*i/180).toFixed(2)+','+(py-v*SC*1.6).toFixed(2);}
+    part.setAttribute('d',d+'Z');curve.setAttribute('d',c);
+    const r0=R+rho(0,e,o)*SC;mark.setAttribute('x1',A.x+(r0-5)*Math.cos(phi));mark.setAttribute('y1',A.y-(r0-5)*Math.sin(phi));mark.setAttribute('x2',A.x+r0*Math.cos(phi));mark.setAttribute('y2',A.y-r0*Math.sin(phi));
+    const al=Math.PI/2-phi,v=rho(al,e,o),ys=A.y-(R+v*SC);
+    stem.setAttribute('x1',A.x);stem.setAttribute('x2',A.x);stem.setAttribute('y1',23);stem.setAttribute('y2',ys-1);tip.setAttribute('cx',A.x);tip.setAttribute('cy',ys-1);
+    const na=(-90+v/0.06*120)*Math.PI/180;needle.setAttribute('x2',A.x+6.5*Math.cos(na));needle.setAttribute('y2',10+6.5*Math.sin(na));
+    const dev=mx-mn,ok=dev<=TOL+1e-9,col=ok?'#1f7a3a':'#b3261e';
+    zoneIn.setAttribute('r',R+mn*SC);zoneOut.setAttribute('r',R+mn*SC+TOL*SC);zoneIn.setAttribute('stroke',col);zoneOut.setAttribute('stroke',col);
+    band.setAttribute('y',py-(mn+TOL)*SC*1.6);band.setAttribute('height',TOL*SC*1.6);band.setAttribute('fill',col);
+    [[lmax,mx,tmax],[lmin,mn,tmin]].forEach(([l,val,t])=>{const y=py-val*SC*1.6;l.setAttribute('x1',px);l.setAttribute('x2',px+pw);l.setAttribute('y1',y);l.setAttribute('y2',y);t.setAttribute('y',y+1);});
+    let ang=((al%(2*Math.PI))+2*Math.PI)%(2*Math.PI);dot.setAttribute('cx',px+pw*ang/(2*Math.PI));dot.setAttribute('cy',py-v*SC*1.6);
+    const fb=q('lf-r1');fb.className='fb '+(ok?'ok':'bad');
+    fb.innerHTML=`<b>Rundlaufabweichung = max − min = ${f3(dev)} mm.</b> Toleranz t = 0,05 mm. ${ok?'Das Teil ist in Ordnung.':'Das Teil ist nicht in Ordnung.'} Das farbige Band zeigt die Toleranzzone mit der Breite t.`;
+  }
+
+  /* --- Panel 2 --- */
+  const s2=E('svg',{viewBox:'0 0 200 112'});q('lf-z2').appendChild(s2);
+  const g2=E('g');s2.appendChild(g2);
+  const X0=36,X1=150,AY=52,RR=15;
+  const body=E('path',{fill:'#dfe6ee',stroke:'#000','stroke-width':'.6'});g2.appendChild(body);
+  // Spitzen
+  PG(g2,[[X0-14,AY-4],[X0-4,AY],[X0-14,AY+4]],'thin');PG(g2,[[X1+14,AY-4],[X1+4,AY],[X1+14,AY+4]],'thin');
+  ctr(g2,X0-18,AY,X1+18,AY);U(g2,X1+16,AY-2,'A');
+  const zt=E('line',{stroke:'#1f7a3a','stroke-width':'.4','stroke-dasharray':'2 1'}),zb=E('line',{stroke:'#1f7a3a','stroke-width':'.4','stroke-dasharray':'2 1'});g2.append(zt,zb);
+  const gg=E('g');g2.appendChild(gg);
+  gg.appendChild(E('circle',{cx:0,cy:10,r:7,fill:'#fff',stroke:'#000','stroke-width':'.5'}));
+  gg.appendChild(E('rect',{x:-1.6,y:16.5,width:3.2,height:4,fill:'#fff',stroke:'#000','stroke-width':'.4'}));
+  const st2=E('line',{x1:0,x2:0,y1:20.5,stroke:'#000','stroke-width':'.8'});const nd2=E('line',{x1:0,y1:10,stroke:'#b3261e','stroke-width':'.6'});gg.append(st2,nd2);
+  L(g2,X0,6,X1,6,'thin',{'marker-start':'url(#arr)','marker-end':'url(#arr)'});
+  // Diagramm
+  const QY=96;
+  U(g2,4,QY-12,'Zeigerwert');U(g2,X1+4,QY+1,'Länge');
+  const bandT=E('rect',{x:X0,width:X1-X0,'fill-opacity':'.15'});const area=E('path',{fill:'#0b5fa5','fill-opacity':'.35',stroke:'#0b5fa5','stroke-width':'.4'});
+  const loc=E('line',{stroke:'#b3261e','stroke-width':'1.4'});g2.append(bandT,area,loc);
+  L(g2,X0,QY-22,X0,QY+8,'thin');
+  U(g2,X0+2,QY+12,'Blaue Fläche: Zeigerbereich an jeder Stelle. Roter Strich: Rundlauf an der Messuhr.',{'font-size':'2.8',fill:'#5f6670'});
+  function draw2(){
+    const e=+q('lf-e2').value,k=+q('lf-k').value,z=+q('lf-z').value;
+    q('lf-e2v').textContent=f3(e);q('lf-kv').textContent=f3(k);
+    const off=e*Math.cos(phi)*SC,kk=k*SC;
+    body.setAttribute('d',`M${X0},${AY-RR-off} L${X1},${AY-RR-kk-off} L${X1},${AY+RR+kk-off} L${X0},${AY+RR-off} Z`);
+    const tot=2*e+k,loc1=2*e,ok=tot<=TOL+1e-9,col=ok?'#1f7a3a':'#b3261e';
+    const top=AY-RR+e*SC;[[zt,top],[zb,top-TOL*SC]].forEach(([l,y])=>{l.setAttribute('x1',X0-4);l.setAttribute('x2',X1+4);l.setAttribute('y1',y);l.setAttribute('y2',y);l.setAttribute('stroke',col);});
+    const gx=X0+z*(X1-X0),v=e*Math.cos(phi)+k*z,ys=AY-RR-v*SC;
+    gg.setAttribute('transform',`translate(${gx},0)`);st2.setAttribute('y2',ys-0.5);
+    const na=(-90+(v-0.03)/0.08*120)*Math.PI/180;nd2.setAttribute('x2',5.6*Math.cos(na));nd2.setAttribute('y2',10+5.6*Math.sin(na));
+    const s=140,base=QY+4;const y=(val)=>base-(val+e)*s;
+    area.setAttribute('d',`M${X0},${y(-e)} L${X1},${y(k-e)} L${X1},${y(k+e)} L${X0},${y(e)} Z`);
+    bandT.setAttribute('y',y(-e+TOL));bandT.setAttribute('height',TOL*s);bandT.setAttribute('fill',col);
+    loc.setAttribute('x1',gx);loc.setAttribute('x2',gx);loc.setAttribute('y1',y(k*z-e)+0.4);loc.setAttribute('y2',y(k*z+e)-0.4);
+    const fb=q('lf-r2');fb.className='fb '+(ok?'ok':'bad');
+    fb.innerHTML=`<b>Rundlaufabweichung an der Messuhr = 2 · e = ${f3(loc1)} mm.</b> ${loc1<=TOL+1e-9?'Rundlauf 0,05: in Ordnung.':'Rundlauf 0,05: nicht in Ordnung.'}<br><b>Gesamtrundlaufabweichung = 2 · e + k = ${f3(tot)} mm.</b> ${ok?'Gesamtrundlauf 0,05: in Ordnung.':'Gesamtrundlauf 0,05: nicht in Ordnung.'}`;
+  }
+  const set=(e,k)=>{q('lf-e2').value=e;q('lf-k').value=k;draw2();};
+  q('lf-p1').onclick=()=>set(0.02,0);q('lf-p2').onclick=()=>set(0,0.07);q('lf-p3').onclick=()=>set(0.015,0.04);
+  ['lf-e','lf-o'].forEach(i=>q(i).oninput=draw1);['lf-e2','lf-k','lf-z'].forEach(i=>q(i).oninput=draw2);
+  q('lf-play').onclick=()=>{run=!run;q('lf-play').textContent=run?'Drehung anhalten':'Drehung starten';};
+  let last=0;function tick(t){if(run&&card.classList.contains('show')){phi+=(t-last)/1000*1.2;draw1();draw2();}last=t;requestAnimationFrame(tick);}
+  draw1();draw2();requestAnimationFrame(tick);
+  window.showLauf=()=>{cur=-1;document.querySelectorAll('.card').forEach(c=>{if(c.id.startsWith('card-'))c.classList.remove('show');});card.classList.add('show');renderNav();window.scrollTo({top:0,behavior:'smooth'});};
+})();
+
+go(Math.max(0,tasks.findIndex(t=>kapOf(t)===KAP)));
+</script>
+</body>
+</html>
