@@ -10,7 +10,7 @@ export const C = {
   V: '#c2410c',
   INK: '#18212b',
   GRAU: '#5a6673',
-  BLATT: '#e6e7ea',
+  BLATT: '#ffffff',
   STAHL: '#a9cbee',
   STAHLRAND: '#2b4c7e',
   GESTELL: '#a7a9c4',

@@ -8,6 +8,7 @@ export const FAECHER: Fach[] = [
     title: 'Physik',
     kurz: 'Kräfte, Momente, Lager, Reibung, Arbeit',
     kapitel: [drehmoment],
+    geplant: ['Kräfte addieren', 'Kräfte zerlegen', 'An der Wand', 'Lagerkräfte', 'Kettenaufgaben', 'Umfangskraft', 'Reibung', 'Arbeit, Energie', 'Leistung, Wirkungsgrad', 'Einfache Maschinen, Flaschenzüge', 'Beschleunigungs- und Gewichtskraft', 'Bewegungen', 'Biegen: Zuschnitt'],
   },
 ];
 

@@ -116,4 +116,6 @@ export interface Fach {
   title: string;
   kurz: string;
   kapitel: Kapitel[];
+  /** Kapitel, die noch im alten Trainer liegen und folgen */
+  geplant?: string[];
 }

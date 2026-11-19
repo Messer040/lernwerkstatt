@@ -69,7 +69,8 @@ for (const fach of FAECHER) {
       it('Aufgabenkarten lassen sich darstellen', () => {
         for (const t of kap.aufgaben) {
           const k = aufgabenKarte(t);
-          expect(k.querySelector('h3')?.textContent).toBe(t.title);
+          expect(k.querySelector('h2')?.textContent).toBe(t.title);
+          expect(k.querySelector('.schriftfeld')).not.toBeNull();
         }
       });
 

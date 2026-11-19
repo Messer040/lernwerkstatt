@@ -7,7 +7,6 @@ Aufwand: S = unter 30 Min., M = eine Sitzung, L = mehrere Sitzungen.
 
 ## Wichtig
 
-- [ ] **Auswahl-Optionen mischen** (S, neu): Die richtige Antwort steht heute immer an derselben Stelle (d10 oben, d11 Mitte). Die Optionen beim Anzeigen mischen, `a` mitführen.
 - [ ] **Bilder am Handy** (M, neu): Die SVGs haben 520 px Mindestbreite, am Handy muss man seitlich wischen. Möglichkeiten: grössere Schrift im Bild bei schmalem Bildschirm, Hochformat-Varianten oder Zoom per Antippen.
 - [ ] **Physik umziehen** (L, neu): Kräfte addieren, Kräfte zerlegen, An der Wand, Beschleunigung, Lagerkräfte, Kettenaufgaben, Umfangskraft, Reibung, Arbeit, Leistung, Einfache Maschinen, Biegen, Bewegungen, Knobel, Einheiten. Pro Kapitel Fehlerwerte und 3 Tipps ergänzen.
 - [ ] **Zeichnungstechnik umziehen** (L, neu): Kap. 7, 9, 10, 11, 12, FL, ME ins neue Format.
@@ -26,6 +25,10 @@ Aufwand: S = unter 30 Min., M = eine Sitzung, L = mehrere Sitzungen.
 
 ## Klein
 
+- [ ] **Design: Schriftfeld am Handy** (S, neu): Bricht auf zwei Zeilen um, das ist ok. Prüfen, ob «Massstab» am Handy weggelassen werden soll.
+- [ ] **Design: Formelkarte auf der Aufgabenseite am Handy** (S, neu): Sie steht unter der Aufgabe und ist zugeklappt. Besser wäre ein Knopf «Formeln» oben, der sie als Blatt öffnet.
+- [ ] **Design: Inspector-Warnung «rainbow-chart»** (–, bewusst): Die Bauteilbilder nutzen 5 feste Farben (Kraft, Länge, Moment, Resultierende, Energie). Das ist der Farbcode des Trainers und bleibt.
+
 - [ ] **Schubkarre: Label F_G liegt auf der Kiste** (S, neu, Bild `schubkarre`): lesbar, aber Label besser rechts neben den Pfeil ausserhalb der Kiste.
 - [ ] **Formelkarte als eigene Seite** (S, neu): heute nur aufklappbar im Kapitel. Zusätzlich eine Seite mit allen Formeln eines Fachs.
 - [ ] **CI-Prüfung «neu/ aktuell»** (S, neu): Der Workflow vergleicht den Build mit `neu/`. Falls das wegen anderer Hashes einmal falsch Alarm schlägt, Schritt entfernen und stattdessen per Action bauen und veröffentlichen.
@@ -34,6 +37,9 @@ Aufwand: S = unter 30 Min., M = eine Sitzung, L = mehrere Sitzungen.
 - [ ] **Tausender-Apostroph im alten Physik-Trainer** (S, alt): Neu zeigt 39'000, alt 39000. Erledigt sich mit dem Umzug.
 
 ## Erledigt
+
+- [x] 19.11.2026: Neues Design (Stil «Achromatic ledger», Schrift Geist): farblose Oberfläche, Farbe nur in Bildern und Formeln, Zeichnungsblatt mit Schriftfeld, Aufgabenliste plus Einzelansicht mit Blättern, kommende Kapitel als «folgt». Inspector: vorher 2 FAIL / 5 WARN, nachher 0 FAIL.
+- [x] 19.11.2026: Auswahl-Optionen werden gemischt.
 
 - [x] 19.11.2026: Neues Gerüst Vite + TypeScript, Kapitel Drehmoment umgezogen, Fehlerwerte, 3-stufige Tipps, Kapiteltest mit Note.
 - [x] 19.11.2026: Schweizer Tausender-Apostroph in `fmt()`.

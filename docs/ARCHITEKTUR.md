@@ -51,3 +51,10 @@ app/
 | Kapitel | alt | neu |
 | --- | --- | --- |
 | Drehmoment, Hebelgesetz | physik/ Tab «Drehmoment» (d1–d9) | neu/#/physik/dreh (d1–d13, mit Fehlerwerten) |
+
+## Design
+- Stil «Achromatic ledger» (Design-Skill, Seed 1226934261): Oberfläche ohne Farbe, Hauptknopf fast schwarz, Grund blaugrau #f2f4f7 (Zeichenpapier). Farbe nur auf Daten: Bauteilbilder, Formeln, richtig/falsch.
+- Schrift Geist (lokal gebündelt über @fontsource), Geist Mono nur für IDs.
+- Erkennungsmerkmal: Jedes Bild steht auf einem weissen Zeichnungsblatt mit Schriftfeld (Aufgabe, Stufe, Art, Lernkarte, Massstab).
+- Seiten: Kapitel = Liste nach Lernkarten + Formelkarte rechts; Aufgabe = Einzelansicht mit Vorherige/Nächste; Test = alle Aufgaben untereinander.
+- Prüfen: `node <skill>/scripts/inspect.mjs --app <url>` (Ziel 0 FAIL).

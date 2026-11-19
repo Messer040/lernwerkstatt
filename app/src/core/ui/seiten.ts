@@ -1,102 +1,227 @@
-// Seiten: Start, Fach, Kapitel, Kapiteltest.
+// Seiten: Start, Fach, Kapitel (Liste), Aufgabe (einzeln), Kapiteltest.
 import type { Fach, Kapitel, Stufe, Task } from '../types';
-import { STUFEN } from '../types';
-import { aufgabenKarte } from './aufgabe';
+import { FAMILIEN, STUFEN } from '../types';
+import { aufgabenKarte, stufenMarke } from './aufgabe';
 import { h } from './dom';
 
-const link = (href: string, ...k: (Node | string)[]) => h('a', { href }, ...k);
+type Kind = Node | string | null | undefined | false;
+const link = (href: string, ...k: Kind[]) => h('a', { href }, ...k);
+const knopf = (href: string, label: string, art = '') => h('a', { href, class: `knopf ${art}`.trim() }, label);
+const pfeil = () => h('span', { class: 'pfeil', 'aria-hidden': 'true' });
+const pfad = (...teile: Kind[]) => h('nav', { class: 'pfad', 'aria-label': 'Pfad' }, ...teile);
+const titelzeile = (titel: string, unter?: string, ...aktion: Kind[]) =>
+  h('div', { class: 'titelzeile' }, h('div', {}, h('h1', {}, titel), unter ? h('p', { class: 'unter' }, unter) : null), ...aktion);
 
-export function startSeite(faecher: Fach[]): HTMLElement {
+const anzahl = (n: number, ein: string, mehr: string) => `${n} ${n === 1 ? ein : mehr}`;
+
+function kapitelZeilen(f: Fach) {
+  const folgt = (f.geplant ?? []).map((g) =>
+    h('li', { class: 'folgt' }, h('div', { class: 'zeile' }, h('span', { class: 't' }, g), h('span', { class: 'r' }, 'folgt'))),
+  );
   return h(
-    'section',
-    { class: 'seite' },
-    h('h1', {}, 'Lernwerkstatt'),
-    h('p', { class: 'unter' }, 'Wähle ein Fach. Alles ist frei zugänglich.'),
-    h(
-      'div',
-      { class: 'kacheln' },
-      ...faecher.map((f) =>
-        link(`#/${f.id}`, h('strong', {}, f.title), h('span', {}, f.kurz), h('small', {}, `${f.kapitel.length} Kapitel`)),
+    'ul',
+    { class: 'zeilen' },
+    ...f.kapitel.map((k) =>
+      h(
+        'li',
+        {},
+        link(
+          `#/${f.id}/${k.id}`,
+          h('span', { class: 't' }, k.title),
+          h('span', { class: 's' }, k.kurz),
+          h('span', { class: 'r num' }, anzahl(k.aufgaben.length, 'Aufgabe', 'Aufgaben'), pfeil()),
+        ),
       ),
     ),
-    h('p', { class: 'fuss' }, 'Neue Version im Aufbau. ', link('../', 'Zu den bisherigen Trainern')),
+    ...folgt,
+  );
+}
+const zeilenKlasse = (root: HTMLElement) => {
+  root.querySelectorAll('.zeilen a').forEach((a) => a.classList.add('zeile'));
+  return root;
+};
+
+export function startSeite(faecher: Fach[]): HTMLElement {
+  const total = faecher.reduce((s, f) => s + f.kapitel.reduce((t, k) => t + k.aufgaben.length, 0), 0);
+  return zeilenKlasse(
+    h(
+      'section',
+      {},
+      titelzeile('Lernwerkstatt', `Physik und Zeichnungstechnik für Konstrukteure EFZ · ${anzahl(total, 'Aufgabe', 'Aufgaben')} mit neuen Zahlen bei jedem Versuch`),
+      h(
+        'div',
+        { class: 'raster zwei' },
+        h(
+          'div',
+          { class: 'raster' },
+          ...faecher.map((f) =>
+            h(
+              'section',
+              { class: 'tafel' },
+              h('header', {}, h('h2', {}, f.title), h('span', { class: 'meta num' }, `${f.kapitel.length} von ${f.kapitel.length + (f.geplant?.length ?? 0)} Kapiteln umgezogen`)),
+              kapitelZeilen(f),
+            ),
+          ),
+        ),
+        h(
+          'aside',
+          { class: 'tafel seite-rechts' },
+          h('header', {}, h('h2', {}, 'Noch im bisherigen Trainer')),
+          h(
+            'ul',
+            { class: 'zeilen' },
+            h('li', {}, link('../physik/', h('span', { class: 't' }, 'Physik'), h('span', { class: 's' }, 'Alle übrigen Kapitel, von Biegen bis Einfache Maschinen'), h('span', { class: 'r' }, pfeil()))),
+            h('li', {}, link('../zeichnung/', h('span', { class: 't' }, 'Zeichnungstechnik'), h('span', { class: 's' }, 'Bemassung, Toleranzen, Oberfläche, Stücklisten, Maschinenelemente'), h('span', { class: 'r' }, pfeil()))),
+          ),
+        ),
+      ),
+    ),
   );
 }
 
 export function fachSeite(f: Fach): HTMLElement {
-  return h(
-    'section',
-    { class: 'seite' },
-    h('nav', { class: 'pfad' }, link('#/', 'Start'), ' › ', f.title),
-    h('h1', {}, f.title),
+  return zeilenKlasse(
     h(
-      'div',
-      { class: 'liste' },
-      ...f.kapitel.map((k) =>
-        link(`#/${f.id}/${k.id}`, h('strong', {}, k.title), h('span', {}, k.kurz), h('small', {}, `${k.aufgaben.length} Aufgaben`)),
-      ),
+      'section',
+      {},
+      pfad(link('#/', 'Start'), ' / ', f.title),
+      titelzeile(f.title, f.kurz),
+      h('section', { class: 'tafel' }, kapitelZeilen(f)),
     ),
   );
 }
 
-export function kapitelSeite(f: Fach, k: Kapitel, filter: { karte?: string; stufe?: Stufe }): HTMLElement {
-  const seite = h('section', { class: 'seite' });
-  seite.append(
-    h('nav', { class: 'pfad' }, link('#/', 'Start'), ' › ', link(`#/${f.id}`, f.title), ' › ', k.title),
-    h('h1', {}, k.title),
-    h('div', { class: 'knoepfe' }, link(`#/${f.id}/${k.id}/test`, 'Kapiteltest starten')),
-  );
-  seite.querySelector('.knoepfe a')!.className = 'knopf haupt';
+export interface Filter {
+  karte?: string;
+  stufe?: Stufe;
+}
+export const gefiltert = (k: Kapitel, fi: Filter) =>
+  k.aufgaben.filter((t) => (!fi.karte || t.karte === fi.karte) && (!fi.stufe || t.stufe === fi.stufe));
+const query = (fi: Filter) => {
+  const s = new URLSearchParams();
+  if (fi.karte) s.set('karte', fi.karte);
+  if (fi.stufe) s.set('stufe', String(fi.stufe));
+  const t = s.toString();
+  return t ? `?${t}` : '';
+};
 
-  // Formelkarte
-  seite.append(
-    h(
-      'details',
-      { class: 'formeln' },
-      h('summary', {}, 'Formelkarte'),
-      h(
-        'dl',
-        {},
-        ...k.formeln.flatMap((fo) => [h('dt', {}, fo.name), h('dd', { html: fo.f + (fo.g ? `<small>${fo.g}</small>` : '') })]),
-      ),
-    ),
+function formelkarte(k: Kapitel, offen: boolean) {
+  const d = h(
+    'details',
+    { class: 'tafel formeln' },
+    h('summary', {}, 'Formelkarte'),
+    h('dl', {}, ...k.formeln.flatMap((fo) => [h('dt', {}, fo.name), h('dd', { html: fo.f + (fo.g ? `<small>${fo.g}</small>` : '') })])),
   );
+  if (offen) d.setAttribute('open', '');
+  return d;
+}
 
-  // Filter: Lernkarte und Stufe
+const breit = () => window.matchMedia?.('(min-width: 960px)').matches ?? false;
+
+export function kapitelSeite(f: Fach, k: Kapitel, fi: Filter): HTMLElement {
   const basis = `#/${f.id}/${k.id}`;
-  const q = (karte?: string, stufe?: Stufe) => {
-    const s = new URLSearchParams();
-    if (karte) s.set('karte', karte);
-    if (stufe) s.set('stufe', String(stufe));
-    const t = s.toString();
-    return t ? `${basis}?${t}` : basis;
-  };
-  const chip = (href: string, label: string, aktiv: boolean) => {
-    const a = link(href, label);
-    a.className = 'chip' + (aktiv ? ' aktiv' : '');
-    return a;
-  };
-  seite.append(
+  const chip = (href: string, label: string, aktiv: boolean) =>
+    h('a', { href, class: aktiv ? 'chip aktiv' : 'chip', ...(aktiv ? { 'aria-current': 'true' } : {}) }, label);
+  const liste = gefiltert(k, fi);
+  const q = query(fi);
+
+  const zeilen = (aufgaben: Task[]) =>
     h(
-      'div',
-      { class: 'filter', role: 'navigation', 'aria-label': 'Lernkarten' },
-      chip(q(undefined, filter.stufe), 'Alle', !filter.karte),
-      ...k.karten.map((c) => chip(q(c.id, filter.stufe), c.title, filter.karte === c.id)),
-    ),
+      'ul',
+      { class: 'zeilen' },
+      ...aufgaben.map((t) =>
+        h(
+          'li',
+          {},
+          link(
+            `${basis}/a/${t.id}${q}`,
+            h('span', { class: 't' }, t.title),
+            h('span', { class: 's' }, FAMILIEN[t.familie]),
+            h('span', { class: 'r' }, stufenMarke(t.stufe), h('span', {}, STUFEN[t.stufe]), pfeil()),
+          ),
+        ),
+      ),
+    );
+
+  // Gruppiert nach Lernkarte, in der Reihenfolge der Karten
+  const gruppen = k.karten
+    .filter((c) => !fi.karte || c.id === fi.karte)
+    .map((c) => ({ c, t: liste.filter((t) => t.karte === c.id) }))
+    .filter((g) => g.t.length);
+
+  const listeTafel = h(
+    'section',
+    { class: 'tafel' },
+    ...(gruppen.length
+      ? gruppen.flatMap((g) => [h('div', { class: 'gruppe' }, h('h2', {}, g.c.title), h('p', {}, g.c.ziel)), zeilen(g.t)])
+      : [h('p', { class: 'leer' }, 'Für diese Auswahl gibt es noch keine Aufgaben. ', link(basis, 'Filter zurücksetzen'))]),
+  );
+
+  return zeilenKlasse(
     h(
-      'div',
-      { class: 'filter', role: 'navigation', 'aria-label': 'Stufen' },
-      chip(q(filter.karte), 'Alle Stufen', !filter.stufe),
-      ...([1, 2, 3] as Stufe[]).map((s) => chip(q(filter.karte, s), `${s} · ${STUFEN[s]}`, filter.stufe === s)),
+      'section',
+      {},
+      pfad(link('#/', 'Start'), ' / ', link(`#/${f.id}`, f.title), ' / ', k.title),
+      titelzeile(
+        k.title,
+        `${anzahl(k.aufgaben.length, 'Aufgabe', 'Aufgaben')} in ${anzahl(k.karten.length, 'Lernkarte', 'Lernkarten')} · ${k.kurz}`,
+        h(
+          'div',
+          { class: 'knoepfe' },
+          liste.length ? knopf(`${basis}/a/${liste[0].id}${q}`, 'Der Reihe nach üben') : null,
+          knopf(`${basis}/test`, 'Kapiteltest', 'haupt'),
+        ),
+      ),
+      h(
+        'div',
+        { class: 'filter', role: 'navigation', 'aria-label': 'Lernkarte' },
+        chip(`${basis}${query({ stufe: fi.stufe })}`, 'Alle Lernkarten', !fi.karte),
+        ...k.karten.map((c) => chip(`${basis}${query({ karte: c.id, stufe: fi.stufe })}`, c.title, fi.karte === c.id)),
+      ),
+      h(
+        'div',
+        { class: 'filter', role: 'navigation', 'aria-label': 'Stufe' },
+        chip(`${basis}${query({ karte: fi.karte })}`, 'Alle Stufen', !fi.stufe),
+        ...([1, 2, 3] as Stufe[]).map((s) => chip(`${basis}${query({ karte: fi.karte, stufe: s })}`, `${s} · ${STUFEN[s]}`, fi.stufe === s)),
+      ),
+      h('div', { class: 'raster zwei' }, listeTafel, h('div', { class: 'seite-rechts' }, formelkarte(k, breit()))),
     ),
   );
-  const kAkt = k.karten.find((c) => c.id === filter.karte);
-  if (kAkt) seite.append(h('p', { class: 'ziel' }, `Ziel: ${kAkt.ziel}`));
+}
 
-  const liste = k.aufgaben.filter((t) => (!filter.karte || t.karte === filter.karte) && (!filter.stufe || t.stufe === filter.stufe));
-  if (!liste.length) seite.append(h('p', {}, 'Für diese Auswahl gibt es noch keine Aufgaben.'));
-  liste.forEach((t, i) => seite.append(aufgabenKarte(t, { nummer: i + 1 })));
-  return seite;
+export function aufgabeSeite(f: Fach, k: Kapitel, id: string, fi: Filter): HTMLElement {
+  const basis = `#/${f.id}/${k.id}`;
+  let liste = gefiltert(k, fi);
+  let q = query(fi);
+  if (!liste.some((t) => t.id === id)) {
+    liste = k.aufgaben;
+    q = '';
+  }
+  const i = liste.findIndex((t) => t.id === id);
+  const t = liste[i];
+  if (!t) return h('section', {}, titelzeile('Aufgabe nicht gefunden'), link(basis, 'Zum Kapitel'));
+  const karte = k.karten.find((c) => c.id === t.karte);
+  const vor = liste[i - 1];
+  const nach = liste[i + 1];
+  const blaettern = h(
+    'nav',
+    { class: 'blaettern', 'aria-label': 'Blättern' },
+    vor ? knopf(`${basis}/a/${vor.id}${q}`, '‹ Vorherige', 'text') : h('span'),
+    h('span', { class: 'mitte num' }, `${i + 1} von ${liste.length}`),
+    nach ? knopf(`${basis}/a/${nach.id}${q}`, 'Nächste ›', 'haupt') : knopf(`${basis}/test`, 'Zum Kapiteltest', 'haupt'),
+  );
+  return h(
+    'section',
+    {},
+    pfad(link('#/', 'Start'), ' / ', link(`#/${f.id}`, f.title), ' / ', link(`${basis}${q}`, k.title)),
+    titelzeile(t.title, karte ? `${karte.title}: ${karte.ziel}` : undefined),
+    h(
+      'div',
+      { class: 'raster zwei' },
+      h('div', {}, aufgabenKarte(t, { karte: karte?.title, ohneTitel: true, nummer: `${i + 1} von ${liste.length}` }), blaettern),
+      h('div', { class: 'seite-rechts' }, formelkarte(k, breit())),
+    ),
+  );
 }
 
 const mischen = <T>(a: T[]) => {
@@ -136,21 +261,20 @@ export function testSeite(f: Fach, k: Kapitel): HTMLElement {
 
   const seite = h(
     'section',
-    { class: 'seite test' },
-    h('nav', { class: 'pfad' }, link('#/', 'Start'), ' › ', link(`#/${f.id}/${k.id}`, k.title), ' › Kapiteltest'),
-    h('h1', {}, `Kapiteltest: ${k.title}`),
-    h(
-      'p',
-      { class: 'unter' },
-      `${auswahl.length} Aufgaben, von leicht nach schwer. Tipps sind erlaubt, kosten aber Punkte. Nach dem Prüfen siehst du sofort die Erklärung. Zeit: `,
-      uhr,
+    { class: 'test' },
+    pfad(link('#/', 'Start'), ' / ', link(`#/${f.id}`, f.title), ' / ', link(`#/${f.id}/${k.id}`, k.title)),
+    titelzeile(
+      `Kapiteltest: ${k.title}`,
+      `${auswahl.length} Aufgaben, von leicht nach schwer. Ein Tipp kostet 0,25 Punkte. Nach dem Prüfen siehst du sofort den Lösungsweg.`,
+      h('p', { class: 'unter num' }, 'Zeit ', uhr),
     ),
   );
   auswahl.forEach((t, i) =>
     seite.append(
       aufgabenKarte(t, {
         test: true,
-        nummer: i + 1,
+        nummer: `${i + 1} von ${auswahl.length}`,
+        karte: k.karten.find((c) => c.id === t.karte)?.title,
         geprueft: (p, max) => {
           stand.set(t.id, { p, max, karte: t.karte });
           zeigeBilanz(false);
@@ -171,19 +295,24 @@ export function testSeite(f: Fach, k: Kapitel): HTMLElement {
       max += s?.max ?? t.asks(t.gen()).length;
     });
     const offen = auswahl.length - stand.size;
+    const pt = (x: number) => String(x).replace('.', ',');
     bilanz.replaceChildren();
     if (!ende && offen) {
-      bilanz.append(h('p', {}, `Bearbeitet: ${stand.size} von ${auswahl.length}. Punkte bisher: ${p}.`));
+      bilanz.append(h('p', { class: 'unter num' }, `Bearbeitet: ${stand.size} von ${auswahl.length} · Punkte bisher: ${pt(p)}`));
       return;
     }
     const schwach = k.karten.filter((c) => [...stand.values()].some((s) => s.karte === c.id && s.p < s.max));
     bilanz.append(
-      h('h2', {}, `Note ${note(p, max).toFixed(1).replace('.', ',')}`),
-      h('p', {}, `${p} von ${max} Punkten.${offen ? ` ${offen} Aufgaben nicht bearbeitet (0 Punkte).` : ''}`),
-      schwach.length
-        ? h('p', {}, 'Nochmals üben: ', ...schwach.flatMap((c, i) => [i ? ', ' : '', link(`#/${f.id}/${k.id}?karte=${c.id}`, c.title)]))
-        : h('p', {}, 'Alle Lernkarten sitzen. Stark!'),
-      link(`#/${f.id}/${k.id}/test?n=${Date.now()}`, 'Neuer Test mit neuen Aufgaben'),
+      h(
+        'section',
+        { class: 'tafel aufgabe' },
+        h('p', { class: 'note' }, `Note ${note(p, max).toFixed(1).replace('.', ',')}`),
+        h('p', { class: 'num' }, `${pt(p)} von ${max} Punkten.${offen ? ` ${anzahl(offen, 'Aufgabe', 'Aufgaben')} nicht bearbeitet (0 Punkte).` : ''}`),
+        schwach.length
+          ? h('p', {}, 'Nochmals üben: ', ...schwach.flatMap((c, i) => [i ? ', ' : '', link(`#/${f.id}/${k.id}?karte=${c.id}`, c.title)]))
+          : h('p', {}, 'Alle Lernkarten sitzen.'),
+        h('div', { class: 'knoepfe' }, knopf(`#/${f.id}/${k.id}/test?n=${Date.now()}`, 'Neuer Test', 'haupt'), knopf(`#/${f.id}/${k.id}`, 'Zum Kapitel')),
+      ),
     );
   }
 }
