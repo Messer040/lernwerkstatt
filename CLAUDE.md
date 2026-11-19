@@ -3,8 +3,10 @@
 Elias lernt Konstrukteur EFZ (Schweiz). Antworten in einfachem, klarem Deutsch, kurze Sätze, Schweizer ss, Warnungen mit «Warnung:». Er arbeitet oft am Handy.
 
 ## Projekt
-- `physik/index.html`: Physik-Trainer. Aufgabe = {id, lvl, src, title, gen(), draw(p), text(p), asks(p)=[{k,unit,v}], hints(p), sol(p), solDraw?}. Tabs in TOPICS, Pools in SETS, Abschnitte secs.<key>. Kapiteltest: addKapTest().
-- `zeichnung/src/index.html`: Zeichnungstechnik-Trainer. Aufgabe = {id, kap, type, title, text, draw(), questions:[{q,opts,a}|{q,num:1,a,tol}]} oder entry. Kapitel in KAPS. Nach Änderungen `python3 zeichnung/src/build.py` ausführen.
+- **Neu (Hauptweg ab jetzt):** `app/` = Vite + TypeScript, Build nach `neu/`. Aufbau und Aufgabenformat: `docs/ARCHITEKTUR.md`. Neue Kapitel nur noch hier. Nach Änderungen: `cd app && npm test && npm run build`, `neu/` mit committen. Nichts speichern, keine Freischaltung, freie Themenwahl.
+- Alt (bleibt online, bis umgezogen):
+  - `physik/index.html`: Physik-Trainer. Aufgabe = {id, lvl, src, title, gen(), draw(p), text(p), asks(p)=[{k,unit,v}], hints(p), sol(p), solDraw?}. Tabs in TOPICS, Pools in SETS, Abschnitte secs.<key>. Kapiteltest: addKapTest().
+  - `zeichnung/src/index.html`: Zeichnungstechnik-Trainer. Aufgabe = {id, kap, type, title, text, draw(), questions:[{q,opts,a}|{q,num:1,a,tol}]} oder entry. Kapitel in KAPS. Nach Änderungen `python3 zeichnung/src/build.py` ausführen.
 - Stand und Buchdaten: `docs/STAND_*.md`. Nach jedem Paket ergänzen.
 
 ## Rezept pro Kapitel (nicht nachfragen)
