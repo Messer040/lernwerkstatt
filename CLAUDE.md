@@ -3,7 +3,7 @@
 Elias lernt Konstrukteur EFZ (Schweiz). Antworten in einfachem, klarem Deutsch, kurze Sätze, Schweizer ss, Warnungen mit «Warnung:». Er arbeitet oft am Handy.
 
 ## Projekt
-- **Neu (Hauptweg ab jetzt):** `app/` = Vite + TypeScript, Build nach `neu/`. Aufbau und Aufgabenformat: `docs/ARCHITEKTUR.md`. Neue Kapitel nur noch hier. Nach Änderungen: `cd app && npm test && npm run build`, `neu/` mit committen. Nichts speichern, keine Freischaltung, freie Themenwahl.
+- **Neu (Hauptweg ab jetzt):** `app/` = Vite + TypeScript, Build nach `neu/`. Aufbau und Aufgabenformat: `docs/ARCHITEKTUR.md`. Neue Kapitel nur noch hier. **Kapitel umziehen: `docs/UMZUG.md` befolgen.** Nach Änderungen: `cd app && npm test && npm run build`, `neu/` mit committen. Nichts speichern, keine Freischaltung, freie Themenwahl.
 - Alt (bleibt online, bis umgezogen):
   - `physik/index.html`: Physik-Trainer. Aufgabe = {id, lvl, src, title, gen(), draw(p), text(p), asks(p)=[{k,unit,v}], hints(p), sol(p), solDraw?}. Tabs in TOPICS, Pools in SETS, Abschnitte secs.<key>. Kapiteltest: addKapTest().
   - `zeichnung/src/index.html`: Zeichnungstechnik-Trainer. Aufgabe = {id, kap, type, title, text, draw(), questions:[{q,opts,a}|{q,num:1,a,tol}]} oder entry. Kapitel in KAPS. Nach Änderungen `python3 zeichnung/src/build.py` ausführen.
@@ -20,7 +20,7 @@ Elias lernt Konstrukteur EFZ (Schweiz). Antworten in einfachem, klarem Deutsch, 
 - Auf «mach was von der Liste» oder «Verbesserungen» hin: oberste offene S-Punkte zuerst erledigen.
 
 ## Ablauf
-1. Ändern. 2. Tests in `tests/` laufen lassen (alle «fb ok», keine JS-Fehler). 3. Neue Zeichnungen per Screenshot prüfen (keine Überlappungen, Handy-Breite). 4. Commit mit kurzer deutscher Nachricht, push auf `main`. 5. Elias kurz berichten.
+1. Ändern. 2. Tests: neu `cd app && npm test && npm run build`; alt `tests/` (alle «fb ok», keine JS-Fehler). 3. Neue Zeichnungen per Screenshot prüfen (keine Überlappungen, Handy-Breite). 4. Commit mit kurzer deutscher Nachricht, push auf `main`. 5. Elias kurz berichten.
 
 ## Alte Artifacts als Quelle
 - Liste aller alten Lern-Artifacts mit Links: README im privaten Repo `Messer040/lernwerkstatt-unterlagen`.
