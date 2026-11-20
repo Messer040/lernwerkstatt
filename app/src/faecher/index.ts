@@ -3,14 +3,15 @@ import type { Fach } from '../core/types';
 import { drehmoment } from './physik/drehmoment';
 import { kraefteAddieren } from './physik/kraefte-addieren';
 import { kraefteZerlegen } from './physik/kraefte-zerlegen';
+import { anDerWand } from './physik/an-der-wand';
 
 export const FAECHER: Fach[] = [
   {
     id: 'physik',
     title: 'Physik',
     kurz: 'Kräfte, Momente, Lager, Reibung, Arbeit',
-    kapitel: [kraefteAddieren, kraefteZerlegen, drehmoment],
-    geplant: ['An der Wand', 'Lagerkräfte', 'Kettenaufgaben', 'Umfangskraft', 'Reibung', 'Arbeit, Energie', 'Leistung, Wirkungsgrad', 'Einfache Maschinen, Flaschenzüge', 'Beschleunigungs- und Gewichtskraft', 'Bewegungen', 'Biegen: Zuschnitt'],
+    kapitel: [kraefteAddieren, kraefteZerlegen, drehmoment, anDerWand],
+    geplant: ['Lagerkräfte', 'Kettenaufgaben', 'Umfangskraft', 'Reibung', 'Arbeit, Energie', 'Leistung, Wirkungsgrad', 'Einfache Maschinen, Flaschenzüge', 'Beschleunigungs- und Gewichtskraft', 'Bewegungen', 'Biegen: Zuschnitt'],
   },
 ];
 

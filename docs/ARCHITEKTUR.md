@@ -53,6 +53,7 @@ app/
 | Kräfte addieren | physik/ Tab «Kräfte addieren» (k1–k5, Buch-Aufgaben KB, kreative KK) | neu/#/physik/addieren (a1–a17, 4 Lernkarten, Fehlerwerte) |
 | Kräfte zerlegen | physik/ Tab «Kräfte zerlegen» (z1–z10, Buch-Aufgaben ZB, kreative ZK) | neu/#/physik/zerlegen (22 Aufgaben z1–z22, 5 Lernkarten, Fehlerwerte) |
 | Drehmoment, Hebelgesetz | physik/ Tab «Drehmoment» (d1–d9) | neu/#/physik/dreh (d1–d13, mit Fehlerwerten) |
+| An der Wand | physik/ Tab «An der Wand» (w1–w6) | neu/#/physik/wand (12 Aufgaben w1–w12, 4 Lernkarten, Fehlerwerte) |
 
 ## Design
 - Stil «Achromatic ledger» (Design-Skill, Seed 1226934261): Oberfläche ohne Farbe, Hauptknopf fast schwarz, Grund blaugrau #f2f4f7 (Zeichenpapier). Farbe nur auf Daten: Bauteilbilder, Formeln, richtig/falsch.
