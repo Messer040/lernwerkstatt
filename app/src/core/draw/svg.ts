@@ -71,7 +71,7 @@ export function blatt(h = 300, titel = 'Bauteilbild'): SVGSVGElement {
 }
 
 const mid = (s: SVGSVGElement) => s.getAttribute('data-mid')!;
-const ref = (s: SVGSVGElement, n: string) => `url(#${mid(s)}${n})`;
+export const ref = (s: SVGSVGElement, n: string) => `url(#${mid(s)}${n})`;
 
 /** «F_G» → F mit tiefgestelltem G */
 function tief(t: string): string {
@@ -185,6 +185,12 @@ export function kraftWinkel(
   line(s, x, y, ex, ey, { stroke: c, 'stroke-width': o.res ? 4 : 3.2, 'marker-end': ref(s, o.res ? 'R' : 'F') });
   if (lab) txt(s, ex + (o.dx ?? 8), ey + (o.dy ?? -6), lab, { fill: c, 'font-weight': 600, 'font-size': 14, ...(o.t ?? {}) });
   return [ex, ey];
+}
+
+/** Stab (Strebe, Schenkel, Leiter): blauer Stahlstab mit runden Enden. */
+export function stab(s: SVGSVGElement, x1: number, y1: number, x2: number, y2: number, wd = 7) {
+  line(s, x1, y1, x2, y2, { stroke: C.STAHLRAND, 'stroke-width': wd, 'stroke-linecap': 'round' });
+  line(s, x1, y1, x2, y2, { stroke: C.STAHL, 'stroke-width': wd - 3, 'stroke-linecap': 'round' });
 }
 
 /** Seil (dünne dunkle Linie). */

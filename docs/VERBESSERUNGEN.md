@@ -13,7 +13,7 @@ Aufwand: S = unter 30 Min., M = eine Sitzung, L = mehrere Sitzungen.
 - [ ] **Drehmoment: Aufgaben vom BBZ-Blatt** (M, 20.11.): Riemenscheibe, Knebel, Pronyscher Zaum, Zahnradtrieb (Moment am grossen Rad = F · r₂), Kragträger mit zwei Kräften. Fehlerwerte: M : r₂ statt F · r₂, mm statt m.
 
 - [ ] **Bilder am Handy** (M, neu): Die SVGs haben 520 px Mindestbreite, am Handy muss man seitlich wischen. Möglichkeiten: grössere Schrift im Bild bei schmalem Bildschirm, Hochformat-Varianten oder Zoom per Antippen.
-- [ ] **Physik umziehen** (L, neu): Kräfte addieren, Kräfte zerlegen, An der Wand, Beschleunigung, Lagerkräfte, Kettenaufgaben, Umfangskraft, Reibung, Arbeit, Leistung, Einfache Maschinen, Biegen, Bewegungen, Knobel, Einheiten. Pro Kapitel Fehlerwerte und 3 Tipps ergänzen.
+- [ ] **Physik umziehen** (L, neu): An der Wand, Beschleunigung, Lagerkräfte, Kettenaufgaben, Umfangskraft, Reibung, Arbeit, Leistung, Einfache Maschinen, Biegen, Bewegungen, Knobel, Einheiten. Pro Kapitel Fehlerwerte und 3 Tipps ergänzen.
 - [ ] **Zeichnungstechnik umziehen** (L, neu): Kap. 7, 9, 10, 11, 12, FL, ME ins neue Format.
 - [ ] **Prüfungssimulation über mehrere Kapitel** (M, neu): 15–20 gemischte Aufgaben, Zeitlimit, keine Tipps, Note und Auswertung pro Kapitel.
 
@@ -47,9 +47,14 @@ Aufwand: S = unter 30 Min., M = eine Sitzung, L = mehrere Sitzungen.
 
 - [ ] **Formelzeichen F_R bei Reibung** (S, neu): Im Kapitel «Kräfte addieren» heisst die Resultierende durchgehend F_r. Im Kapitel Reibung F_R für die Reibkraft beibehalten oder zu F_Reib ändern.
 - [ ] **Bilder am Handy scrollen waagrecht** (S, neu): `.blatt .bild svg` hat `min-width: 520px`. Prüfen, ob schmalere Bilder mit grösserer Schrift besser lesbar wären.
+- [ ] **Zerlegen: Erklärschritte fehlen** (M, neu): Im alten Trainer führten Schritt-Bilder (Kräfteparallelogramm, `drawPara`/`PF`) durch jede Zerlegung. Neu gibt es nur Tipps und ein Lösungsbild bei z1 und z15. Parallelogramm-Bild als Baustein in `svg.ts` nachbauen.
+- [ ] **Schrift auf Schraffur: Halo als Baustein** (S, neu): In `kraefte-zerlegen/bilder.ts` steht lokal `HALO` (weisser Rand um Schrift). Als Option von `txt()` nach `svg.ts` verschieben und bei V-Führung, Keil, Schrägrad nutzen.
+- [ ] **Zerlegen: Stehleiter-Label bei engem Winkel** (S, neu): `spreiz` setzt α neben die Spitze, wenn α < 80°. Bei sehr engem Winkel (< 20°) prüfen, ob F₁/F₂ noch Platz haben.
 - [ ] **Hubseil-Bild: F_max-Label** (S, neu, Bild `hubseil`): Label «F_max» liegt dicht am Strang. Beim nächsten Seil-Kapitel prüfen.
 
 ## Erledigt
+
+- [x] 20.11.2026: Kapitel «Kräfte zerlegen» umgezogen (z1–z22, 18 alte + 4 neue: Schätzen z19, Fehler finden z22, Umgekehrt z20, Was wäre wenn z21). Dabei gefunden und behoben: Im alten Trainer standen die Normalkraft-Pfeile der V-Führung (zb5) und der Keilspanner-Pfeil F_NB nicht senkrecht zur Fläche. Neu gezeichnet. Der alte Trainer bleibt unverändert. Neuer Baustein `stab` in `svg.ts`, `ref` wird exportiert.
 
 - [x] 19.11.2026: Kapitel «Kräfte addieren» umgezogen (a1–a17). Dabei gefunden und behoben: Alte Aufgabe «Hubseil: Wie gross darf α sein?» (ck2) gab bei F = 8 kN und F_G = 18 kN NaN, weil F_G > 2 · F. Neu: F ab 10 kN. Neue Bausteine in `svg.ts`: `kraftWinkel`, `seil`, `kraefteplan`, `saeulen`.
 

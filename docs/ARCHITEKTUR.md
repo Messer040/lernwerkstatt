@@ -51,6 +51,7 @@ app/
 | Kapitel | alt | neu |
 | --- | --- | --- |
 | Kräfte addieren | physik/ Tab «Kräfte addieren» (k1–k5, Buch-Aufgaben KB, kreative KK) | neu/#/physik/addieren (a1–a17, 4 Lernkarten, Fehlerwerte) |
+| Kräfte zerlegen | physik/ Tab «Kräfte zerlegen» (z1–z10, Buch-Aufgaben ZB, kreative ZK) | neu/#/physik/zerlegen (22 Aufgaben z1–z22, 5 Lernkarten, Fehlerwerte) |
 | Drehmoment, Hebelgesetz | physik/ Tab «Drehmoment» (d1–d9) | neu/#/physik/dreh (d1–d13, mit Fehlerwerten) |
 
 ## Design

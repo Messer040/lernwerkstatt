@@ -258,3 +258,6 @@ details.formeln[open] > summary::after { transform: rotate(225deg); }
   .vorschau-liste { grid-auto-flow: row; grid-auto-columns: auto; grid-template-columns: 1fr; overflow-x: hidden; overflow-y: auto; max-height: calc(100vh - 380px); min-height: 240px; padding: 0 8px 8px; gap: 2px; }
   .vs { grid-template-columns: 112px 1fr; align-items: center; gap: 12px; }
 }
+
+/* Rechenweg eines Lernenden in Fehler-finden-Aufgaben */
+.fehlerliste { margin: 8px 0; padding: 8px 12px 8px 30px; background: var(--raised); border: 1px solid var(--border); border-radius: var(--radius-control); }
