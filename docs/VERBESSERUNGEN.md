@@ -16,7 +16,7 @@ Aufwand: S = unter 30 Min., M = eine Sitzung, L = mehrere Sitzungen.
 - [ ] **Kraftpfeil-Beschriftung** (S, 20.11.): Pfeilspitzen sind etwa 16 px breit. Beschriftung neben senkrechten Pfeilen mindestens 16 px versetzen, sonst überlappt die Spitze die Schrift. Im Baustein `kraft` als Parameter abfangen.
 
 - [ ] **Bilder am Handy** (M, neu): Die SVGs haben 520 px Mindestbreite, am Handy muss man seitlich wischen. Möglichkeiten: grössere Schrift im Bild bei schmalem Bildschirm, Hochformat-Varianten oder Zoom per Antippen.
-- [ ] **Physik umziehen** (L, neu): ~~An der Wand~~ (erledigt 20.11.), Beschleunigung, Lagerkräfte, Kettenaufgaben, Umfangskraft, Reibung, Arbeit, Leistung, Einfache Maschinen, Biegen, Bewegungen, Knobel, Einheiten. Pro Kapitel Fehlerwerte und 3 Tipps ergänzen.
+- [ ] **Physik umziehen** (L, neu): ~~An der Wand~~ (erledigt 20.11.), Beschleunigung, ~~Lagerkräfte~~ (erledigt 21.11.), Kettenaufgaben, Umfangskraft, Reibung, Arbeit, Leistung, Einfache Maschinen, Biegen, Bewegungen, Knobel, Einheiten. Pro Kapitel Fehlerwerte und 3 Tipps ergänzen.
 - [ ] **Zeichnungstechnik umziehen** (L, neu): Kap. 7, 9, 10, 11, 12, FL, ME ins neue Format.
 - [ ] **Prüfungssimulation über mehrere Kapitel** (M, neu): 15–20 gemischte Aufgaben, Zeitlimit, keine Tipps, Note und Auswertung pro Kapitel.
 
@@ -50,12 +50,17 @@ Aufwand: S = unter 30 Min., M = eine Sitzung, L = mehrere Sitzungen.
 
 - [ ] **Formelzeichen F_R bei Reibung** (S, neu): Im Kapitel «Kräfte addieren» heisst die Resultierende durchgehend F_r. Im Kapitel Reibung F_R für die Reibkraft beibehalten oder zu F_Reib ändern.
 - [ ] **Bilder am Handy scrollen waagrecht** (S, neu): `.blatt .bild svg` hat `min-width: 520px`. Prüfen, ob schmalere Bilder mit grösserer Schrift besser lesbar wären.
+- [ ] **Lagerkräfte: Labor und Bild-Erklärung fehlen** (M, 21.11.): Im alten Trainer gab es ein Labor «Last verschieben» (Regler, F_A und F_B als Balken) und Schritt-Bilder pro Aufgabe. Neu gibt es nur Tipps und Lösungsbilder. Labor als eigene Karte oder Baustein nachbauen.
+- [ ] **Lagerkräfte: Vorzeichen statt Betrag** (S, 21.11.): Negative Lagerkräfte werden als Betrag plus Auswahl «nach oben/unten» gefragt (l16, l17), weil der Test nur positive Zahlen zulässt. Prüfen, ob Eingabe mit Minus besser lernt.
+- [ ] **Lagerkräfte: Hallenkran und Anhänger** (S, 21.11.): Bild l21 (Anhänger) hat enge Bemassung unten (l und x-Mass übereinander) und «B» liegt auf dem Rad. Hallenkran l31: Katze im Fragebild bei 0,8 · l, damit die Beschriftung F_2 nicht das Seil kreuzt.
 - [ ] **Zerlegen: Erklärschritte fehlen** (M, neu): Im alten Trainer führten Schritt-Bilder (Kräfteparallelogramm, `drawPara`/`PF`) durch jede Zerlegung. Neu gibt es nur Tipps und ein Lösungsbild bei z1 und z15. Parallelogramm-Bild als Baustein in `svg.ts` nachbauen.
 - [ ] **Schrift auf Schraffur: Halo als Baustein** (S, neu): In `kraefte-zerlegen/bilder.ts` steht lokal `HALO` (weisser Rand um Schrift). Als Option von `txt()` nach `svg.ts` verschieben und bei V-Führung, Keil, Schrägrad nutzen.
 - [ ] **Zerlegen: Stehleiter-Label bei engem Winkel** (S, neu): `spreiz` setzt α neben die Spitze, wenn α < 80°. Bei sehr engem Winkel (< 20°) prüfen, ob F₁/F₂ noch Platz haben.
 - [ ] **Hubseil-Bild: F_max-Label** (S, neu, Bild `hubseil`): Label «F_max» liegt dicht am Strang. Beim nächsten Seil-Kapitel prüfen.
 
 ## Erledigt
+
+- [x] 21.11.2026: Kapitel «Lagerkräfte» umgezogen (l1–l32: 26 alte Aufgaben aus Register, Kreativ und Buch + 6 neue: Fehler finden l13 und l29, Was wäre wenn l14, Umgekehrt l15, Schätzen l22, Begründen l23). Dabei gefunden: Alte Aufgabe «Träger mit Kragarm» hatte ein negatives F_A als Antwort. Neu: Betrag plus Richtung. Alte Feder-Aufgabe (b5) erlaubte Fehlwerte, die zu nah an der richtigen Antwort lagen. F_3 jetzt 200 bis 500 N.
 
 - [x] 20.11.2026: Kapitel «Kräfte zerlegen» umgezogen (z1–z22, 18 alte + 4 neue: Schätzen z19, Fehler finden z22, Umgekehrt z20, Was wäre wenn z21). Dabei gefunden und behoben: Im alten Trainer standen die Normalkraft-Pfeile der V-Führung (zb5) und der Keilspanner-Pfeil F_NB nicht senkrecht zur Fläche. Neu gezeichnet. Der alte Trainer bleibt unverändert. Neuer Baustein `stab` in `svg.ts`, `ref` wird exportiert.
 
