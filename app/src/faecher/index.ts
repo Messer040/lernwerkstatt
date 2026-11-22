@@ -5,14 +5,15 @@ import { kraefteAddieren } from './physik/kraefte-addieren';
 import { kraefteZerlegen } from './physik/kraefte-zerlegen';
 import { anDerWand } from './physik/an-der-wand';
 import { lagerkraefte } from './physik/lagerkraefte';
+import { kettenaufgaben } from './physik/kettenaufgaben';
 
 export const FAECHER: Fach[] = [
   {
     id: 'physik',
     title: 'Physik',
     kurz: 'Kräfte, Momente, Lager, Reibung, Arbeit',
-    kapitel: [kraefteAddieren, kraefteZerlegen, drehmoment, anDerWand, lagerkraefte],
-    geplant: ['Kettenaufgaben', 'Umfangskraft', 'Reibung', 'Arbeit, Energie', 'Leistung, Wirkungsgrad', 'Einfache Maschinen, Flaschenzüge', 'Beschleunigungs- und Gewichtskraft', 'Bewegungen', 'Biegen: Zuschnitt'],
+    kapitel: [kraefteAddieren, kraefteZerlegen, drehmoment, anDerWand, lagerkraefte, kettenaufgaben],
+    geplant: ['Umfangskraft', 'Reibung', 'Arbeit, Energie', 'Leistung, Wirkungsgrad', 'Einfache Maschinen, Flaschenzüge', 'Beschleunigungs- und Gewichtskraft', 'Bewegungen', 'Biegen: Zuschnitt'],
   },
 ];
 

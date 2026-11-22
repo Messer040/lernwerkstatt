@@ -16,7 +16,7 @@ Aufwand: S = unter 30 Min., M = eine Sitzung, L = mehrere Sitzungen.
 - [ ] **Kraftpfeil-Beschriftung** (S, 20.11.): Pfeilspitzen sind etwa 16 px breit. Beschriftung neben senkrechten Pfeilen mindestens 16 px versetzen, sonst überlappt die Spitze die Schrift. Im Baustein `kraft` als Parameter abfangen.
 
 - [ ] **Bilder am Handy** (M, neu): Die SVGs haben 520 px Mindestbreite, am Handy muss man seitlich wischen. Möglichkeiten: grössere Schrift im Bild bei schmalem Bildschirm, Hochformat-Varianten oder Zoom per Antippen.
-- [ ] **Physik umziehen** (L, neu): ~~An der Wand~~ (erledigt 20.11.), Beschleunigung, ~~Lagerkräfte~~ (erledigt 21.11.), Kettenaufgaben, Umfangskraft, Reibung, Arbeit, Leistung, Einfache Maschinen, Biegen, Bewegungen, Knobel, Einheiten. Pro Kapitel Fehlerwerte und 3 Tipps ergänzen.
+- [ ] **Physik umziehen** (L, neu): ~~An der Wand~~ (erledigt 20.11.), Beschleunigung, ~~Lagerkräfte~~ (erledigt 21.11.), ~~Kettenaufgaben~~ (erledigt 22.11.), Umfangskraft, Reibung, Arbeit, Leistung, Einfache Maschinen, Biegen, Bewegungen, Knobel, Einheiten. Pro Kapitel Fehlerwerte und 3 Tipps ergänzen.
 - [ ] **Zeichnungstechnik umziehen** (L, neu): Kap. 7, 9, 10, 11, 12, FL, ME ins neue Format.
 - [ ] **Prüfungssimulation über mehrere Kapitel** (M, neu): 15–20 gemischte Aufgaben, Zeitlimit, keine Tipps, Note und Auswertung pro Kapitel.
 
@@ -58,7 +58,12 @@ Aufwand: S = unter 30 Min., M = eine Sitzung, L = mehrere Sitzungen.
 - [ ] **Zerlegen: Stehleiter-Label bei engem Winkel** (S, neu): `spreiz` setzt α neben die Spitze, wenn α < 80°. Bei sehr engem Winkel (< 20°) prüfen, ob F₁/F₂ noch Platz haben.
 - [ ] **Hubseil-Bild: F_max-Label** (S, neu, Bild `hubseil`): Label «F_max» liegt dicht am Strang. Beim nächsten Seil-Kapitel prüfen.
 
+- [ ] **Kettenaufgaben: Zwischenwerte als Auswahl** (M, 22.11.): Bei langen Ketten (ke1: 7 Teilfragen) hilft ein «Zwischenergebnis prüfen»-Knopf pro Teilfrage. Heute gibt es nur Prüfen am Ende.
+- [ ] **Kettenaufgaben: Bild-Erklärung fehlt** (M, 22.11.): Im alten Trainer gab es Schritt-Bilder (Dominokette). Neu nur Lösungsbild bei ke1–ke4, ke6.
+
 ## Erledigt
+
+- [x] 22.11.2026: Kapitel «Kettenaufgaben» umgezogen (ke1–ke12: 6 alte + 6 neue: Schätzen ke7, Umgekehrt ke8, Was wäre wenn ke9, Fehler finden ke10–ke12). Dabei gefunden und behoben: Alte Aufgabe ke1 (Wandkonsole) erlaubte a = l. Dann ist F_Sy = F und F_Ay = 0, und die Antwort 0 ist nicht prüfbar. Neu: a höchstens 0,75 · l. Alte Aufgaben ke3 und ke5 hatten bei a = l : 2 gleich grosse Lagerkräfte F_A und F_B. Neu: dieser Fall wird ausgeschlossen. Alte Aufgabe ke6 erlaubte β = 45°, dann sind sin β und cos β gleich und der Fehlwert fällt mit der richtigen Antwort zusammen. Neu: β aus 30°, 40°, 50°, 60°.
 
 - [x] 21.11.2026: Kapitel «Lagerkräfte» umgezogen (l1–l32: 26 alte Aufgaben aus Register, Kreativ und Buch + 6 neue: Fehler finden l13 und l29, Was wäre wenn l14, Umgekehrt l15, Schätzen l22, Begründen l23). Dabei gefunden: Alte Aufgabe «Träger mit Kragarm» hatte ein negatives F_A als Antwort. Neu: Betrag plus Richtung. Alte Feder-Aufgabe (b5) erlaubte Fehlwerte, die zu nah an der richtigen Antwort lagen. F_3 jetzt 200 bis 500 N.
 
