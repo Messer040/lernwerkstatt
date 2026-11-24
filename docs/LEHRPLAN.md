@@ -31,16 +31,18 @@ T = bis Ende 4. Semester eingeführt, E = irgendwann im 1.–8. Semester.
 | Elektrotechnik | Masche, Reihenschaltung | Parallel, gemischt, el. Energie und Kosten |
 | Mathematik | Biegen (alt) | Algebra, Trigonometrie, Geometrie, Funktionen |
 | Maschinentechnik | nur alte Einzel-Artifacts (Lager, Wellen, Führungen) | Verbindungen, Zahnräder, Getriebe, Federn |
-| Werkstofftechnik | nur alte Einzel-Artifacts (Fe-C, Wärmebehandlung) | Festigkeitslehre, Werkstoffarten, Normbezeichnungen |
+| Werkstofftechnik | nur alte Einzel-Artifacts (Fe-C, Wärmebehandlung, Festigkeitslehre Repetition) | Werkstoffarten, Normbezeichnungen; Festigkeitslehre als Repetition (Schule schon durch) |
 | Fertigungstechnik | – | Spanen (v_c, n, f), CNC, Messfehler |
 | Steuerungstechnik | – | Logik, Pneumatik-Symbole, Weg-Schritt-Diagramm |
 
-## Reihenfolge für neue Kapitel (Vorschlag 24.11.2026)
-1. **Festigkeitslehre** (3. Sem., baut auf Kräften auf): Zug, Druck, Scherung, Flächenpressung, Hooke, Spannungs-Dehnungs-Diagramm.
-2. **Übertragungselemente** (3. Sem.): Zahnrad-Masse (m, d, d_a, a), Übersetzungen, Lager-Kurzzeichen, Riemen.
-3. **Elektrotechnik** weiter (3. Sem.): Parallel, gemischt, Energie und Kosten.
-4. **Steuerungstechnik** (4. Sem., T): Logik, Pneumatik-Symbole, Weg-Schritt-Diagramm.
-5. **Fertigungstechnik** (4. Sem., T): Schnittdaten, CNC-Grundlagen, Messfehler.
-6. **Werkstoffe und Mathe-Grundlagen** zum Repetieren für die Teilprüfung.
+## Stand in der Schule (von Elias)
+- 24.11.2026: Festigkeitslehre ist in der Schule schon durch (früher als im Plan).
+
+## Reihenfolge für neue Kapitel (Stand 24.11.2026)
+1. **Übertragungselemente** (3. Sem.): Zahnrad-Masse (m, d, d_a, a), Übersetzungen, Lager-Kurzzeichen, Riemen.
+2. **Elektrotechnik** weiter (3. Sem.): Parallel, gemischt, Energie und Kosten.
+3. **Steuerungstechnik** (4. Sem., T): Logik, Pneumatik-Symbole, Weg-Schritt-Diagramm.
+4. **Fertigungstechnik** (4. Sem., T): Schnittdaten, CNC-Grundlagen, Messfehler.
+5. **Repetition** für Teilprüfung und QV: Festigkeitslehre (altes Artifact «Festigkeitslehre Repetition» als Quelle), Werkstoffe, Mathe-Grundlagen.
 
 Regel für jede Sitzung: Vor einem neuen Kapitel diese Datei lesen. Was gerade in der Schule läuft, hat Vorrang vor dem Umzug alter Kapitel.
