@@ -28,3 +28,10 @@ Elias lernt Konstrukteur EFZ (Schweiz). Antworten in einfachem, klarem Deutsch, 
 - Beim Ausbau eines neuen Themas (Lager, Wellen, Werkstoffe, Festigkeit, Elektro, ABU) zuerst die passenden alten Artifacts mit read_artifact öffnen. Gute Erklärungen, Aufgaben und Grafiken übernehmen und verbessern. Kein 1:1-Kopieren.
 - Überholt (nicht mehr nötig): Kräfte-Trainer, Kräfte Lerner, Kräfte zeichnerisch lösen, Form- und Lagetoleranzen (alt), Wärmebehandlung (alt).
 - Neue Buch-PDFs und Fotos immer ins private Repo legen (`unterlagen/pdf/`, `unterlagen/bilder/<datum>/`), nie ins öffentliche.
+
+## Regel für Antworten (Zeichnungstechnik, Elias 24.11.)
+- Normnummern (ISO, DIN) nie nur bei der richtigen Antwort. Sonst verrät die Nummer die Lösung. Entweder haben alle Antworten eine Nummer oder keine. Normalerweise: keine Nummer in den Antworten, die Nummer steht in der Erklärung (`why`).
+- Keine Normnummern erfinden. Nummer nur nehmen, wenn sie sicher stimmt (Normen-Auszug oder verlässliche Quelle). Im Zweifel weglassen.
+- Antworten einer Frage gleich lang und gleich genau schreiben. Eine längere, genauere Antwort verrät die Lösung.
+- Falsche Antworten sind nahe Verwandte (gleiche Familie oder ähnlich klingend), keine offensichtlich fremden Teile.
+- Richtige Antwort an wechselnden Stellen. Anzahl Antworten je nach Frage (3 bis 5).
