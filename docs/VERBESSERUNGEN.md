@@ -16,7 +16,7 @@ Aufwand: S = unter 30 Min., M = eine Sitzung, L = mehrere Sitzungen.
 - [ ] **Kraftpfeil-Beschriftung** (S, 20.11.): Pfeilspitzen sind etwa 16 px breit. Beschriftung neben senkrechten Pfeilen mindestens 16 px versetzen, sonst überlappt die Spitze die Schrift. Im Baustein `kraft` als Parameter abfangen.
 
 - [ ] **Bilder am Handy** (M, neu): Die SVGs haben 520 px Mindestbreite, am Handy muss man seitlich wischen. Möglichkeiten: grössere Schrift im Bild bei schmalem Bildschirm, Hochformat-Varianten oder Zoom per Antippen.
-- [ ] **Physik umziehen** (L, neu): ~~An der Wand~~ (erledigt 20.11.), Beschleunigung, ~~Lagerkräfte~~ (erledigt 21.11.), ~~Kettenaufgaben~~ (erledigt 22.11.), ~~Umfangskraft~~, ~~Reibung~~ (erledigt 24.11.), ~~Arbeit, Energie~~ (erledigt 24.11.), ~~Leistung~~ (erledigt 24.11.), ~~Einfache Maschinen~~ (erledigt 24.11.), Biegen, Bewegungen, Beschleunigung, Knobel, Einheiten. Pro Kapitel Fehlerwerte und 3 Tipps ergänzen.
+- [ ] **Physik umziehen** (L, neu): ~~An der Wand~~ (erledigt 20.11.), Beschleunigung, ~~Lagerkräfte~~ (erledigt 21.11.), ~~Kettenaufgaben~~ (erledigt 22.11.), ~~Umfangskraft~~, ~~Reibung~~ (erledigt 24.11.), ~~Arbeit, Energie~~ (erledigt 24.11.), ~~Leistung~~ (erledigt 24.11.), ~~Einfache Maschinen~~ (erledigt 24.11.), ~~Beschleunigung~~ (erledigt 24.11.), Biegen, Bewegungen, Knobel, Einheiten. Pro Kapitel Fehlerwerte und 3 Tipps ergänzen.
 - [ ] **Labor «Wann rutscht die Kiste?»** (M, 24.11.): Der alte Trainer hat im Tab Reibung einen Schieberegler-Versuch (Zugkraft, F_N, μ₀). Im neuen Format gibt es noch keinen Laborbaustein. Erst bauen, wenn mehrere Kapitel Labore brauchen (auch Hebel, Flaschenzug).
 - [ ] **Labor «Energie wandelt sich um»** (M, 24.11.): Der alte Trainer hat im Tab Arbeit einen Schieberegler-Versuch (Kugel fällt, W_pot und W_kin als Balken). Fehlt im neuen Format, wie das Reibungs-Labor.
 - [ ] **Feder-Bild: Kraft-Weg-Diagramm nur schematisch** (S, 24.11.): Das Dreieck zeigt immer dieselbe Form und nicht die Werte der Aufgabe. Achsen mit F_max und s beschriften.
@@ -104,3 +104,6 @@ Aufwand: S = unter 30 Min., M = eine Sitzung, L = mehrere Sitzungen.
 - [x] 19.11.2026: Neues Gerüst Vite + TypeScript, Kapitel Drehmoment umgezogen, Fehlerwerte, 3-stufige Tipps, Kapiteltest mit Note.
 - [x] 19.11.2026: Schweizer Tausender-Apostroph in `fmt()`.
 - [x] 19.11.2026: Label «m = … kg» in der Schubkarre überlappte die Kistenkante.
+- [ ] **Labor «Kraft, Masse, Beschleunigung»** (M, 24.11.): Der alte Tab hat nur Aufgaben, aber ein Schieberegler-Versuch (m und a ändern, F wächst) würde F = m · a zeigen. Braucht den Laborbaustein.
+- [ ] **Aufzug-Bild nicht massstäblich** (S, 24.11.): Schacht und Kabine sind schematisch. Kraftpfeile haben immer dieselbe Länge, auch wenn F_S grösser oder kleiner als F_G ist. Pfeillängen aus den Werten ableiten.
+- [ ] **Heben-Bild: Label F_G berührt Pfeilspitze** (S, 24.11.): Im Bild `heben` (Aufgabe b14) steht F_G direkt an der Pfeilspitze. Siehe Punkt «Kraftpfeil-Beschriftung».
