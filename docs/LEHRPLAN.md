@@ -43,6 +43,14 @@ T = bis Ende 4. Semester eingeführt, E = irgendwann im 1.–8. Semester.
   - Maschinentechnik: Zahnräder (im Tool: nur Umfangskraft/Übersetzung in Physik)
   - Zeichnungstechnik: 1. Test ISO GPS (im Tool: alter Zeichnungstrainer Kap. 9–11, FL)
 
+- 24.11.2026, Schulnotizen von Elias (Notizbuch «2. Konstrukteur»), bisher behandelte Themen:
+  - 1 Werkstofftechnik: Festigkeit, Wärmebehandlung, Härte
+  - 3 Elektro / Steuerung: (Inhalt zugeklappt, noch nicht bekannt)
+  - 4 Maschinentechnik: Wellen und Achsen, Lager und Führungen, Kette, Übertragungselemente, Riemen, Zahnräder
+  - 5 Zeichnungstechnik: Oberflächen, Form- und Lagetoleranzen
+  - 6 TG Physik: Geschwindigkeit, Technische Physik, Kraft und Masse, Drehmoment
+  - Screenshots: privates Repo `unterlagen/bilder/2026-11-24-schulstand/`
+
 ## Reihenfolge für neue Kapitel (Stand 24.11.2026)
 1. **ISO GPS** prüfen und ergänzen, falls der Test bald ist: Tolerierungsgrundsatz (ISO 8015), Hüllbedingung, Form-, Richtungs-, Orts-, Lauftoleranzen, Bezüge. Quelle: alter Zeichnungstrainer + private PDFs Kap. 9–11.
 2. **Zahnräder** (Maschinentechnik): Modul, Teilkreis, Kopf- und Fusskreis, Teilung, Achsabstand, Übersetzung, Zahnradarten, Schnecke.
