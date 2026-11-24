@@ -8,6 +8,7 @@ Elias lernt Konstrukteur EFZ (Schweiz). Antworten in einfachem, klarem Deutsch, 
   - `physik/index.html`: Physik-Trainer. Aufgabe = {id, lvl, src, title, gen(), draw(p), text(p), asks(p)=[{k,unit,v}], hints(p), sol(p), solDraw?}. Tabs in TOPICS, Pools in SETS, Abschnitte secs.<key>. Kapiteltest: addKapTest().
   - `zeichnung/src/index.html`: Zeichnungstechnik-Trainer. Aufgabe = {id, kap, type, title, text, draw(), questions:[{q,opts,a}|{q,num:1,a,tol}]} oder entry. Kapitel in KAPS. Nach Änderungen `python3 zeichnung/src/build.py` ausführen.
 - Stand und Buchdaten: `docs/STAND_*.md`. Nach jedem Paket ergänzen.
+- **Planung:** `docs/LEHRPLAN.md` = Semesterplan der Schule (BBZ BL) und Abdeckung im Tool. Vor jedem neuen Kapitel lesen. Nach jedem Kapitel die Tabelle «Abdeckung» nachführen.
 
 ## Rezept pro Kapitel (nicht nachfragen)
 1. Formelkarte. 2. Aufgaben nach Buch (eigene Werte erlaubt, Annahmen in den Aufgabentext). 3. 4–6 kreative Aufgaben: neue Situation, umgekehrt gefragt, kombiniert, Fehler finden, Kopfrechnen. 4. Eigene Varianten. 5. Kapiteltest läuft automatisch mit.
