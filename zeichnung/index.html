@@ -64,6 +64,11 @@ svg .clickable.good rect{stroke:var(--ok);stroke-width:.7;fill:#e6f4ea}
 .row{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end}
 .row label{display:flex;flex-direction:column;font-size:13px;color:var(--muted);gap:4px}
 select,input[type=text]{font:inherit;padding:7px 9px;border:1px solid #b9c0c7;border-radius:6px;min-width:120px;background:#fff}
+.q label.opt.right{background:var(--okbg);outline:1px solid #bfe0c8}
+.q label.opt.wrong{background:var(--badbg);outline:1px solid #f0c2bd}
+.qfb{display:none;margin-top:8px;padding:10px 12px;border-radius:8px;font-size:15px}
+.qfb.ok{display:block;background:var(--okbg);border:1px solid #bfe0c8}
+.qfb.bad{display:block;background:var(--badbg);border:1px solid #f0c2bd}
 .fb{margin-top:14px;padding:12px 14px;border-radius:8px;display:none}
 .fb.ok{display:block;background:var(--okbg);border:1px solid #bfe0c8}
 .fb.bad{display:block;background:var(--badbg);border:1px solid #f0c2bd}
@@ -1481,7 +1486,13 @@ function buildTask(t,i){
     t.questions.forEach((q,qi)=>{
       const b=H('div',{class:'q'});b.appendChild(H('p',{class:'lead'},(qi+1)+'. '+q.q));
       if(q.num){const inp=H('input',{type:'text',placeholder:'z. B. 0,1'});b.appendChild(inp);blocks.push({q,inp,b});}
-      else{q.opts.forEach((o,oi)=>{const l=H('label',{class:'opt'});l.appendChild(H('input',{type:q.multi?'checkbox':'radio',name:t.id+'q'+qi,value:oi}));l.appendChild(H('span',{},o));b.appendChild(l);});blocks.push({q,b});}
+      else{const labs=[];q.opts.forEach((o,oi)=>{const l=H('label',{class:'opt'});l.appendChild(H('input',{type:q.multi?'checkbox':'radio',name:t.id+'q'+qi,value:oi}));l.appendChild(H('span',{},o));b.appendChild(l);labs.push(l);});
+        const blk={q,b};blocks.push(blk);
+        if(!q.multi){blk.instant=true;const qfb=H('div',{class:'qfb'});b.appendChild(qfb);
+          b.querySelectorAll('input').forEach(inp=>inp.addEventListener('change',()=>{if(blk.locked)return;blk.locked=true;const pick=+inp.value,ok=pick===q.a;
+            b.querySelectorAll('input').forEach(x=>x.disabled=true);labs[q.a].classList.add('right');if(!ok)labs[pick].classList.add('wrong');
+            qfb.className='qfb '+(ok?'ok':'bad');qfb.innerHTML='<b>'+(ok?'Richtig.':'Falsch.')+'</b> '+(ok?'':'Richtig ist: <b>'+q.opts[q.a]+'</b>. ')+(q.why||'');
+            if(blocks.every(x=>x.instant)&&blocks.every(x=>x.locked)){const all=blocks.every(x=>{const c=x.b.querySelector('input:checked');return c&&+c.value===x.q.a;});setResult(t.id,all);}}));}}
       card.appendChild(b);
     });
     if(t.zone){const z=H('div',{class:'zone'});const zs=t.zone();z.appendChild(zs);card.insertBefore(z,blocks[0].b);

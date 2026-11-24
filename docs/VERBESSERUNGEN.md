@@ -7,6 +7,8 @@ Aufwand: S = unter 30 Min., M = eine Sitzung, L = mehrere Sitzungen.
 
 ## Wichtig
 
+- [ ] **Zeichnungstechnik: Erklärung zur gewählten falschen Antwort** (M, 24.11.): Die Sofort-Rückmeldung zeigt die Erklärung zur richtigen Antwort. Besser: pro falsche Option ein eigener Satz «Warum nicht?». Braucht neue Daten (`whyNot`) in den Fragen.
+- [ ] **Zeichnungstechnik: Sofort-Rückmeldung auch bei Mehrfach- und Zahlenfragen** (S, 24.11.): Bisher nur bei Fragen mit einer Antwort.
 - [ ] **Bruchdarstellung für lange Bilder** (M, Wunsch 19.11.): Lange Teile nach ISO 128 mit Bruchlinie verkürzt zeichnen, Masslinie durchgehend, Mass = wahre Länge (ISO 129). Damit passen Bilder aufs Handy. Baustein in `core/draw/svg.ts`, Regel in `docs/UMZUG.md`.
 - [ ] **Formel-Check beim Prüfen** (M, Wunsch 20.11.): Jede Aufgabe listet ihre nötigen Formeln. Nach «Antwort prüfen» anzeigen. Ins Task-Format und als Pflicht in `docs/UMZUG.md`.
 - [ ] **Prüfungsnah mischen** (M, Wunsch 20.11.): Wie BBZ-Prüfungen: mit Bild, Strichskizze, reiner Text, Auswahl a–e, Punkte (2 P / 4 P). Vorlagen: privates Repo `unterlagen/bilder/2026-11-20-pruefungen/`.
