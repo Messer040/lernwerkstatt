@@ -8,14 +8,15 @@ import { lagerkraefte } from './physik/lagerkraefte';
 import { kettenaufgaben } from './physik/kettenaufgaben';
 import { umfangskraft } from './physik/umfangskraft';
 import { reibung } from './physik/reibung';
+import { arbeitEnergie } from './physik/arbeit-energie';
 
 export const FAECHER: Fach[] = [
   {
     id: 'physik',
     title: 'Physik',
     kurz: 'Kräfte, Momente, Lager, Reibung, Arbeit',
-    kapitel: [kraefteAddieren, kraefteZerlegen, drehmoment, anDerWand, lagerkraefte, kettenaufgaben, umfangskraft, reibung],
-    geplant: ['Arbeit, Energie', 'Leistung, Wirkungsgrad', 'Einfache Maschinen, Flaschenzüge', 'Beschleunigungs- und Gewichtskraft', 'Bewegungen', 'Biegen: Zuschnitt'],
+    kapitel: [kraefteAddieren, kraefteZerlegen, drehmoment, anDerWand, lagerkraefte, kettenaufgaben, umfangskraft, reibung, arbeitEnergie],
+    geplant: ['Leistung, Wirkungsgrad', 'Einfache Maschinen, Flaschenzüge', 'Beschleunigungs- und Gewichtskraft', 'Bewegungen', 'Biegen: Zuschnitt'],
   },
 ];
 
