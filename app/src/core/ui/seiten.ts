@@ -47,7 +47,7 @@ export function startSeite(faecher: Fach[]): HTMLElement {
     h(
       'section',
       {},
-      titelzeile('Lernwerkstatt', `Physik und Zeichnungstechnik für Konstrukteure EFZ · ${anzahl(total, 'Aufgabe', 'Aufgaben')} mit neuen Zahlen bei jedem Versuch`),
+      titelzeile('Lernwerkstatt', `Physik, Elektrotechnik und Zeichnungstechnik für Konstrukteure EFZ · ${anzahl(total, 'Aufgabe', 'Aufgaben')} mit neuen Zahlen bei jedem Versuch`),
       h(
         'div',
         { class: 'raster zwei' },

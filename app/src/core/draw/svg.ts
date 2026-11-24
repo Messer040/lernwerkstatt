@@ -45,6 +45,7 @@ export function blatt(h = 300, titel = 'Bauteilbild'): SVGSVGElement {
     mk('M', C.M, 8),
     mk('R', C.R),
     mk('V', C.V),
+    mk('L', C.L),
     el(
       'marker',
       {

@@ -9,6 +9,7 @@ import { kettenaufgaben } from './physik/kettenaufgaben';
 import { umfangskraft } from './physik/umfangskraft';
 import { reibung } from './physik/reibung';
 import { arbeitEnergie } from './physik/arbeit-energie';
+import { masche } from './elektro/masche';
 
 export const FAECHER: Fach[] = [
   {
@@ -17,6 +18,13 @@ export const FAECHER: Fach[] = [
     kurz: 'Kräfte, Momente, Lager, Reibung, Arbeit',
     kapitel: [kraefteAddieren, kraefteZerlegen, drehmoment, anDerWand, lagerkraefte, kettenaufgaben, umfangskraft, reibung, arbeitEnergie],
     geplant: ['Leistung, Wirkungsgrad', 'Einfache Maschinen, Flaschenzüge', 'Beschleunigungs- und Gewichtskraft', 'Bewegungen', 'Biegen: Zuschnitt'],
+  },
+  {
+    id: 'elektro',
+    title: 'Elektrotechnik',
+    kurz: 'Masche, Reihenschaltung, Spannungsquellen',
+    kapitel: [masche],
+    geplant: ['Parallelschaltung', 'Gemischte Schaltungen', 'Elektrische Leistung'],
   },
 ];
 

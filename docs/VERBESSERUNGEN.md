@@ -25,6 +25,11 @@ Aufwand: S = unter 30 Min., M = eine Sitzung, L = mehrere Sitzungen.
 - [ ] **Zeichnungstechnik umziehen** (L, neu): Kap. 7, 9, 10, 11, 12, FL, ME ins neue Format.
 - [ ] **Prüfungssimulation über mehrere Kapitel** (M, neu): 15–20 gemischte Aufgaben, Zeitlimit, keine Tipps, Note und Auswertung pro Kapitel.
 
+- [ ] **Elektrotechnik: weitere Kapitel** (L, 24.11.): Parallelschaltung, gemischte Schaltungen, Spannungsteiler, elektrische Leistung. Das Kapitel `elektro/masche` ist der Anfang (Fach `elektro`).
+- [ ] **Elektrotechnik: Labor «Quelle umpolen»** (M, 24.11.): Schieberegler für U02 und R3 mit Schalter gleich/entgegengesetzt, Strompfeil wird dicker oder dünner. Der Prototyp lag als Chat-Grafik vor. Braucht den Laborbaustein (siehe Labor Reibung).
+- [ ] **Elektrotechnik: Pfeilrichtung im Buch abgleichen** (S, 24.11.): Im Bild zeigt der blaue Pfeil die Antriebsrichtung der Quelle (Strom raus am Pluspol). Prüfen, ob das Buch den Pfeil gleich zeichnet, und im Zweifel anpassen.
+- [ ] **Elektrotechnik: Begriff «Teilspannung»** (S, 24.11.): Im Kapitel heissen U1 bis U3 durchgehend Teilspannung, U01 und U02 Erzeugerspannung. Mit dem Buch abgleichen (Begriff Spannungsabfall).
+
 ## Mittel
 
 - [ ] **Neue Kapitel aus BBZ-Prüfungen** (L, 20.11.): Druckfestigkeit/Flächenpressung, Zugfestigkeit/Beanspruchungsarten, Mathematik-Repetition (Gewichtskraft, Pythagoras, Anschnittlänge 118°, gestreckte Länge, Flächen).
