@@ -51,13 +51,35 @@ T = bis Ende 4. Semester eingeführt, E = irgendwann im 1.–8. Semester.
   - 6 TG Physik: Geschwindigkeit, Technische Physik, Kraft und Masse, Drehmoment
   - Screenshots: privates Repo `unterlagen/bilder/2026-11-24-schulstand/`
 
-## Reihenfolge für neue Kapitel (Stand 24.11.2026)
-1. **ISO GPS** prüfen und ergänzen, falls der Test bald ist: Tolerierungsgrundsatz (ISO 8015), Hüllbedingung, Form-, Richtungs-, Orts-, Lauftoleranzen, Bezüge. Quelle: alter Zeichnungstrainer + private PDFs Kap. 9–11.
-2. **Zahnräder** (Maschinentechnik): Modul, Teilkreis, Kopf- und Fusskreis, Teilung, Achsabstand, Übersetzung, Zahnradarten, Schnecke.
-3. **Härten und Oberflächen** (Werkstofftechnik): Glühen, Härten, Vergüten, Einsatz-/Randschicht-/Nitrierhärten, Fe-C-Diagramm, Härteprüfung, Oberflächenbehandlung, Korrosion. Quelle: alte Artifacts Wärmebehandlung, Eisen-Kohlenstoff-Trainer.
-4. **Elektrotechnik** weiter: Parallel, gemischt, Energie und Kosten (Reihenschaltung ist fertig).
-5. **Steuerungstechnik** (4. Sem., T): Logik, Pneumatik-Symbole, Weg-Schritt-Diagramm.
-6. **Fertigungstechnik** (4. Sem., T): Schnittdaten, CNC-Grundlagen, Messfehler.
-7. **Repetition** für Teilprüfung und QV: Festigkeitslehre, Werkstoffarten, Mathe-Grundlagen.
+## Fahrplan: zuerst Physik und Mathe abschliessen (Entscheid Elias, 24.11.2026)
 
-Regel für jede Sitzung: Vor einem neuen Kapitel diese Datei lesen. Was gerade in der Schule läuft, hat Vorrang vor dem Umzug alter Kapitel.
+Ziel: Jedes Physik- und Mathe-Lernziel aus dem Lehrplan hat Aufgaben im neuen Format. Der alte Physik-Trainer kann offline. Elias besteht eine gemischte Prüfung.
+Ausnahme: Kommt in der Schule ein Test (z. B. Zahnräder, ISO GPS), diesen kurz dazwischen schieben.
+
+### Etappe 1: Physik fertig umziehen (ca. 3 Sitzungen)
+- [ ] Bewegungen (gleichförmig geradlinig und kreisförmig, v-t-Diagramm, Umfangsgeschwindigkeit, Drehzahl)
+- [ ] Knobelaufgaben
+- [ ] Danach: alter Physik-Trainer offline (Entscheid mit Elias)
+
+### Etappe 2: Mathe als neues Fach `mathe` (ca. 6 Sitzungen)
+- [ ] Grundlagen: Taschenrechner, Runden, Grössenordnung, SI-Einheiten und Vorsätze, Zeit, Prozent, Promille, ppm, Steigung, Anzug, Konizität (alter Tab «Einheiten» geht hier auf)
+- [ ] Algebra: Grundoperationen, Klammern, Brüche, Potenzen, Zehnerpotenzen, Wurzeln
+- [ ] Gleichungen: lineare Gleichungen, Formeln umstellen, Textaufgaben, Verhältnisgleichungen
+- [ ] Geometrie: Flächen, zusammengesetzte Flächen, Volumen, Masse, Pythagoras, Dreiecksarten
+- [ ] Trigonometrie: sin, cos, tan, Winkel, Gradmass und Bogenmass
+- [ ] Funktionen und Diagramme: Wertetabelle, Graph, linear, quadratisch
+- [ ] Anwendung Biegen (gestreckte Länge, alter Tab «Biegen: Zuschnitt»)
+
+### Etappe 3: Physik, fehlende Themen (ca. 2 Sitzungen, Schule erst 5. Sem.)
+- [ ] Druck: Druck, Luftdruck, Über- und Unterdruck, Schweredruck, Pascal, Hydraulik
+- [ ] Wärmelehre: Temperatur (°C, K), Wärmeausdehnung, Wärmeenergie, Aggregatzustände, Wärmeübertragung
+
+### Etappe 4: Abschluss (ca. 2 Sitzungen)
+- [ ] Prüfungssimulation Physik und Mathe (gemischt, ohne Tipps, Note pro Thema)
+- [ ] Formel-Check nach dem Prüfen (siehe VERBESSERUNGEN)
+- [ ] Alle Physik- und Mathe-Lernziele im Schullehrplan abhaken
+
+### Danach (Reihenfolge offen)
+Zahnräder · ISO GPS · Härten und Oberflächen · Elektrotechnik weiter · Steuerungstechnik · Fertigungstechnik · Repetition Festigkeitslehre und Werkstoffe
+
+Regel für jede Sitzung: Vor einem neuen Kapitel diese Datei lesen. Die oberste offene Zeile im Fahrplan ist das nächste Kapitel. Erledigtes mit [x] und Datum abhaken.
