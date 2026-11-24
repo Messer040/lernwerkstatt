@@ -11,6 +11,7 @@ import { reibung } from './physik/reibung';
 import { arbeitEnergie } from './physik/arbeit-energie';
 import { leistungWirkungsgrad } from './physik/leistung-wirkungsgrad';
 import { masche } from './elektro/masche';
+import { reihenschaltung } from './elektro/reihenschaltung';
 
 export const FAECHER: Fach[] = [
   {
@@ -24,7 +25,7 @@ export const FAECHER: Fach[] = [
     id: 'elektro',
     title: 'Elektrotechnik',
     kurz: 'Masche, Reihenschaltung, Spannungsquellen',
-    kapitel: [masche],
+    kapitel: [reihenschaltung, masche],
     geplant: ['Parallelschaltung', 'Gemischte Schaltungen', 'Elektrische Leistung'],
   },
 ];

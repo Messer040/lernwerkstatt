@@ -24,10 +24,12 @@ Aufwand: S = unter 30 Min., M = eine Sitzung, L = mehrere Sitzungen.
 - [ ] **F_R doppelt belegt** (S, 24.11.): F_R heisst im Kapitel Reibung Reibungskraft, in Kräfte addieren Resultierende (R). Im Buch abgleichen und einheitlich benennen.
 - [ ] **Labor «Gleiche Arbeit, andere Zeit»** (M, 24.11.): Der alte Tab Leistung hat Schieberegler für Hubzeit und η mit Leistungsfluss. Fehlt im neuen Format, wie die anderen Labore.
 - [ ] **Bild-Erklärung (Stepper) fehlt im neuen Format** (M, 24.11.): Der alte Trainer hat für p1–p6 Schritt-für-Schritt-Erklärungen (EK). Im neuen Format gibt es keinen Stepper-Baustein.
+- [ ] **Doppelte Grundaufgaben Elektro** (S, 24.11.): Kapitel Masche hat noch e1–e3 zur Reihenschaltung. Jetzt gibt es ein eigenes Kapitel. Prüfen, ob e1–e3 dort bleiben oder ins Kapitel Reihenschaltung wandern.
+- [ ] **Buchwerte-Helfer in den Kern** (S, 24.11.): `buch(b, zufall)` in `elektro/reihenschaltung/aufgaben.ts` liefert beim ersten Mal die Buchwerte. Nach `core/` verschieben und auch in Masche nutzen.
 - [ ] **Zeichnungstechnik umziehen** (L, neu): Kap. 7, 9, 10, 11, 12, FL, ME ins neue Format.
 - [ ] **Prüfungssimulation über mehrere Kapitel** (M, neu): 15–20 gemischte Aufgaben, Zeitlimit, keine Tipps, Note und Auswertung pro Kapitel.
 
-- [ ] **Elektrotechnik: weitere Kapitel** (L, 24.11.): Parallelschaltung, gemischte Schaltungen, Spannungsteiler, elektrische Leistung. Das Kapitel `elektro/masche` ist der Anfang (Fach `elektro`).
+- [ ] **Elektrotechnik: weitere Kapitel** (L, 24.11.): ~~Reihenschaltung~~ (erledigt 24.11.), Parallelschaltung, gemischte Schaltungen, Spannungsteiler, elektrische Leistung. Das Kapitel `elektro/masche` ist der Anfang (Fach `elektro`).
 - [ ] **Elektrotechnik: Labor «Quelle umpolen»** (M, 24.11.): Schieberegler für U02 und R3 mit Schalter gleich/entgegengesetzt, Strompfeil wird dicker oder dünner. Der Prototyp lag als Chat-Grafik vor. Braucht den Laborbaustein (siehe Labor Reibung).
 - [ ] **Elektrotechnik: Pfeilrichtung im Buch abgleichen** (S, 24.11.): Im Bild zeigt der blaue Pfeil die Antriebsrichtung der Quelle (Strom raus am Pluspol). Prüfen, ob das Buch den Pfeil gleich zeichnet, und im Zweifel anpassen.
 - [ ] **Elektrotechnik: Begriff «Teilspannung»** (S, 24.11.): Im Kapitel heissen U1 bis U3 durchgehend Teilspannung, U01 und U02 Erzeugerspannung. Mit dem Buch abgleichen (Begriff Spannungsabfall).
