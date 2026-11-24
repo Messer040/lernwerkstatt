@@ -37,12 +37,19 @@ T = bis Ende 4. Semester eingeführt, E = irgendwann im 1.–8. Semester.
 
 ## Stand in der Schule (von Elias)
 - 24.11.2026: Festigkeitslehre ist in der Schule schon durch (früher als im Plan).
+- 24.11.2026, gerade aktuell:
+  - Elektrotechnik: Reihenschaltung (im Tool: `elektro/reihenschaltung`, 18 Aufgaben)
+  - Werkstofftechnik: Härten, Oberflächenbehandlung (im Tool: nur alte Artifacts Wärmebehandlung, Fe-C)
+  - Maschinentechnik: Zahnräder (im Tool: nur Umfangskraft/Übersetzung in Physik)
+  - Zeichnungstechnik: 1. Test ISO GPS (im Tool: alter Zeichnungstrainer Kap. 9–11, FL)
 
 ## Reihenfolge für neue Kapitel (Stand 24.11.2026)
-1. **Übertragungselemente** (3. Sem.): Zahnrad-Masse (m, d, d_a, a), Übersetzungen, Lager-Kurzzeichen, Riemen.
-2. **Elektrotechnik** weiter (3. Sem.): Parallel, gemischt, Energie und Kosten.
-3. **Steuerungstechnik** (4. Sem., T): Logik, Pneumatik-Symbole, Weg-Schritt-Diagramm.
-4. **Fertigungstechnik** (4. Sem., T): Schnittdaten, CNC-Grundlagen, Messfehler.
-5. **Repetition** für Teilprüfung und QV: Festigkeitslehre (altes Artifact «Festigkeitslehre Repetition» als Quelle), Werkstoffe, Mathe-Grundlagen.
+1. **ISO GPS** prüfen und ergänzen, falls der Test bald ist: Tolerierungsgrundsatz (ISO 8015), Hüllbedingung, Form-, Richtungs-, Orts-, Lauftoleranzen, Bezüge. Quelle: alter Zeichnungstrainer + private PDFs Kap. 9–11.
+2. **Zahnräder** (Maschinentechnik): Modul, Teilkreis, Kopf- und Fusskreis, Teilung, Achsabstand, Übersetzung, Zahnradarten, Schnecke.
+3. **Härten und Oberflächen** (Werkstofftechnik): Glühen, Härten, Vergüten, Einsatz-/Randschicht-/Nitrierhärten, Fe-C-Diagramm, Härteprüfung, Oberflächenbehandlung, Korrosion. Quelle: alte Artifacts Wärmebehandlung, Eisen-Kohlenstoff-Trainer.
+4. **Elektrotechnik** weiter: Parallel, gemischt, Energie und Kosten (Reihenschaltung ist fertig).
+5. **Steuerungstechnik** (4. Sem., T): Logik, Pneumatik-Symbole, Weg-Schritt-Diagramm.
+6. **Fertigungstechnik** (4. Sem., T): Schnittdaten, CNC-Grundlagen, Messfehler.
+7. **Repetition** für Teilprüfung und QV: Festigkeitslehre, Werkstoffarten, Mathe-Grundlagen.
 
 Regel für jede Sitzung: Vor einem neuen Kapitel diese Datei lesen. Was gerade in der Schule läuft, hat Vorrang vor dem Umzug alter Kapitel.
