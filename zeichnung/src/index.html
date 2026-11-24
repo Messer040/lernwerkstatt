@@ -1334,7 +1334,7 @@ function buildTask(t,i){
   }
 
   const act=H('div',{class:'actions'});
-  const btn=H('button',{class:'btn'},'Prüfen');btn.onclick=check;act.appendChild(btn);
+  const btn=H('button',{class:'btn'},'Prüfen');btn.onclick=check;act.appendChild(btn);if(t.questions&&t.questions.every(q=>!q.num&&!q.multi))btn.style.display='none';
   if(card._extraBtn)act.appendChild(card._extraBtn);
   const nx=H('button',{class:'btn sec'},'Nächste Aufgabe →');nx.onclick=()=>go((i+1)%tasks.length);act.appendChild(nx);
   card.appendChild(act);card.appendChild(fb);
