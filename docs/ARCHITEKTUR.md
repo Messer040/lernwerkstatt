@@ -22,6 +22,7 @@ app/
       draw/svg.ts           Zeichenbausteine: blatt, kraft, kraftWinkel, kraefteplan, saeulen, massH/V, balken, bolzen, …
       ui/aufgabe.ts         Aufgabenkarte (Üben und Test)
       ui/seiten.ts          Start, Fach, Kapitel, Kapiteltest, Note
+      ui/dom.ts             h(); setzt «F_u» im Text automatisch tief (F<sub>u</sub>)
     faecher/
       index.ts              Liste aller Fächer
       physik/<kapitel>/     index.ts (Formeln, Karten), aufgaben.ts, bilder.ts
@@ -56,6 +57,7 @@ app/
 | An der Wand | physik/ Tab «An der Wand» (w1–w6) | neu/#/physik/wand (12 Aufgaben w1–w12, 4 Lernkarten, Fehlerwerte) |
 | Lagerkräfte | physik/ Tab «Lagerkräfte» (l1–l7, lv1–lv3, c1–c6, Buch b1–b8, bx1–bx2) | neu/#/physik/lager (32 Aufgaben l1–l32, 4 Lernkarten, Fehlerwerte) |
 | Kettenaufgaben | physik/ Tab «Kettenaufgaben» (ke1–ke6) | neu/#/physik/kette (12 Aufgaben ke1–ke12, 4 Lernkarten, Fehlerwerte) |
+| Umfangskraft | physik/ Tab «Umfangskraft» (u1–u5, Buch ubx, ub1–ub7, kreativ cu1–cu4) | neu/#/physik/umfang (28 Aufgaben u1–u28, 4 Lernkarten, Fehlerwerte) |
 
 ## Design
 - Stil «Achromatic ledger» (Design-Skill, Seed 1226934261): Oberfläche ohne Farbe, Hauptknopf fast schwarz, Grund blaugrau #f2f4f7 (Zeichenpapier). Farbe nur auf Daten: Bauteilbilder, Formeln, richtig/falsch.

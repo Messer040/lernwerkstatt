@@ -61,7 +61,12 @@ Aufwand: S = unter 30 Min., M = eine Sitzung, L = mehrere Sitzungen.
 - [ ] **Kettenaufgaben: Zwischenwerte als Auswahl** (M, 22.11.): Bei langen Ketten (ke1: 7 Teilfragen) hilft ein «Zwischenergebnis prüfen»-Knopf pro Teilfrage. Heute gibt es nur Prüfen am Ende.
 - [ ] **Kettenaufgaben: Bild-Erklärung fehlt** (M, 22.11.): Im alten Trainer gab es Schritt-Bilder (Dominokette). Neu nur Lösungsbild bei ke1–ke4, ke6.
 
+- [ ] **Umfangskraft: Pressen-Bild fix 48 Zähne** (S, 24.11.): `presse` zeichnet das grosse Rad immer mit 48 Zähnen. Bei ø100 mm und m = 2,5 sind es 40. Zähnezahl aus d : m ableiten.
+- [ ] **Umfangskraft: Bilder auf dem Handy** (S, 24.11.): Zeichenblatt läuft am Handy seitlich über (Velo, Winde). Prüfen, ob das Blatt skalieren soll.
+
 ## Erledigt
+
+- [x] 24.11.2026: Kapitel «Umfangskraft» umgezogen (u1–u28: 17 alte + 11 neue: Fehler finden u3, u14, u23, Schätzen u4, u27, Was wäre wenn u5, u17, u28, Umgekehrt u6, u16, Begründen u15). Dabei gefunden und behoben: Alte Aufgabe cu3 (Zahnrad auf der Welle) erlaubte a = l : 2, dann sind F_A und F_B gleich und vertauschte Werte nicht erkennbar. Neu ausgeschlossen. Die Lernenden-Rechnung in cu2 war nur Text. Neu: Auswahl «Wo steckt der Fehler?» plus Zahlenfragen. Neue Bilder `bohrer` und `trommelrad`. Tiefstellung: `h()` in `core/ui/dom.ts` wandelt «F_u» in F mit tiefem u um. Das gilt jetzt für alle Kapitel.
 
 - [x] 22.11.2026: Kapitel «Kettenaufgaben» umgezogen (ke1–ke12: 6 alte + 6 neue: Schätzen ke7, Umgekehrt ke8, Was wäre wenn ke9, Fehler finden ke10–ke12). Dabei gefunden und behoben: Alte Aufgabe ke1 (Wandkonsole) erlaubte a = l. Dann ist F_Sy = F und F_Ay = 0, und die Antwort 0 ist nicht prüfbar. Neu: a höchstens 0,75 · l. Alte Aufgaben ke3 und ke5 hatten bei a = l : 2 gleich grosse Lagerkräfte F_A und F_B. Neu: dieser Fall wird ausgeschlossen. Alte Aufgabe ke6 erlaubte β = 45°, dann sind sin β und cos β gleich und der Fehlwert fällt mit der richtigen Antwort zusammen. Neu: β aus 30°, 40°, 50°, 60°.
 
