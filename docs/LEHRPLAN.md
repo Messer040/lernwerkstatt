@@ -29,7 +29,7 @@ T = bis Ende 4. Semester eingeführt, E = irgendwann im 1.–8. Semester.
 | Physik | Kräfte, Drehmoment, Lager, Reibung, Arbeit, Leistung, einfache Maschinen, Beschleunigung (neu) · Bewegungen (alt) | Druck, Pascal, Wärmelehre (5. Sem.) |
 | Zeichnungstechnik | Kap. 7, 9–12, Form- und Lagetoleranzen (alt, noch nicht umgezogen) | Sinnbilder, Skizzieren |
 | Elektrotechnik | Masche, Reihenschaltung | Parallel, gemischt, el. Energie und Kosten |
-| Mathematik | Biegen (alt) | Algebra, Trigonometrie, Geometrie, Funktionen |
+| Mathematik | Biegen (neu) | Algebra, Trigonometrie, Geometrie, Funktionen |
 | Maschinentechnik | nur alte Einzel-Artifacts (Lager, Wellen, Führungen) | Verbindungen, Zahnräder, Getriebe, Federn |
 | Werkstofftechnik | nur alte Einzel-Artifacts (Fe-C, Wärmebehandlung, Festigkeitslehre Repetition) | Werkstoffarten, Normbezeichnungen; Festigkeitslehre als Repetition (Schule schon durch) |
 | Fertigungstechnik | – | Spanen (v_c, n, f), CNC, Messfehler |
@@ -68,7 +68,7 @@ Ausnahme: Kommt in der Schule ein Test (z. B. Zahnräder, ISO GPS), diesen kurz 
 - [ ] Geometrie: Flächen, zusammengesetzte Flächen, Volumen, Masse, Pythagoras, Dreiecksarten
 - [ ] Trigonometrie: sin, cos, tan, Winkel, Gradmass und Bogenmass
 - [ ] Funktionen und Diagramme: Wertetabelle, Graph, linear, quadratisch
-- [ ] Anwendung Biegen (gestreckte Länge, alter Tab «Biegen: Zuschnitt»)
+- [x] Anwendung Biegen (gestreckte Länge) → neu/#/physik/biegen, 24.11.
 
 ### Etappe 3: Physik, fehlende Themen (ca. 2 Sitzungen, Schule erst 5. Sem.)
 - [ ] Druck: Druck, Luftdruck, Über- und Unterdruck, Schweredruck, Pascal, Hydraulik

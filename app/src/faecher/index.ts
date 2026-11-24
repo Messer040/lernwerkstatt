@@ -13,6 +13,7 @@ import { leistungWirkungsgrad } from './physik/leistung-wirkungsgrad';
 import { einfacheMaschinen } from './physik/einfache-maschinen';
 import { beschleunigungGewichtskraft } from './physik/beschleunigung';
 import { bewegungen } from './physik/bewegungen';
+import { biegen } from './physik/biegen';
 import { masche } from './elektro/masche';
 import { reihenschaltung } from './elektro/reihenschaltung';
 
@@ -21,8 +22,8 @@ export const FAECHER: Fach[] = [
     id: 'physik',
     title: 'Physik',
     kurz: 'Kräfte, Momente, Lager, Reibung, Arbeit',
-    kapitel: [kraefteAddieren, kraefteZerlegen, drehmoment, anDerWand, lagerkraefte, kettenaufgaben, umfangskraft, reibung, arbeitEnergie, leistungWirkungsgrad, einfacheMaschinen, beschleunigungGewichtskraft, bewegungen],
-    geplant: ['Biegen: Zuschnitt'],
+    kapitel: [kraefteAddieren, kraefteZerlegen, drehmoment, anDerWand, lagerkraefte, kettenaufgaben, umfangskraft, reibung, arbeitEnergie, leistungWirkungsgrad, einfacheMaschinen, beschleunigungGewichtskraft, bewegungen, biegen],
+    geplant: ['Knobelaufgaben'],
   },
   {
     id: 'elektro',
