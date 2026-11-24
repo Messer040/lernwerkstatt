@@ -59,6 +59,7 @@ app/
 | Umfangskraft | physik/ Tab «Umfangskraft» (u1–u5, Buch ubx, ub1–ub7, kreativ cu1–cu4) | neu/#/physik/umfang (22 Aufgaben u1–u22, 4 Lernkarten, Fehlerwerte) |
 | Reibung | physik/ Tab «Reibung» (r1–r5, Buch rbx1–rbx3, rb1–rb7, kreativ cr1–cr5) | neu/#/physik/reibung (22 Aufgaben, 4 Lernkarten, Fehlerwerte; neu r6 Was wäre wenn, r7 Fehler finden) |
 | Arbeit, Energie | physik/ Tab «Arbeit, Energie» (a1–a5, Buch abx1–abx5, ab1–ab10, kreativ ca1–ca5) | neu/#/physik/arbeit (28 Aufgaben, 4 Lernkarten, Fehlerwerte; neu a6 Was wäre wenn Feder, a7 Fehler finden Hubarbeit, a8 Was wäre wenn Fallhöhe) |
+| Leistung, Wirkungsgrad | physik/ Tab «Leistung, Wirkungsgrad» (p1–p6) | neu/#/physik/leistung (17 Aufgaben p1–p17, 4 Lernkarten, Fehlerwerte; neu Fehler finden p7/p12, Schätzen p8, Umgekehrt p9/p10/p16, Kette mit 3 Gliedern p15, Stromkosten p13/p17) |
 | Masche mit mehreren Quellen (Elektrotechnik) | neu geschrieben (Buchaufgabe 7, Bild 2, S. 49 als e5) | neu/#/elektro/masche (12 Aufgaben e1–e12, 4 Lernkarten, Fehlerwerte; Bild `schaltung` in `faecher/elektro/masche/bilder.ts`) |
 
 ## Design
