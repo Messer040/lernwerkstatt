@@ -66,6 +66,10 @@ svg .clickable.good rect{stroke:var(--ok);stroke-width:.7;fill:#e6f4ea}
 select,input[type=text]{font:inherit;padding:7px 9px;border:1px solid #b9c0c7;border-radius:6px;min-width:120px;background:#fff}
 .q label.opt.right{background:var(--okbg);outline:1px solid #bfe0c8}
 .q label.opt.wrong{background:var(--badbg);outline:1px solid #f0c2bd}
+.figbtn{margin:2px 0 8px;padding:6px 12px;font-size:14px}
+.qfig{display:none}
+.qfig.open{display:block;margin:0 0 10px}
+.qfig .draw{margin:0}
 .qfb{display:none;margin-top:8px;padding:10px 12px;border-radius:8px;font-size:15px}
 .qfb.ok{display:block;background:var(--okbg);border:1px solid #bfe0c8}
 .qfb.bad{display:block;background:var(--badbg);border:1px solid #f0c2bd}
@@ -934,7 +938,7 @@ questions:[
  {q:'Welche Eigenschaft ist toleriert?',opts:['Parallelität','Rechtwinkligkeit','Neigung','Ebenheit'],a:1,why:'Das Symbol ⊥ steht für Rechtwinkligkeit.'},
  {q:'Wie gross ist die Toleranzzone in mm?',num:1,a:0.05,why:'Der Wert im zweiten Feld ist die Breite der Toleranzzone in mm.'},
  {q:'Was ist A?',opts:['der Bezugsbuchstabe der Basisfläche','die Werkstoffangabe','die Toleranzklasse','die Ansicht A'],a:0,why:'Das dritte Feld nennt den Bezug. Das schwarze Dreieck mit dem Kästchen A markiert die Basisfläche.'},
- {q:'Wie sieht die Toleranzzone aus?',opts:['zwei parallele Ebenen im Abstand 0,05, senkrecht zur Fläche A','ein Zylinder ⌀0,05','zwei Ebenen im Abstand 0,05 parallel zu A','ein Kreisring 0,05'],a:0,why:'Ohne ⌀ ist die Zone der Raum zwischen zwei parallelen Ebenen. Bei Rechtwinkligkeit stehen sie senkrecht zum Bezug.'}]});
+ {q:'Wie sieht die Toleranzzone aus?',fig(){const {svg,g}=svgS(140,70);tol(g,4,3,'rechtwinkligkeit','0,05',['A'],[]);P(g,[[30,22],[30,50],[100,50],[100,22],[30,22]]);L(g,97,14,97,56,'hidden');L(g,103,14,103,56,'hidden');dim(g,97,16,103,16,-3,'0,05',{arrowsOut:true});L(g,20,50,110,50,'thin');datum(g,65,50,'A','down',4);T(g,107,34,'Zone',{'font-size':'3.2'});T(g,107,38,'(vergrössert)',{'font-size':'2.4'});return svg;},opts:['zwei parallele Ebenen im Abstand 0,05, senkrecht zur Fläche A','ein Zylinder ⌀0,05','zwei Ebenen im Abstand 0,05 parallel zu A','ein Kreisring 0,05'],a:0,why:'Ohne ⌀ ist die Zone der Raum zwischen zwei parallelen Ebenen. Bei Rechtwinkligkeit stehen sie senkrecht zum Bezug.'}]});
 const STP=(id,title,sym,t,dat,text,rows,whys,draw)=>K10.push({id,kap:'10',type:'Kap. 10 · Stichprobe prüfen',title,text,draw,questions:rows.map((r,i)=>judge(i+1,r,whys[i]))});
 STP('k10c','Rechtwinkligkeit 0,05 zu A','rechtwinkligkeit',0.05,'A','Aus einer Serie wurden drei Winkel gemessen. Das Teil liegt mit der Fläche A auf dem Messtisch. Die Messuhr fährt an der senkrechten Fläche von unten nach oben. Die Abweichung ist grösster minus kleinster Zeigerwert.',[true,false,true],['0,03 − 0,00 = 0,03 ≤ 0,05: verwendbar.','0,07 − 0,00 = 0,07 > 0,05: Ausschuss.','0,06 − 0,02 = 0,04 ≤ 0,05: verwendbar. Es zählt die Differenz, nicht der grösste Wert.'],
  ()=>{const {svg,g}=svgS(200,70);tol(g,6,6,'rechtwinkligkeit','0,05',['A'],[]);[['0,00','0,03'],['0,00','0,07'],['0,02','0,06']].forEach(([u,o],i)=>{const x=40+i*55;P(g,[[x,20],[x+6,20],[x+6,52],[x+30,52],[x+30,58],[x,58],[x,20]]);gauge(g,x+14,26,o);gauge(g,x+14,46,u);T(g,x+15,67,'Teil '+(i+1),{'text-anchor':'middle'});});return svg;});
@@ -1251,6 +1255,9 @@ function buildTask(t,i){
       if(q.num){const inp=H('input',{type:'text',placeholder:'z. B. 0,1'});b.appendChild(inp);blocks.push({q,inp,b});}
       else{const labs=[];q.opts.forEach((o,oi)=>{const l=H('label',{class:'opt'});l.appendChild(H('input',{type:q.multi?'checkbox':'radio',name:t.id+'q'+qi,value:oi}));l.appendChild(H('span',{},o));b.appendChild(l);labs.push(l);});
         const blk={q,b};blocks.push(blk);
+        if(q.fig){const fw=H('div',{class:'qfig'});const fb2=H('button',{class:'btn sec figbtn',type:'button'},'Bild zeigen');let open=false,made=false;
+          fb2.onclick=()=>{open=!open;if(open&&!made){const d=H('div',{class:'draw'});d.appendChild(q.fig());fw.appendChild(d);made=true;}fw.classList.toggle('open',open);fb2.textContent=open?'Bild verbergen':'Bild zeigen';};
+          const lead=b.querySelector('.lead');lead.after(fb2);fb2.after(fw);}
         if(!q.multi){blk.instant=true;const qfb=H('div',{class:'qfb'});b.appendChild(qfb);
           b.querySelectorAll('input').forEach(inp=>inp.addEventListener('change',()=>{if(blk.locked)return;blk.locked=true;const pick=+inp.value,ok=pick===q.a;
             b.querySelectorAll('input').forEach(x=>x.disabled=true);labs[q.a].classList.add('right');if(!ok)labs[pick].classList.add('wrong');
