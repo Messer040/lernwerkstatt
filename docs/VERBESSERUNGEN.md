@@ -16,7 +16,7 @@ Aufwand: S = unter 30 Min., M = eine Sitzung, L = mehrere Sitzungen.
 - [ ] **Kraftpfeil-Beschriftung** (S, 20.11.): Pfeilspitzen sind etwa 16 px breit. Beschriftung neben senkrechten Pfeilen mindestens 16 px versetzen, sonst überlappt die Spitze die Schrift. Im Baustein `kraft` als Parameter abfangen.
 
 - [ ] **Bilder am Handy** (M, neu): Die SVGs haben 520 px Mindestbreite, am Handy muss man seitlich wischen. Möglichkeiten: grössere Schrift im Bild bei schmalem Bildschirm, Hochformat-Varianten oder Zoom per Antippen.
-- [ ] **Physik umziehen** (L, neu): ~~An der Wand~~ (erledigt 20.11.), Beschleunigung, ~~Lagerkräfte~~ (erledigt 21.11.), ~~Kettenaufgaben~~ (erledigt 22.11.), ~~Umfangskraft~~, ~~Reibung~~ (erledigt 24.11.), ~~Arbeit, Energie~~ (erledigt 24.11.), ~~Leistung~~ (erledigt 24.11.), Einfache Maschinen, Biegen, Bewegungen, Knobel, Einheiten. Pro Kapitel Fehlerwerte und 3 Tipps ergänzen.
+- [ ] **Physik umziehen** (L, neu): ~~An der Wand~~ (erledigt 20.11.), Beschleunigung, ~~Lagerkräfte~~ (erledigt 21.11.), ~~Kettenaufgaben~~ (erledigt 22.11.), ~~Umfangskraft~~, ~~Reibung~~ (erledigt 24.11.), ~~Arbeit, Energie~~ (erledigt 24.11.), ~~Leistung~~ (erledigt 24.11.), ~~Einfache Maschinen~~ (erledigt 24.11.), Biegen, Bewegungen, Beschleunigung, Knobel, Einheiten. Pro Kapitel Fehlerwerte und 3 Tipps ergänzen.
 - [ ] **Labor «Wann rutscht die Kiste?»** (M, 24.11.): Der alte Trainer hat im Tab Reibung einen Schieberegler-Versuch (Zugkraft, F_N, μ₀). Im neuen Format gibt es noch keinen Laborbaustein. Erst bauen, wenn mehrere Kapitel Labore brauchen (auch Hebel, Flaschenzug).
 - [ ] **Labor «Energie wandelt sich um»** (M, 24.11.): Der alte Trainer hat im Tab Arbeit einen Schieberegler-Versuch (Kugel fällt, W_pot und W_kin als Balken). Fehlt im neuen Format, wie das Reibungs-Labor.
 - [ ] **Feder-Bild: Kraft-Weg-Diagramm nur schematisch** (S, 24.11.): Das Dreieck zeigt immer dieselbe Form und nicht die Werte der Aufgabe. Achsen mit F_max und s beschriften.
@@ -26,6 +26,11 @@ Aufwand: S = unter 30 Min., M = eine Sitzung, L = mehrere Sitzungen.
 - [ ] **Bild-Erklärung (Stepper) fehlt im neuen Format** (M, 24.11.): Der alte Trainer hat für p1–p6 Schritt-für-Schritt-Erklärungen (EK). Im neuen Format gibt es keinen Stepper-Baustein.
 - [ ] **Doppelte Grundaufgaben Elektro** (S, 24.11.): Kapitel Masche hat noch e1–e3 zur Reihenschaltung. Jetzt gibt es ein eigenes Kapitel. Prüfen, ob e1–e3 dort bleiben oder ins Kapitel Reihenschaltung wandern.
 - [ ] **Buchwerte-Helfer in den Kern** (S, 24.11.): `buch(b, zufall)` in `elektro/reihenschaltung/aufgaben.ts` liefert beim ersten Mal die Buchwerte. Nach `core/` verschieben und auch in Masche nutzen.
+- [ ] **Labor «Goldene Regel am Flaschenzug»** (M, 24.11.): Der alte Trainer hat Schieberegler für n und m (Kraft sinkt, Seilweg wächst, Arbeit bleibt). Fehlt im neuen Format, wie die anderen Labore.
+- [ ] **Bild-Erklärung Einfache Maschinen fehlt** (M, 24.11.): Im alten Trainer gab es Schritte für alle Aufgaben (EK). Neu nur Tipps und Lösungen.
+- [ ] **Spindelpresse: Beschriftung F_2 nahe am Pfosten** (S, 24.11.): Bei langem Text («F_2 = 12 kN») endet die Schrift am rechten Pfosten. Pfeil weiter links setzen oder Text kleiner.
+- [ ] **Scheren-Wagenheber nicht massstäblich** (S, 24.11.): Rhombus mit Faktor 0,45 gezeichnet, damit Beschriftungen Platz haben.
+- [ ] **Buchwerte-Helfer `buch` doppelt** (S, 24.11.): Jetzt auch in `einfache-maschinen/aufgaben.ts`. Nach `core/zahl.ts` verschieben (siehe Punkt «Buchwerte-Helfer in den Kern»).
 - [ ] **Zeichnungstechnik umziehen** (L, neu): Kap. 7, 9, 10, 11, 12, FL, ME ins neue Format.
 - [ ] **Prüfungssimulation über mehrere Kapitel** (M, neu): 15–20 gemischte Aufgaben, Zeitlimit, keine Tipps, Note und Auswertung pro Kapitel.
 

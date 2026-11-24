@@ -61,6 +61,7 @@ app/
 | Arbeit, Energie | physik/ Tab «Arbeit, Energie» (a1–a5, Buch abx1–abx5, ab1–ab10, kreativ ca1–ca5) | neu/#/physik/arbeit (28 Aufgaben, 4 Lernkarten, Fehlerwerte; neu a6 Was wäre wenn Feder, a7 Fehler finden Hubarbeit, a8 Was wäre wenn Fallhöhe) |
 | Leistung, Wirkungsgrad | physik/ Tab «Leistung, Wirkungsgrad» (p1–p6) | neu/#/physik/leistung (17 Aufgaben p1–p17, 4 Lernkarten, Fehlerwerte; neu Fehler finden p7/p12, Schätzen p8, Umgekehrt p9/p10/p16, Kette mit 3 Gliedern p15, Stromkosten p13/p17) |
 | Masche mit mehreren Quellen (Elektrotechnik) | neu geschrieben (Buchaufgabe 7, Bild 2, S. 49 als e5) | neu/#/elektro/masche (12 Aufgaben e1–e12, 4 Lernkarten, Fehlerwerte; Bild `schaltung` in `faecher/elektro/masche/bilder.ts`) |
+| Einfache Maschinen, Flaschenzüge | physik/ Tab «Einfache Maschinen» (e1–e8, Buch mb1–mb11, mbx, kreativ cm1–cm5) | neu/#/physik/maschinen (32 Aufgaben m1–m32, 4 Lernkarten, Fehlerwerte; neu m5 Bild deuten, m6/m31 Fehler finden, m7 Umgekehrt, m8 Schätzen, m9 Begründen, m20/m23 Was wäre wenn; Bilder `rolle`, `keil`, `spindelpresse`, `abzieher`, `wagenheber`, `hebelSpindel` in `faecher/physik/einfache-maschinen/bilder.ts`, Ebene aus Reibung) |
 | Reihenschaltung (Elektrotechnik) | neu geschrieben nach Buch 3.7.1, Aufgaben 1–15 (Fotos im privaten Repo `unterlagen/bilder/2026-11-24-reihenschaltung/`) | neu/#/elektro/reihe (18 Aufgaben r1–r18, 5 Lernkarten, Fehlerwerte; Buch Nr. 7 steht als e5 im Kapitel Masche; Bild `reihe` in `faecher/elektro/reihenschaltung/bilder.ts`) |
 
 ## Design
