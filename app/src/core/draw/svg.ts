@@ -198,6 +198,51 @@ export function seil(s: SVGSVGElement, x1: number, y1: number, x2: number, y2: n
   line(s, x1, y1, x2, y2, { stroke: '#444', 'stroke-width': 2.2 });
 }
 
+/** Geschwindigkeitspfeil (orange). */
+export function geschw(s: SVGSVGElement, x1: number, y1: number, x2: number, y2: number, label?: string, lx = 0, ly = 0, o: Attrs = {}) {
+  line(s, x1, y1, x2, y2, { stroke: C.V, 'stroke-width': 3, 'marker-end': ref(s, 'V') });
+  if (label) txt(s, lx, ly, label, { fill: C.V, 'font-weight': 600, ...o });
+}
+
+/** Mittellinie (Strichpunkt). */
+export function mittellinie(s: SVGSVGElement, x1: number, y1: number, x2: number, y2: number) {
+  line(s, x1, y1, x2, y2, { stroke: C.GRAU, 'stroke-dasharray': '10 3 2 3', 'stroke-width': 0.8 });
+}
+
+/** Zahnrad mit Teilkreisradius r. Die Zähnezahl z wirkt nur auf die Optik (8 bis 46 Zähne). */
+export function zahnrad(s: SVGSVGElement, cx: number, cy: number, r: number, z: number, o: { h?: number; fill?: string; nabe?: boolean } = {}) {
+  const n = Math.max(8, Math.min(46, Math.round(z))), h = o.h ?? 6, pts: string[] = [];
+  const prof: [number, number][] = [[0, -h / 2], [0.18, h / 2], [0.5, h / 2], [0.68, -h / 2]];
+  for (let i = 0; i < n; i++) {
+    const a0 = (i * 2 * Math.PI) / n, da = (2 * Math.PI) / n;
+    prof.forEach(([q, dr]) => pts.push(`${(cx + (r + dr) * Math.cos(a0 + q * da)).toFixed(1)},${(cy + (r + dr) * Math.sin(a0 + q * da)).toFixed(1)}`));
+  }
+  s.append(el('polygon', { points: pts.join(' '), fill: o.fill ?? C.STAHL, stroke: C.STAHLRAND, 'stroke-width': 1.2 }));
+  s.append(el('circle', { cx, cy, r: r - h / 2 - 1, fill: 'none', stroke: '#fff', 'stroke-dasharray': '8 3 2 3' }));
+  if (o.nabe !== false) {
+    s.append(el('circle', { cx, cy, r: Math.min(12, r * 0.3), fill: C.GESTELL, stroke: '#555' }));
+    bolzen(s, cx, cy);
+  }
+}
+
+/** Riemenscheibe oder Rolle (Draufsicht), optional mit Speichen. */
+export function scheibe(s: SVGSVGElement, cx: number, cy: number, r: number, o: { fill?: string; speichen?: boolean } = {}) {
+  s.append(el('circle', { cx, cy, r, fill: o.fill ?? C.STAHL, stroke: C.STAHLRAND, 'stroke-width': 1.4 }));
+  if (o.speichen)
+    for (let i = 0; i < 6; i++) {
+      const a = (i * Math.PI) / 3;
+      line(s, cx + 14 * Math.cos(a), cy + 14 * Math.sin(a), cx + (r - 8) * Math.cos(a), cy + (r - 8) * Math.sin(a), { stroke: C.STAHLRAND, 'stroke-width': 4 });
+    }
+  s.append(el('circle', { cx, cy, r: Math.min(14, r * 0.35), fill: C.GESTELL, stroke: '#555' }));
+  bolzen(s, cx, cy);
+}
+
+/** Zahnrad in der Seitenansicht (Rechteck mit Schraffur). */
+export function radSeite(s: SVGSVGElement, x: number, y: number, r: number, fill: string = C.STAHL) {
+  s.append(el('rect', { x: x - 8, y: y - r, width: 16, height: 2 * r, fill, stroke: C.STAHLRAND }));
+  for (let yy = y - r + 4; yy < y + r - 2; yy += 6) line(s, x - 8, yy, x + 8, yy + 3, { stroke: C.STAHLRAND, 'stroke-width': 0.7 });
+}
+
 /** Kräfteplan: Pfeile aneinandergereiht (Winkel in Grad), Resultierende von A nach E. */
 export function kraefteplan(
   fs: { F: number; a: number; lab: string }[],

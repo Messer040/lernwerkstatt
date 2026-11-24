@@ -61,7 +61,13 @@ Aufwand: S = unter 30 Min., M = eine Sitzung, L = mehrere Sitzungen.
 - [ ] **Kettenaufgaben: Zwischenwerte als Auswahl** (M, 22.11.): Bei langen Ketten (ke1: 7 Teilfragen) hilft ein «Zwischenergebnis prüfen»-Knopf pro Teilfrage. Heute gibt es nur Prüfen am Ende.
 - [ ] **Kettenaufgaben: Bild-Erklärung fehlt** (M, 22.11.): Im alten Trainer gab es Schritt-Bilder (Dominokette). Neu nur Lösungsbild bei ke1–ke4, ke6.
 
+- [ ] **Umfangskraft: Labor fehlt** (M, 24.11.): Das alte Labor «Gleiches Drehmoment, anderer Durchmesser» (zwei Schieberegler) ist noch nicht im neuen Trainer. Neue Kapitel haben noch keinen Platz für interaktive Labore.
+- [ ] **Umfangskraft: Buchwerte nicht fest** (S, 24.11.): Im alten Trainer kam die erste Aufgabe mit den Buchwerten (bk). Neu sind alle Werte zufällig. Bei Bedarf die Buchwerte als erste Ziehung ergänzen.
+- [ ] **Umfangskraft: Seiltrommel-Bild nicht massstäblich** (S, 24.11.): Zähnezahl im Bild nur Optik (8 bis 46 Zähne). Bei der Montagepresse ist z_2 = 48 fest gezeichnet.
+
 ## Erledigt
+
+- [x] 24.11.2026: Kapitel «Umfangskraft» umgezogen (u1–u22: 17 alte Aufgaben + 5 neue: Was wäre wenn u18, Umgekehrt u19, Schätzen u20, Fehler finden u21, Bild deuten u22). Dabei gefunden und behoben: Alte Aufgabe cu3 (Zahnrad auf der Welle) erlaubte a = l : 2. Dann sind F_A und F_B gleich gross und ein vertauschter Hebelarm bleibt unbemerkt. Neu: l aus 400, 500, 600 mm. Alte Aufgabe cu2 hatte einen orangen Kasten in der Oberfläche. Neu: Zeilen mit Formelfarbe. Neue Bausteine in `svg.ts`: `zahnrad`, `scheibe`, `radSeite`, `geschw`, `mittellinie`.
 
 - [x] 22.11.2026: Kapitel «Kettenaufgaben» umgezogen (ke1–ke12: 6 alte + 6 neue: Schätzen ke7, Umgekehrt ke8, Was wäre wenn ke9, Fehler finden ke10–ke12). Dabei gefunden und behoben: Alte Aufgabe ke1 (Wandkonsole) erlaubte a = l. Dann ist F_Sy = F und F_Ay = 0, und die Antwort 0 ist nicht prüfbar. Neu: a höchstens 0,75 · l. Alte Aufgaben ke3 und ke5 hatten bei a = l : 2 gleich grosse Lagerkräfte F_A und F_B. Neu: dieser Fall wird ausgeschlossen. Alte Aufgabe ke6 erlaubte β = 45°, dann sind sin β und cos β gleich und der Fehlwert fällt mit der richtigen Antwort zusammen. Neu: β aus 30°, 40°, 50°, 60°.
 
