@@ -16,7 +16,9 @@ Aufwand: S = unter 30 Min., M = eine Sitzung, L = mehrere Sitzungen.
 - [ ] **Kraftpfeil-Beschriftung** (S, 20.11.): Pfeilspitzen sind etwa 16 px breit. Beschriftung neben senkrechten Pfeilen mindestens 16 px versetzen, sonst überlappt die Spitze die Schrift. Im Baustein `kraft` als Parameter abfangen.
 
 - [ ] **Bilder am Handy** (M, neu): Die SVGs haben 520 px Mindestbreite, am Handy muss man seitlich wischen. Möglichkeiten: grössere Schrift im Bild bei schmalem Bildschirm, Hochformat-Varianten oder Zoom per Antippen.
-- [ ] **Physik umziehen** (L, neu): ~~An der Wand~~ (erledigt 20.11.), Beschleunigung, ~~Lagerkräfte~~ (erledigt 21.11.), ~~Kettenaufgaben~~ (erledigt 22.11.), Umfangskraft, Reibung, Arbeit, Leistung, Einfache Maschinen, Biegen, Bewegungen, Knobel, Einheiten. Pro Kapitel Fehlerwerte und 3 Tipps ergänzen.
+- [ ] **Physik umziehen** (L, neu): ~~An der Wand~~ (erledigt 20.11.), Beschleunigung, ~~Lagerkräfte~~ (erledigt 21.11.), ~~Kettenaufgaben~~ (erledigt 22.11.), ~~Umfangskraft~~, ~~Reibung~~ (erledigt 24.11.), Arbeit, Leistung, Einfache Maschinen, Biegen, Bewegungen, Knobel, Einheiten. Pro Kapitel Fehlerwerte und 3 Tipps ergänzen.
+- [ ] **Labor «Wann rutscht die Kiste?»** (M, 24.11.): Der alte Trainer hat im Tab Reibung einen Schieberegler-Versuch (Zugkraft, F_N, μ₀). Im neuen Format gibt es noch keinen Laborbaustein. Erst bauen, wenn mehrere Kapitel Labore brauchen (auch Hebel, Flaschenzug).
+- [ ] **F_R doppelt belegt** (S, 24.11.): F_R heisst im Kapitel Reibung Reibungskraft, in Kräfte addieren Resultierende (R). Im Buch abgleichen und einheitlich benennen.
 - [ ] **Zeichnungstechnik umziehen** (L, neu): Kap. 7, 9, 10, 11, 12, FL, ME ins neue Format.
 - [ ] **Prüfungssimulation über mehrere Kapitel** (M, neu): 15–20 gemischte Aufgaben, Zeitlimit, keine Tipps, Note und Auswertung pro Kapitel.
 
