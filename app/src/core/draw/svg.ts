@@ -175,6 +175,23 @@ export function moment(s: SVGSVGElement, cx: number, cy: number, r: number, cw: 
   );
 }
 
+/** Drehsinn (Bewegung, orange) als Bogenpfeil um (cx,cy). cw = im Uhrzeigersinn. mitte = Winkel der Bogenmitte in Grad (0 = rechts, −90 = oben). */
+export function drehsinn(s: SVGSVGElement, cx: number, cy: number, r: number, cw: boolean, mitte = -90, spanne = 100) {
+  const a1 = ((mitte - spanne / 2) * Math.PI) / 180,
+    a2 = ((mitte + spanne / 2) * Math.PI) / 180;
+  const p = (a: number) => [cx + r * Math.cos(a), cy + r * Math.sin(a)];
+  const [A, B] = cw ? [p(a1), p(a2)] : [p(a2), p(a1)];
+  s.append(
+    el('path', {
+      d: `M${A[0].toFixed(1)},${A[1].toFixed(1)} A${r},${r} 0 0 ${cw ? 1 : 0} ${B[0].toFixed(1)},${B[1].toFixed(1)}`,
+      fill: 'none',
+      stroke: C.V,
+      'stroke-width': 2.5,
+      'marker-end': ref(s, 'V'),
+    }),
+  );
+}
+
 /** Kraftpfeil unter Winkel ang (Grad, math. positiv = nach oben) mit Länge len. Gibt die Spitze zurück. */
 export function kraftWinkel(
   s: SVGSVGElement, x: number, y: number, ang: number, len: number, lab?: string,

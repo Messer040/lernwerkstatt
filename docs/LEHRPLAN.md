@@ -30,7 +30,7 @@ T = bis Ende 4. Semester eingeführt, E = irgendwann im 1.–8. Semester.
 | Zeichnungstechnik | neu: GPS-Grundsätze und Grössenmass (24 Aufgaben) und GPS vertieft (41 Aufgaben: Rangordnung rechnen, Modifikatoren, Winkel, Material-Bedingung, Allgemeintoleranz, Oberfläche, Bezüge), 25.11., neues Fach `zeichnung`; alt: Kap. 7, 9–12, Form- und Lagetoleranzen (noch nicht umgezogen) | Geometrische Tolerierung ISO 1101 (Form, Richtung, Ort, Lauf: nur Wissen, noch keine Aufgaben), Übergänge ISO 21204, Position/Muster ISO 5458, Sinnbilder, Skizzieren |
 | Elektrotechnik | Masche, Reihenschaltung | Parallel, gemischt, el. Energie und Kosten |
 | Mathematik | Biegen (neu) | Algebra, Trigonometrie, Geometrie, Funktionen |
-| Maschinentechnik | neu: Getriebearten (8 Aufgaben) und Zahnräder: Masse berechnen (19 Aufgaben), 25.11.; sonst nur alte Einzel-Artifacts (Lager, Wellen, Führungen) | Verbindungen, Zahnrad-Getriebe, Federn |
+| Maschinentechnik | neu: Getriebearten (8 Aufgaben), Zahnräder: Masse berechnen (19 Aufgaben) und Zahnräder: Übersetzung und Getriebe (21 Aufgaben), 25.11.; sonst nur alte Einzel-Artifacts (Lager, Wellen, Führungen) | Verbindungen, Zahnrad-Getriebe, Federn |
 | Werkstofftechnik | nur alte Einzel-Artifacts (Fe-C, Wärmebehandlung, Festigkeitslehre Repetition) | Werkstoffarten, Normbezeichnungen; Festigkeitslehre als Repetition (Schule schon durch) |
 | Fertigungstechnik | – | Spanen (v_c, n, f), CNC, Messfehler |
 | Steuerungstechnik | – | Logik, Pneumatik-Symbole, Weg-Schritt-Diagramm |
@@ -40,7 +40,7 @@ T = bis Ende 4. Semester eingeführt, E = irgendwann im 1.–8. Semester.
 - 24.11.2026, gerade aktuell:
   - Elektrotechnik: Reihenschaltung (im Tool: `elektro/reihenschaltung`, 18 Aufgaben)
   - Werkstofftechnik: Härten, Oberflächenbehandlung (im Tool: nur alte Artifacts Wärmebehandlung, Fe-C)
-  - Maschinentechnik: Zahnräder (im Tool: Kapitel «Zahnräder: Masse berechnen» seit 25.11., Übersetzung in Physik «Umfangskraft»)
+  - Maschinentechnik: Zahnräder (im Tool: Kapitel «Zahnräder: Masse berechnen» seit 25.11., Übersetzung seit 25.11. im Kapitel «Zahnräder: Übersetzung und Getriebe», Drehmoment auch in Physik «Umfangskraft»)
   - Zeichnungstechnik: 1. Test ISO GPS (im Tool: alter Zeichnungstrainer Kap. 9–11, FL; neu seit 25.11.: neu/#/zeichnung/gps mit Grundsätzen ISO 8015 und Grössenmassmerkmalen ISO 14405-1, dazu Nachschlagen)
 - 25.11.2026: Elias schickt den ganzen Swissmem ISO-GPS-Guide (Seiten 1–154, 5 PDFs). Testthemen noch nicht genannt: bei Elias nachfragen, welche Kapitel im 1. Test drankommen.
 

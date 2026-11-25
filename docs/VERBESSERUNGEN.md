@@ -20,7 +20,10 @@ Aufwand: S = unter 30 Min., M = eine Sitzung, L = mehrere Sitzungen.
 
 - [x] **Test r2 (Reihenschaltung) schlug manchmal fehl** (erledigt 25.11.): Die angezeigte Lösung für I war auf 2 Stellen gerundet. Jetzt tol 0,03 für I.
 - [ ] **Probeprüfung Maschinentechnik** (M, 25.11.): Bilder aus `getriebearten/bilder.ts` und `zahnrad/bilder.ts` wiederverwenden (siehe ARCHITEKTUR «Wiederverwendbare Bilder»).
-- [ ] **Zahnräder: Übersetzung und Getriebe** (M, 25.11.): Zweites Kapitel Maschinentechnik. i = z_2 : z_1 = n_1 : n_2, mehrstufig. Heute nur in Physik «Umfangskraft».
+- [x] **Zahnräder: Übersetzung und Getriebe** (erledigt 25.11.): Kapitel neu/#/maschinen/uebersetzung, 21 Aufgaben.
+- [ ] **Bilder am Handy abgeschnitten** (S, 25.11.): `.blatt .bild svg` hat `min-width: 520px`, bei 390 px Breite ist rechts ein Teil nur mit Wischen sichtbar. Beschriftungen rechts (z. B. n_ab, Seiltrommel im Getriebeschema, d_a/d/d_f beim Zahnrad) sieht Elias zuerst nicht. Hinweis «wischen» zeigen oder Bilder schmaler zeichnen.
+- [ ] **Übersetzung: Kegelrad und Schnecke** (M, 25.11.): Schnecke i = z_2 : Gangzahl, Kegelrad und Kettentrieb fehlen noch. Getriebeschema `schema` kann nur Stirnräder.
+- [ ] **Übersetzung: Buchaufgaben einbauen** (S, 25.11.): Kapitel ist ohne Buchseiten geschrieben. Sobald Elias Aufgaben zur Übersetzung schickt («ergänzen»), als Buchvarianten einbauen.
 - [ ] **GPS-Werkstatt als eigener Teil** (L, 24.11., Wunsch Elias): Die Aufgaben «Rahmen aus Text» und «Rahmen setzen» zu einem eigenen Werkzeug im neuen Format ausbauen. Stufen: 1 Rahmen aus Text (Symbole antippen statt Listen), 2 Pfeil setzen, 3 Bezug setzen, 4 Rahmen lesen (umgekehrt), 5 Fehler finden, 6 Prüfen mit Messuhr, 7 Baukasten mit Zufallsteilen. Erster Test im alten Trainer: k10s–k10w (25.11.).
 - [ ] **Rahmen setzen: Masspfeil durch Bezugsdreieck ersetzen** (S, 25.11.): Bei k10v sitzt das Dreieck auf dem Masspfeil der Masslinie 80, der Pfeil bleibt aber gezeichnet. Beim Ersetzen den Masspfeil ausblenden.
 - [ ] **Rahmen setzen: Antipp-Punkte am Handy klein** (S, 25.11.): Die Zeichnung ist am Handy schmal, die Punkte sind gut 1 cm gross. Zoom oder grössere Zeichnung prüfen.

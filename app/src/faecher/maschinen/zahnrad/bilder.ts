@@ -5,7 +5,7 @@ const blau = (s: SVGSVGElement, x: number, y: number, t: string, o: Record<strin
   txt(s, x, y, t, { fill: C.L, 'font-weight': 600, 'font-size': 14, ...o });
 
 /** Zahnkranz mit Kopf-, Teil- und Fusskreis. zv = gezeichnete Zähnezahl. */
-function kranz(s: SVGSVGElement, cx: number, cy: number, r: number, z: number, fill: string = C.STAHL, o: { echt?: boolean; phase?: number } = {}) {
+export function kranz(s: SVGSVGElement, cx: number, cy: number, r: number, z: number, fill: string = C.STAHL, o: { echt?: boolean; phase?: number } = {}) {
   const zv = o.echt ? Math.round(z) : Math.max(18, Math.min(36, Math.round(z)));
   const mv = (2 * r) / zv, ra = r + mv, rf = r - 1.25 * mv, ap = (2 * Math.PI) / zv, ph = o.phase ?? 0;
   const pts: string[] = [];

@@ -19,6 +19,7 @@ import { masche } from './elektro/masche';
 import { reihenschaltung } from './elektro/reihenschaltung';
 import { zahnrad } from './maschinen/zahnrad';
 import { getriebearten } from './maschinen/getriebearten';
+import { uebersetzung } from './maschinen/uebersetzung';
 import { gpsGrundsaetze, gpsVertieft } from './zeichnung/gps-grundsaetze';
 import { WISSEN as WISSEN_ZEICHNUNG } from './zeichnung/wissen';
 
@@ -39,9 +40,8 @@ export const FAECHER: Fach[] = [
   {
     id: 'maschinen',
     title: 'Maschinentechnik',
-    kurz: 'Zahnräder, Getriebearten',
-    kapitel: [getriebearten, zahnrad],
-    geplant: ['Zahnräder: Übersetzung und Getriebe'],
+    kurz: 'Zahnräder, Getriebearten, Übersetzung',
+    kapitel: [getriebearten, zahnrad, uebersetzung],
   },
   {
     id: 'zeichnung',
