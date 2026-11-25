@@ -85,8 +85,47 @@ export function fachSeite(f: Fach): HTMLElement {
       'section',
       {},
       pfad(link('#/', 'Start'), ' / ', f.title),
-      titelzeile(f.title, f.kurz),
+      titelzeile(f.title, f.kurz, f.wissen?.length ? knopf(`#/${f.id}/wissen`, 'Nachschlagen') : null),
       h('section', { class: 'tafel' }, kapitelZeilen(f)),
+    ),
+  );
+}
+
+const ART_WISSEN: Record<string, string> = { formel: 'Formel', begriff: 'Begriff', merksatz: 'Merksatz', lehrer: 'Lehrerhinweis', bild: 'Bild' };
+
+/** Nachschlagen: alle Wissenseinträge eines Fachs, nach Thema gruppiert. */
+export function wissenSeite(f: Fach): HTMLElement {
+  const alle = f.wissen ?? [];
+  const themen = [...new Set(alle.map((w) => w.thema))];
+  return h(
+    'section',
+    {},
+    pfad(link('#/', 'Start'), ' / ', link(`#/${f.id}`, f.title), ' / Nachschlagen'),
+    titelzeile(`${f.title}: Nachschlagen`, `${anzahl(alle.length, 'Eintrag', 'Einträge')}, nach Thema geordnet`),
+    ...themen.map((t) =>
+      h(
+        'section',
+        { class: 'tafel wissen' },
+        h('header', {}, h('h2', {}, t)),
+        ...alle
+          .filter((w) => w.thema === t)
+          .map((w) =>
+            h(
+              'article',
+              { class: 'wissen-eintrag', id: w.id },
+              h('h3', {}, w.titel, ' ', h('span', { class: 'meta' }, ART_WISSEN[w.art] ?? w.art)),
+              h('p', { html: w.text }),
+              w.formel ? h('p', { class: 'eq', html: w.formel }) : null,
+              h(
+                'p',
+                { class: 'meta' },
+                w.kapitel ? link(`#/${f.id}/${w.kapitel}`, 'Zum Kapitel') : null,
+                w.kapitel ? ' · ' : null,
+                `Quelle: ${w.quelle}`,
+              ),
+            ),
+          ),
+      ),
     ),
   );
 }

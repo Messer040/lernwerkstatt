@@ -27,7 +27,7 @@ T = bis Ende 4. Semester eingeführt, E = irgendwann im 1.–8. Semester.
 | Fach | Abgedeckt | Lücken |
 | --- | --- | --- |
 | Physik | Kräfte, Drehmoment, Lager, Reibung, Arbeit, Leistung, einfache Maschinen, Beschleunigung (neu) · Bewegungen (alt) | Druck, Pascal, Wärmelehre (5. Sem.) |
-| Zeichnungstechnik | Kap. 7, 9–12, Form- und Lagetoleranzen (alt, noch nicht umgezogen) | Sinnbilder, Skizzieren |
+| Zeichnungstechnik | neu: GPS-Grundsätze und Grössenmass (24 Aufgaben, 25.11., neues Fach `zeichnung`); alt: Kap. 7, 9–12, Form- und Lagetoleranzen (noch nicht umgezogen) | Winkelgrössenmass (ISO 14405-3), Bezüge, Sinnbilder, Skizzieren |
 | Elektrotechnik | Masche, Reihenschaltung | Parallel, gemischt, el. Energie und Kosten |
 | Mathematik | Biegen (neu) | Algebra, Trigonometrie, Geometrie, Funktionen |
 | Maschinentechnik | neu: Getriebearten (8 Aufgaben) und Zahnräder: Masse berechnen (19 Aufgaben), 25.11.; sonst nur alte Einzel-Artifacts (Lager, Wellen, Führungen) | Verbindungen, Zahnrad-Getriebe, Federn |
@@ -41,7 +41,8 @@ T = bis Ende 4. Semester eingeführt, E = irgendwann im 1.–8. Semester.
   - Elektrotechnik: Reihenschaltung (im Tool: `elektro/reihenschaltung`, 18 Aufgaben)
   - Werkstofftechnik: Härten, Oberflächenbehandlung (im Tool: nur alte Artifacts Wärmebehandlung, Fe-C)
   - Maschinentechnik: Zahnräder (im Tool: Kapitel «Zahnräder: Masse berechnen» seit 25.11., Übersetzung in Physik «Umfangskraft»)
-  - Zeichnungstechnik: 1. Test ISO GPS (im Tool: alter Zeichnungstrainer Kap. 9–11, FL)
+  - Zeichnungstechnik: 1. Test ISO GPS (im Tool: alter Zeichnungstrainer Kap. 9–11, FL; neu seit 25.11.: neu/#/zeichnung/gps mit Grundsätzen ISO 8015 und Grössenmassmerkmalen ISO 14405-1, dazu Nachschlagen)
+- 25.11.2026: Elias schickt Seiten 5–16 des Swissmem ISO-GPS-Guides (Grundsätze, Übersicht Grössenmassmerkmale). Testthemen noch nicht genannt: bei Elias nachfragen, welche Kapitel im 1. Test drankommen.
 
 - 24.11.2026, Schulnotizen von Elias (Notizbuch «2. Konstrukteur»), bisher behandelte Themen:
   - 1 Werkstofftechnik: Festigkeit, Wärmebehandlung, Härte

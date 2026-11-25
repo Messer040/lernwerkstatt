@@ -1,8 +1,8 @@
 // Einstieg: Schale und Hash-Router. Es wird nichts gespeichert.
-// Routen: #/  ·  #/<fach>  ·  #/<fach>/<kapitel>?karte=…&stufe=…  ·  #/<fach>/<kapitel>/a/<id>  ·  #/<fach>/<kapitel>/test
+// Routen: #/  ·  #/<fach>  ·  #/<fach>/wissen  ·  #/<fach>/<kapitel>?karte=…&stufe=…  ·  #/<fach>/<kapitel>/a/<id>  ·  #/<fach>/<kapitel>/test
 import './style.css';
 import { FAECHER, findeFach, findeKapitel } from './faecher';
-import { aufgabeSeite, fachSeite, kapitelSeite, startSeite, testSeite, type Filter } from './core/ui/seiten';
+import { aufgabeSeite, fachSeite, kapitelSeite, startSeite, testSeite, wissenSeite, type Filter } from './core/ui/seiten';
 import type { Stufe } from './core/types';
 import { h } from './core/ui/dom';
 
@@ -31,6 +31,7 @@ function route() {
 
   let seite: HTMLElement;
   if (!fachId) seite = startSeite(FAECHER);
+  else if (fach && kapId === 'wissen' && fach.wissen?.length) seite = wissenSeite(fach);
   else if (fach && !kapId) seite = fachSeite(fach);
   else if (fach && kap && modus === 'test') seite = testSeite(fach, kap);
   else if (fach && kap && modus === 'a' && aufgabeId) seite = aufgabeSeite(fach, kap, aufgabeId, filter);

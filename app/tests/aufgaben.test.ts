@@ -97,3 +97,18 @@ describe('Kern', () => {
     expect(pruefeZahl('abc', a).ok).toBe(false);
   });
 });
+
+describe('Wissensspeicher', () => {
+  for (const fach of FAECHER.filter((f) => f.wissen)) {
+    it(`${fach.title}: Einträge sind vollständig und verweisen auf echte Kapitel`, () => {
+      const ids = fach.wissen!.map((w) => w.id);
+      expect(new Set(ids).size).toBe(ids.length);
+      for (const w of fach.wissen!) {
+        expect(w.titel && w.text && w.quelle && w.thema, w.id).toBeTruthy();
+        expect(w.datum).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+        if (w.kapitel) expect(fach.kapitel.some((k) => k.id === w.kapitel), `${w.id}: Kapitel ${w.kapitel}`).toBe(true);
+        expect(`${w.text}${w.formel ?? ''}`).not.toMatch(/undefined|NaN/);
+      }
+    });
+  }
+});

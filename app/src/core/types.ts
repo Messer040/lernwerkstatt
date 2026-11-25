@@ -111,6 +111,25 @@ export interface Kapitel {
   aufgaben: Task[];
 }
 
+/** Eintrag im Wissensspeicher («Nachschlagen»). Eigene Worte, nie Buchtext wörtlich. */
+export interface Wissen {
+  id: string;
+  thema: string;
+  art: 'formel' | 'begriff' | 'merksatz' | 'lehrer' | 'bild';
+  titel: string;
+  /** HTML */
+  text: string;
+  formel?: string;
+  /** Name einer Bildfunktion, falls vorhanden */
+  bild?: string;
+  /** Kapitel-ID, auf das der Eintrag verweist */
+  kapitel?: string;
+  /** Unterlage, z. B. «Swissmem ISO-GPS-Guide S. 8, 25.11.2026» */
+  quelle: string;
+  /** ISO-Datum */
+  datum: string;
+}
+
 export interface Fach {
   id: string;
   title: string;
@@ -118,4 +137,6 @@ export interface Fach {
   kapitel: Kapitel[];
   /** Kapitel, die noch im alten Trainer liegen und folgen */
   geplant?: string[];
+  /** Wissensspeicher: Seite «Nachschlagen» */
+  wissen?: Wissen[];
 }

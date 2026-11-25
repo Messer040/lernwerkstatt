@@ -261,3 +261,10 @@ details.formeln[open] > summary::after { transform: rotate(225deg); }
 
 /* Rechenweg eines Lernenden in Fehler-finden-Aufgaben */
 .fehlerliste { margin: 8px 0; padding: 8px 12px 8px 30px; background: var(--raised); border: 1px solid var(--border); border-radius: var(--radius-control); }
+
+/* Nachschlagen (Wissensspeicher) */
+.tafel.wissen { margin-bottom: 16px; }
+.wissen-eintrag { padding: 12px var(--pad); border-top: 1px solid var(--border); }
+.wissen-eintrag h3 { margin: 0 0 6px; font-size: 16px; }
+.wissen-eintrag p { margin: 4px 0; }
+.wissen-eintrag .meta { color: var(--muted); font-size: 14px; font-weight: 400; }

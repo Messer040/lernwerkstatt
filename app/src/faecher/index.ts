@@ -19,6 +19,8 @@ import { masche } from './elektro/masche';
 import { reihenschaltung } from './elektro/reihenschaltung';
 import { zahnrad } from './maschinen/zahnrad';
 import { getriebearten } from './maschinen/getriebearten';
+import { gpsGrundsaetze } from './zeichnung/gps-grundsaetze';
+import { WISSEN as WISSEN_ZEICHNUNG } from './zeichnung/wissen';
 
 export const FAECHER: Fach[] = [
   {
@@ -40,6 +42,14 @@ export const FAECHER: Fach[] = [
     kurz: 'Zahnräder, Getriebearten',
     kapitel: [getriebearten, zahnrad],
     geplant: ['Zahnräder: Übersetzung und Getriebe'],
+  },
+  {
+    id: 'zeichnung',
+    title: 'Zeichnungstechnik',
+    kurz: 'ISO GPS: Grundsätze, Grössenmass',
+    kapitel: [gpsGrundsaetze],
+    geplant: ['Dimensionelle Tolerierung: Winkelgrössenmass (ISO 14405-3)', 'Bezüge und Bezugssysteme', 'Geometrische Tolerierung', 'Oberflächenbeschaffenheit'],
+    wissen: WISSEN_ZEICHNUNG,
   },
 ];
 

@@ -5,6 +5,12 @@ Regel: Wer etwas bemerkt, trägt es hier ein. Erledigtes wird abgehakt und mit D
 
 Aufwand: S = unter 30 Min., M = eine Sitzung, L = mehrere Sitzungen.
 
+- [ ] **Wissensspeicher für alle Fächer** (M, 25.11.): Seite «Nachschlagen» gibt es nur für `zeichnung`. Für Physik, Maschinen und Elektro die Formelkarten und Lehrerhinweise in `wissen.ts` übernehmen (Format siehe ARCHITEKTUR).
+- [ ] **Wissen: Bilder anzeigen** (S, 25.11.): Feld `bild` (z. B. `hierarchie`) steht im Eintrag, die Seite zeigt es noch nicht. Bildfunktion pro Name abbilden und einbinden.
+- [ ] **Buchbeispiel Allgemeintoleranzen prüfen** (S, 25.11.): Im Guide steht beim Grundsatz der allgemeinen Spezifikation, dass für 66 mm, 16,5 mm und 33 mm ISO 13920 (Klasse B) gilt, nicht ISO 2768 (Klasse m). Grund laut Regel: die tolerantere gilt. Ob 13920-B hier wirklich toleranter ist, ist nicht nachgerechnet. Mit den Tabellen prüfen, dann als Rechenaufgabe einbauen.
+- [ ] **GPS: ISO 14405-1 Seiten 17 ff.** (M, 25.11.): Elias hat bisher nur die Übersicht (S. 16). Einzelne Modifikatoren (LP, GG, CC …) mit Bild folgen, sobald die Seiten da sind. Ebenso ISO 14405-2 und -3, 5459, 1101.
+- [ ] **GPS-Kapitel: mehr Bildaufgaben** (M, 25.11.): Das Kapitel hat nur 2 Bildaufgaben. Zeichnung mit Hüllbedingung, Prüfung mit Messschieber und Lehrring (Dualität) zeichnen.
+
 ## Wichtig
 
 - [x] **Test r2 (Reihenschaltung) schlug manchmal fehl** (erledigt 25.11.): Die angezeigte Lösung für I war auf 2 Stellen gerundet. Jetzt tol 0,03 für I.

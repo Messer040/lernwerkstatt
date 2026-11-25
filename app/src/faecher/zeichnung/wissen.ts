@@ -1,0 +1,32 @@
+// Wissensspeicher Zeichnungstechnik. Eigene Worte, nie Buchtext wörtlich.
+import type { Wissen } from '../../core/types';
+
+const Q = 'Swissmem ISO-GPS-Guide (1. Aufl. 2024)';
+const D = '2026-11-25';
+const w = (id: string, thema: string, art: Wissen['art'], titel: string, text: string, seite: string, extra: Partial<Wissen> = {}): Wissen => ({
+  id, thema, art, titel, text, kapitel: 'gps', quelle: `${Q}, ${seite}`, datum: D, ...extra,
+});
+
+export const WISSEN: Wissen[] = [
+  // ---- Grundsätze (ISO 8015) ----
+  w('gps-aufrufen', 'GPS-Grundsätze', 'merksatz', 'Grundsatz des Aufrufens', 'Wer einen Teil des GPS-Regelwerks der ISO benutzt (zum Beispiel ein Modifikatorsymbol), ruft das ganze Regelwerk auf. Vertragsrechtlich eindeutig ist das erst, wenn man das Regelwerk vereinbart, etwa mit dem Hinweis «Tolerierung ISO 8015».', 'S. 8'),
+  w('gps-hierarchie', 'GPS-Grundsätze', 'merksatz', 'Grundsatz der GPS-Normenhierarchie', 'Es gibt drei Stufen: fundamentale (z. B. ISO 8015), allgemeine (z. B. ISO 1101) und komplementäre GPS-Normen (z. B. ISO 8062). Regeln einer höheren Stufe gelten auch in tieferen Stufen, falls dort nichts anderes steht.', 'S. 8', { bild: 'hierarchie' }),
+  w('gps-zeichnung', 'GPS-Grundsätze', 'merksatz', 'Grundsatz der bestimmenden Zeichnung', 'Die Zeichnung ist bestimmend. Eine Anforderung, die nicht in der Produktspezifikation steht, kann niemand verlangen (Endgültigkeitsprinzip). Bei Produktdefinitionsdaten mit Klassifizierungscode 3 (Modell plus vereinfachte Zeichnung) ist der Datensatz das Original. Ohne Zeichnung (Code 5) steht die Dokumentation an ihrer Stelle.', 'S. 8'),
+  w('gps-element', 'GPS-Grundsätze', 'merksatz', 'Grundsatz des Geometrieelementes', 'Ein Werkstück besteht aus endlich vielen Geometrieelementen. Eine Spezifikation gilt standardmässig für das ganze Element und nur für dieses eine Element oder diese eine Beziehung.', 'S. 9'),
+  w('gps-unabhaengig', 'GPS-Grundsätze', 'merksatz', 'Grundsatz der Unabhängigkeit', 'Grössenmass, Form, Richtung und Ort müssen je für sich erfüllt werden. Eine Abhängigkeit entsteht nur durch eine Norm oder eine besondere Angabe, zum Beispiel die Hüllbedingung oder eine Elementgruppen-Spezifikation (ISO 5458).', 'S. 9'),
+  w('gps-dezimal', 'GPS-Grundsätze', 'merksatz', 'Grundsatz der Dezimaldarstellung', 'Dezimalstellen, die nicht dastehen, sind Nullen. 50 bedeutet 50,000…', 'S. 9'),
+  w('gps-standard', 'GPS-Grundsätze', 'merksatz', 'Grundsatz der Standardfestlegung', 'Die Grundlage der ISO beruht auf einem Standard-Spezifikationsoperator, den man in der Zeichnung nicht sieht. Linear gilt das Zweipunktgrössenmass (LP). Bei Winkeln gilt das Zwei-Linien-Winkelgrössenmass mit Minimax-Assoziationskriterium. Ein Modifikatorsymbol ersetzt den Standard.', 'S. 10', { formel: 'Ø30 ±0,02 → LP · 32° ±1° → Zwei-Linien mit Minimax' }),
+  w('gps-referenz', 'GPS-Grundsätze', 'merksatz', 'Grundsatz der Referenzbedingungen', 'Standardmässig gelten alle Spezifikationen bei der Referenztemperatur 20 °C. Andere Bedingungen müssen separat festgelegt werden. Beispiel für Kunststoff: 23 °C ±2 K und 50 % ±10 % relative Luftfeuchtigkeit (Verweis auf ISO 291).', 'S. 10', { formel: 'T = 20 °C' }),
+  w('gps-starr', 'GPS-Grundsätze', 'merksatz', 'Grundsatz des starren Werkstückes', 'Das Werkstück gilt als unendlich steif. Alle Spezifikationen gelten im freien Zustand, ohne Verformung durch Einspannen oder Schwerkraft. Bei dünnen Blechen, Elastomerteilen und dünnwandigen Grossteilen muss man eine Einspannbedingung festlegen (z. B. mit Verweis auf ISO 10579).', 'S. 11'),
+  w('gps-dualitaet', 'GPS-Grundsätze', 'merksatz', 'Grundsatz der Dualität', 'Die Spezifikation ist unabhängig vom Messverfahren. Der Verifikationsoperator bildet den Spezifikationsoperator nach, aber meist nicht vollständig. Der Unterschied heisst Methodenunsicherheit und ist ein Teil der Messunsicherheit.', 'S. 12'),
+  w('gps-funktion', 'GPS-Grundsätze', 'merksatz', 'Grundsatz der Funktionsbeherrschung', 'Die Funktion wird durch GPS-Spezifikationen nachgebildet. Sind alle beabsichtigten Funktionen durch Spezifikationen bestimmt und geprüft, ist die Spezifikation vollständig. In der Praxis ist sie meist unvollständig.', 'S. 12'),
+  w('gps-allgemein', 'GPS-Grundsätze', 'merksatz', 'Grundsatz der allgemeinen Spezifikation', 'Allgemeine Spezifikationen gelten für jedes Merkmal ohne gleichartige Einzelangabe. Widersprechen sich zwei allgemeine Spezifikationen und ist nicht gesagt, wofür welche gilt, ist das mehrdeutig. Dann muss nur die tolerantere eingehalten werden.', 'S. 14'),
+  w('gps-verantwortung', 'GPS-Grundsätze', 'merksatz', 'Grundsatz der Verantwortlichkeit', 'Die Konstruktion trägt die Verantwortung dafür, wie gut die Spezifikation die Funktion trifft (Mehrdeutigkeit). Die Partei, die den Nachweis führt, trägt die Verantwortung für die Messunsicherheit (siehe ISO 14253-1).', 'S. 14'),
+
+  // ---- Grössenmassmerkmale (ISO 14405-1) ----
+  w('gm-gruppen', 'Grössenmassmerkmale', 'begriff', 'Vier Gruppen', 'Die Grössenmassmerkmale gehören zu vier Gruppen: örtliches Grössenmass, globales Grössenmass, Kombination aus örtlichem und globalem Grössenmass (die Hüllbedingung E) und Rangordnungsgrössenmass.', 'S. 16', { bild: 'massmerkmale' }),
+  w('gm-oertlich', 'Grössenmassmerkmale', 'begriff', 'Örtliche Merkmale', 'LP Zweipunktgrössenmass · LS sphärisches Grössenmass · Querschnittsgrössenmass mit diversen Kriterien (ACS, ALS, SCS) · CC berechnet mit umfangsbezogenem Durchmesser · CA berechnet mit flächenbezogenem Durchmesser · Teilbereichsgrössenmass der Länge L.', 'S. 16'),
+  w('gm-global', 'Grössenmassmerkmale', 'begriff', 'Globale Merkmale', 'GG totale kleinste Abweichungsquadrate · GC Minimax-Assoziationskriterium · GX grösstes einbeschriebenes Geometrieelement · GN kleinstes umschriebenes Geometrieelement · CV berechnet mit volumenbezogenem Durchmesser.', 'S. 16'),
+  w('gm-rang', 'Grössenmassmerkmale', 'begriff', 'Rangordnungsgrössenmasse', 'SX grösstes · SN kleinstes · SA mittleres · SM Median · SD Mittelwert aus kleinstem und grösstem · SR Spanne · SQ Standardabweichung. Sie sind keine eigenen Massmerkmale. Man wendet sie zusätzlich zu einem örtlichen Grössenmass an, z. B. LS SX ALS oder LP SD ACS.', 'S. 16'),
+  w('gm-platzhalter', 'Grössenmassmerkmale', 'begriff', 'Platzhalter in Querschnitt- und Teilbereichssymbolen', 'Der Platzhalter im Symbol steht für eines der Kriterien GG, GC, GX oder GN.', 'S. 16'),
+];

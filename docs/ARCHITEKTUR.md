@@ -69,10 +69,17 @@ app/
 | Zahnräder: Masse berechnen (Maschinentechnik, neues Fach `maschinen`) | neu geschrieben nach Buch 4.5.7–4.5.9 und Formeltabelle aus dem Unterricht (Fotos im privaten Repo `unterlagen/bilder/2026-11-25-zahnraeder/`) | neu/#/maschinen/zahnrad (19 Aufgaben z1–z19, 4 Lernkarten, Fehlerwerte; Bilder `rad`, `zahn`, `paar` in `faecher/maschinen/zahnrad/bilder.ts`) |
 | Getriebearten (Maschinentechnik) | neu geschrieben nach Buch 4.5.4 (Foto im privaten Repo `unterlagen/bilder/2026-11-25-zahnraeder/`) | neu/#/maschinen/getriebe (8 Aufgaben g1–g8, 3 Lernkarten) |
 | Knobelaufgaben | physik/ Tab «Knobelaufgaben» (x1–x4: Mobile, Lastwagen auf Brücke, Gabelstapler, Kugelbahn) | neu/#/physik/knobel (18 Aufgaben x1–x18, 4 Lernkarten, Fehlerwerte; neu x2/x8/x12/x17 Fehler finden, x3/x10/x14 Umgekehrt, x4/x7/x11/x18 Was wäre wenn, x6/x16 Schätzen, x15 Begründen; Bilder `mobile`, `stapler`, `bahn` in `faecher/physik/knobelaufgaben/bilder.ts`, Brücke nutzt `traeger` aus Lagerkräfte) |
+| GPS-Grundsätze und Grössenmass (Zeichnungstechnik, neues Fach `zeichnung`) | neu geschrieben nach Swissmem ISO-GPS-Guide S. 5–16 (PDF im privaten Repo `unterlagen/pdf/swissmem-iso-gps-guide-s5-16-grundlagen-14405-1.pdf`) | neu/#/zeichnung/gps (24 Aufgaben g1–g24, 3 Lernkarten, nur Auswahlfragen mit Erklärung pro falscher Antwort; Bilder `hierarchie`, `massmerkmale` in `faecher/zeichnung/gps-grundsaetze/bilder.ts`) |
 
 ## Wiederverwendbare Bilder (für Probeprüfungen)
 - `faecher/maschinen/getriebearten/bilder.ts`: `getriebe(art)` zeichnet ein Getriebe gross, `getriebeUebersicht(reihe)` alle vier mit Nummern 1–4 in frei wählbarer Reihenfolge. `art` = `stirn` | `kegel` | `schraube` | `schnecke`. `ART[art]` liefert Name und Lage der Wellen. Eigene Zeichnungen, keine Buchbilder.
 - `faecher/maschinen/zahnrad/bilder.ts`: `rad`, `zahn`, `paar`.
+- `faecher/zeichnung/gps-grundsaetze/bilder.ts`: `hierarchie(fragen?)` (drei Stufen der GPS-Normen), `massmerkmale()` (vier Gruppen der Grössenmassmerkmale).
+
+## Wissensspeicher (Nachschlagen)
+- Pro Fach optional `wissen: Wissen[]` in `faecher/index.ts` (Typ `Wissen` in `core/types.ts`). Datei `faecher/<fach>/wissen.ts`.
+- Seite `#/<fach>/wissen`, Knopf «Nachschlagen» auf der Fachseite. Einträge nach Thema gruppiert, mit Link zum Kapitel und Quelle.
+- Neue Unterlagen: bestehende Einträge ergänzen, nicht doppelt anlegen. Bisher nur Fach `zeichnung`.
 
 ## Design
 - Stil «Achromatic ledger» (Design-Skill, Seed 1226934261): Oberfläche ohne Farbe, Hauptknopf fast schwarz, Grund blaugrau #f2f4f7 (Zeichenpapier). Farbe nur auf Daten: Bauteilbilder, Formeln, richtig/falsch.
