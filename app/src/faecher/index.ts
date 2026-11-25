@@ -14,6 +14,7 @@ import { einfacheMaschinen } from './physik/einfache-maschinen';
 import { beschleunigungGewichtskraft } from './physik/beschleunigung';
 import { bewegungen } from './physik/bewegungen';
 import { biegen } from './physik/biegen';
+import { knobelaufgaben } from './physik/knobelaufgaben';
 import { masche } from './elektro/masche';
 import { reihenschaltung } from './elektro/reihenschaltung';
 import { zahnrad } from './maschinen/zahnrad';
@@ -24,8 +25,7 @@ export const FAECHER: Fach[] = [
     id: 'physik',
     title: 'Physik',
     kurz: 'Kräfte, Momente, Lager, Reibung, Arbeit',
-    kapitel: [kraefteAddieren, kraefteZerlegen, drehmoment, anDerWand, lagerkraefte, kettenaufgaben, umfangskraft, reibung, arbeitEnergie, leistungWirkungsgrad, einfacheMaschinen, beschleunigungGewichtskraft, bewegungen, biegen],
-    geplant: ['Knobelaufgaben'],
+    kapitel: [kraefteAddieren, kraefteZerlegen, drehmoment, anDerWand, lagerkraefte, kettenaufgaben, umfangskraft, reibung, arbeitEnergie, leistungWirkungsgrad, einfacheMaschinen, beschleunigungGewichtskraft, bewegungen, biegen, knobelaufgaben],
   },
   {
     id: 'elektro',

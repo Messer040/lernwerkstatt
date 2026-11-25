@@ -58,7 +58,7 @@ Ausnahme: Kommt in der Schule ein Test (z. B. Zahnräder, ISO GPS), diesen kurz 
 
 ### Etappe 1: Physik fertig umziehen (ca. 3 Sitzungen)
 - [ ] Bewegungen (gleichförmig geradlinig und kreisförmig, v-t-Diagramm, Umfangsgeschwindigkeit, Drehzahl)
-- [ ] Knobelaufgaben
+- [x] Knobelaufgaben (neu/#/physik/knobel, 25.11.)
 - [ ] Danach: alter Physik-Trainer offline (Entscheid mit Elias)
 
 ### Etappe 2: Mathe als neues Fach `mathe` (ca. 6 Sitzungen)
