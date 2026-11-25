@@ -47,7 +47,7 @@ for (const fach of FAECHER) {
               expect(a, `${t.id}: Fehler zeigt auf Teilfrage ${fe.ask}`).toBeDefined();
               if (!a || isChoice(a)) continue;
               // Fehlwert darf nicht mit der richtigen Antwort zusammenfallen
-              expect(Math.abs(fe.v - a.v) > Math.abs(a.v) * TOL, `${t.id}: Fehlwert ${fe.v} ≈ richtig ${a.v}`).toBe(true);
+              expect(Math.abs(fe.v - a.v) > Math.abs(a.v) * (a.tol ?? TOL), `${t.id}: Fehlwert ${fe.v} ≈ richtig ${a.v}`).toBe(true);
               const u = pruefeZahl(String(fe.v), a, [fe]);
               expect(u.ok).toBe(false);
               expect(u.msg).toBe(fe.msg);

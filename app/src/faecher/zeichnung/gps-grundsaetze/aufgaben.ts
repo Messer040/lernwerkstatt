@@ -4,17 +4,17 @@ import { task, type ChoiceAsk, type Task } from '../../../core/types';
 import { pick } from '../../../core/zahl';
 import * as B from './bilder';
 
-const mische = (n: number) => {
+export const mische = (n: number) => {
   const r = [...Array(n).keys()];
   for (let i = n - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [r[i], r[j]] = [r[j], r[i]]; }
   return r;
 };
 /** Neue Reihenfolgen für bis zu 3 Teilfragen (je 5 Plätze). */
-const reihen = () => ({ o: [mische(5), mische(5), mische(5)] });
-type P = ReturnType<typeof reihen>;
+export const reihen = () => ({ o: [mische(5), mische(5), mische(5)] });
+export type P = ReturnType<typeof reihen>;
 
 /** Auswahlfrage. Die richtige Antwort steht an wechselnder Stelle. */
-const wahl = (k: string, o: number[], richtig: string, falsch: [string, string][]): ChoiceAsk => {
+export const wahl = (k: string, o: number[], richtig: string, falsch: [string, string][]): ChoiceAsk => {
   const opts = [richtig, ...falsch.map((f) => f[0])];
   const why = [undefined, ...falsch.map((f) => f[1])];
   const ord = o.filter((i) => i < opts.length);

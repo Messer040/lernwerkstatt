@@ -19,7 +19,7 @@ import { masche } from './elektro/masche';
 import { reihenschaltung } from './elektro/reihenschaltung';
 import { zahnrad } from './maschinen/zahnrad';
 import { getriebearten } from './maschinen/getriebearten';
-import { gpsGrundsaetze } from './zeichnung/gps-grundsaetze';
+import { gpsGrundsaetze, gpsVertieft } from './zeichnung/gps-grundsaetze';
 import { WISSEN as WISSEN_ZEICHNUNG } from './zeichnung/wissen';
 
 export const FAECHER: Fach[] = [
@@ -47,7 +47,7 @@ export const FAECHER: Fach[] = [
     id: 'zeichnung',
     title: 'Zeichnungstechnik',
     kurz: 'ISO GPS: Grundsätze, Grössenmass',
-    kapitel: [gpsGrundsaetze],
+    kapitel: [gpsGrundsaetze, gpsVertieft],
     geplant: ['Dimensionelle Tolerierung: Winkelgrössenmass (ISO 14405-3)', 'Bezüge und Bezugssysteme', 'Geometrische Tolerierung', 'Oberflächenbeschaffenheit'],
     wissen: WISSEN_ZEICHNUNG,
   },
