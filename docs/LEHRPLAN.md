@@ -30,7 +30,7 @@ T = bis Ende 4. Semester eingeführt, E = irgendwann im 1.–8. Semester.
 | Zeichnungstechnik | Kap. 7, 9–12, Form- und Lagetoleranzen (alt, noch nicht umgezogen) | Sinnbilder, Skizzieren |
 | Elektrotechnik | Masche, Reihenschaltung | Parallel, gemischt, el. Energie und Kosten |
 | Mathematik | Biegen (neu) | Algebra, Trigonometrie, Geometrie, Funktionen |
-| Maschinentechnik | nur alte Einzel-Artifacts (Lager, Wellen, Führungen) | Verbindungen, Zahnräder, Getriebe, Federn |
+| Maschinentechnik | neu: Zahnräder: Masse berechnen (19 Aufgaben, 25.11.); sonst nur alte Einzel-Artifacts (Lager, Wellen, Führungen) | Verbindungen, Zahnrad-Getriebe, Federn |
 | Werkstofftechnik | nur alte Einzel-Artifacts (Fe-C, Wärmebehandlung, Festigkeitslehre Repetition) | Werkstoffarten, Normbezeichnungen; Festigkeitslehre als Repetition (Schule schon durch) |
 | Fertigungstechnik | – | Spanen (v_c, n, f), CNC, Messfehler |
 | Steuerungstechnik | – | Logik, Pneumatik-Symbole, Weg-Schritt-Diagramm |
@@ -40,7 +40,7 @@ T = bis Ende 4. Semester eingeführt, E = irgendwann im 1.–8. Semester.
 - 24.11.2026, gerade aktuell:
   - Elektrotechnik: Reihenschaltung (im Tool: `elektro/reihenschaltung`, 18 Aufgaben)
   - Werkstofftechnik: Härten, Oberflächenbehandlung (im Tool: nur alte Artifacts Wärmebehandlung, Fe-C)
-  - Maschinentechnik: Zahnräder (im Tool: nur Umfangskraft/Übersetzung in Physik)
+  - Maschinentechnik: Zahnräder (im Tool: Kapitel «Zahnräder: Masse berechnen» seit 25.11., Übersetzung in Physik «Umfangskraft»)
   - Zeichnungstechnik: 1. Test ISO GPS (im Tool: alter Zeichnungstrainer Kap. 9–11, FL)
 
 - 24.11.2026, Schulnotizen von Elias (Notizbuch «2. Konstrukteur»), bisher behandelte Themen:

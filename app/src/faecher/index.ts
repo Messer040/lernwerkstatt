@@ -16,6 +16,7 @@ import { bewegungen } from './physik/bewegungen';
 import { biegen } from './physik/biegen';
 import { masche } from './elektro/masche';
 import { reihenschaltung } from './elektro/reihenschaltung';
+import { zahnrad } from './maschinen/zahnrad';
 
 export const FAECHER: Fach[] = [
   {
@@ -31,6 +32,13 @@ export const FAECHER: Fach[] = [
     kurz: 'Masche, Reihenschaltung, Spannungsquellen',
     kapitel: [reihenschaltung, masche],
     geplant: ['Parallelschaltung', 'Gemischte Schaltungen', 'Elektrische Leistung'],
+  },
+  {
+    id: 'maschinen',
+    title: 'Maschinentechnik',
+    kurz: 'Zahnräder',
+    kapitel: [zahnrad],
+    geplant: ['Zahnräder: Übersetzung und Getriebe'],
   },
 ];
 
