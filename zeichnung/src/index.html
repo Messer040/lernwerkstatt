@@ -66,6 +66,11 @@ svg .clickable.good rect{stroke:var(--ok);stroke-width:.7;fill:#e6f4ea}
 select,input[type=text]{font:inherit;padding:7px 9px;border:1px solid #b9c0c7;border-radius:6px;min-width:120px;background:#fff}
 .q label.opt.right{background:var(--okbg);outline:1px solid #bfe0c8}
 .q label.opt.wrong{background:var(--badbg);outline:1px solid #f0c2bd}
+.spotmodes{display:flex;gap:8px;margin:10px 0 4px;flex-wrap:wrap}
+.spotmodes .btn.on{background:#0b5cad;color:#fff;border-color:#0b5cad}
+.spot{cursor:pointer}.spot .spotdot{fill:#1e88e5;fill-opacity:.35;stroke:#1e88e5;stroke-width:.4}
+.spot.sel .spotdot{fill:none;stroke-opacity:.5;stroke-dasharray:.8 .6}
+.spot .spothit{fill:transparent;stroke:none}
 .qfb{display:none;margin-top:8px;padding:10px 12px;border-radius:8px;font-size:15px}
 .qfb.ok{display:block;background:var(--okbg);border:1px solid #bfe0c8}
 .qfb.bad{display:block;background:var(--badbg);border:1px solid #f0c2bd}
@@ -952,10 +957,25 @@ text:'Zwei Bohrungen in einer 12,5 mm dicken Platte sollen parallel sein (Neigun
 draw(){const {svg,g}=svgS(160,60);PG(g,[[20,20],[140,20],[140,32.5],[20,32.5]]);[60,100].forEach((x,i)=>{L(g,x,12,x+(i?2.2:0),42,'center');});tol(g,104,4,'neigung','0,1',['A'],[[102,13]]);L(g,60,10,60,6,'thin');datum(g,60,6,'A','up',0.01);T(g,148,30,'12,5',{'font-size':'3'});return svg;},
 questions:[{q:'Wie gross ist GK in mm (auf 2 Stellen)?',num:1,a:0.22,tol:0.005,why:'GK = 12,5 · tan 1° = 12,5 · 0,01746 = 0,218 ≈ 0,22 mm.'},{q:'Ist das Teil verwendbar?',opts:['verwendbar','Ausschuss'],a:1,why:'0,22 mm > 0,1 mm: Die Achse verlässt die Toleranzzone. Ausschuss.'},
  {q:'Bis zu welchem Winkel wäre die Bohrung noch gut (auf 0,01° genau)?',num:1,a:0.46,tol:0.006,why:'tan α = 0,1 : 12,5 = 0,008 ⇒ α = 0,46°. Kleine Winkel, grosse Wirkung.'}]});
-const ENT=(id,title,text,feature,correct,shape,explain)=>K10.push({id,kap:'10',type:'Kap. 10 · Rahmen aus Text',title,text,entry:{feature,correct},explain,draw(){const {svg,g}=svgS(160,80);const a=shape(g);const pv=E('g');g.appendChild(pv);svg._pv=pv;svg._anchor=a;return svg;}});
+const ENT=(id,title,text,feature,correct,shape,explain,spots)=>K10.push({id,kap:'10',type:spots?'Kap. 10 · Rahmen setzen':'Kap. 10 · Rahmen aus Text',title,text,entry:{feature,correct},spots,explain,draw(){const {svg,g}=svgS(160,80);const a=shape(g);const pv=E('g');g.appendChild(pv);const sp=E('g');g.appendChild(sp);svg._pv=pv;svg._sp=sp;svg._anchor=a;return svg;}});
 ENT('k10h','Obere Fläche parallel','Die obere Fläche muss zwischen zwei parallelen Ebenen im Abstand 0,04 mm liegen. Die Ebenen liegen parallel zur Basisfläche A. Trage den Rahmen ein.','obere Fläche',{sym:'parallelitaet',val:0.04,dat:'A',dia:false},g=>{P(g,[[40,40],[110,40],[110,58],[40,58],[40,40]]);datum(g,75,58,'A','down',4);return {fx:90,fy:20,pts:[[75,23.5],[75,40]]};},'Parallelität ist eine Richtungstoleranz mit Bezug. Eine Fläche ist toleriert, darum kein ⌀.');
 ENT('k10i','U-Profil: Seitenflächen rechtwinklig','Jede Seitenfläche des U-Profils muss zwischen zwei parallelen Ebenen im Abstand 0,15 mm liegen. Die Ebenen stehen senkrecht zur Basisfläche A (Boden). Trage den Rahmen ein.','Seitenflächen',{sym:'rechtwinkligkeit',val:0.15,dat:'A',dia:false},g=>{P(g,[[50,20],[60,20],[60,50],[100,50],[100,20],[110,20],[110,60],[50,60],[50,20]]);datum(g,80,60,'A','down',4);return {fx:68,fy:6,pts:[[60,9.5],[60,30]]};},'Rechtwinkligkeit zur Bodenfläche A. Ein Rahmen mit zwei Pfeilen kann beide Seitenflächen tolerieren.');
 ENT('k10j','Schräge Fläche 45°','Die schräge Fläche muss zwischen zwei parallelen Ebenen im Abstand 0,05 mm liegen. Die Ebenen sind um 45° zur Basisfläche A geneigt. Der Winkel 45° ist theoretisch exakt. Trage den Rahmen ein.','schräge Fläche',{sym:'neigung',val:0.05,dat:'A',dia:false},g=>{P(g,[[40,60],[120,60],[120,30],[90,30],[60,60]]);datum(g,100,60,'A','down',4);T(g,62,42,'45°',{'font-size':'3.5'});E;return {fx:30,fy:20,pts:[[75,23.5],[75,45]]};},'Neigung ist eine Richtungstoleranz. Der Winkel wird als theoretisch exaktes Mass im Kästchen angegeben.');
+ENT('k10s','Rundlauf am Zapfen','Die Mantelfläche des dünnen Zapfens darf beim Drehen um die Achse A höchstens 0,03 mm schlagen. Die Achse A ist die Achse des dicken Wellenteils. Fülle den Rahmen aus. Setze dann Pfeil und Bezugsdreieck.','Mantelfläche des Zapfens',{sym:'rundlauf',val:0.03,dat:'A',dia:false},g=>{P(g,[[25,25],[75,25],[75,31],[125,31],[125,49],[75,49],[75,55],[25,55],[25,25]]);L(g,19,40,131,40,'center');dim(g,35,25,35,55,0,'⌀40',{noext:true,vert:true,sh:-5});dim(g,115,31,115,49,0,'⌀25',{noext:true,vert:true});return {fx:40,fy:6};},'Rundlauf ist eine Lauftoleranz. Die Zone liegt zwischen zwei Kreisen, darum kein ⌀.',
+ {arrow:[{id:'a1',pts:[[95,9.5],[95,31]]},{id:'a2',pts:[[115,9.5],[115,31]]}],arrowOk:['a1'],arrowWhy:'Rundlauf toleriert die Mantelfläche. Der Pfeil sitzt auf der Kontur, deutlich neben der Masslinie ⌀25. In Verlängerung der Masslinie würde er die Achse meinen.',
+  datum:[{id:'d1',x:35,y:55,dir:'down'},{id:'d2',x:60,y:55,dir:'down'}],datumOk:['d1'],datumWhy:'Bezug ist die Achse des ⌀40. Darum steht das Dreieck in Verlängerung der Masslinie ⌀40. Neben der Masslinie wäre die Mantelfläche der Bezug.'});
+ENT('k10t','Bohrung senkrecht, Bezug Unterseite','Die Achse der Bohrung muss in einem Zylinder ⌀0,05 mm liegen, der senkrecht zur Unterseite A steht. Fülle den Rahmen aus. Setze dann Pfeil und Bezugsdreieck.','Achse der Bohrung',{sym:'rechtwinkligkeit',val:0.05,dat:'A',dia:true},g=>{P(g,[[30,35],[70,35],[70,60],[30,60],[30,35]],'hatch');P(g,[[90,35],[125,35],[125,60],[90,60],[90,35]],'hatch');L(g,70,35,90,35,'thick');L(g,70,60,90,60,'thick');L(g,80,32,80,63,'center');L(g,70,26,70,35,'thin');L(g,90,26,90,35,'thin');L(g,70,27,90,27,'thin',{'marker-start':'url(#arr)','marker-end':'url(#arr)'});T(g,76,26,'⌀10',{'text-anchor':'middle'});L(g,125,35,145.5,35,'thin');L(g,125,60,145.5,60,'thin');L(g,144,35,144,60,'thin',{'marker-start':'url(#arr)','marker-end':'url(#arr)'});T(g,143,49,'25',{transform:'rotate(-90 143 49)','text-anchor':'middle'});return {fx:36,fy:8};},'Rechtwinkligkeit ist eine Richtungstoleranz. Toleriert ist eine Achse, die Zone ist ein Zylinder: ⌀ vor dem Wert.',
+ {arrow:[{id:'a1',pts:[[100,11.5],[100,27],[90,27]]},{id:'a2',pts:[[110,11.5],[110,35]]}],arrowOk:['a1'],arrowWhy:'Toleriert ist die Bohrungsachse. Der Pfeil steht in Verlängerung der Masslinie ⌀10. Auf der Oberseite würde er die Fläche tolerieren.',
+  datum:[{id:'d1',x:108,y:60,dir:'down'},{id:'d2',x:144,y:60,dir:'down',len:2},{id:'d3',x:132,y:60,dir:'down',len:2}],datumOk:['d1','d3'],datumWhy:'Bezug ist die Fläche A. Das Dreieck sitzt auf der Kontur oder auf der Masshilfslinie, deutlich neben der Masslinie 25. Auf der Masslinie wäre die Mittelebene der Platte der Bezug.'});
+ENT('k10u','Platte: Oberseite parallel','Die Oberseite muss zwischen zwei Ebenen im Abstand 0,02 mm liegen, die parallel zur Unterseite A sind. Fülle den Rahmen aus. Setze dann Pfeil und Bezugsdreieck.','Oberseite',{sym:'parallelitaet',val:0.02,dat:'A',dia:false},g=>{P(g,[[35,35],[120,35],[120,55],[35,55],[35,35]]);L(g,120,35,137.5,35,'thin');L(g,120,55,137.5,55,'thin');L(g,136,35,136,55,'thin',{'marker-start':'url(#arr)','marker-end':'url(#arr)'});T(g,135,45,'20',{transform:'rotate(-90 135 45)','text-anchor':'middle'});return {fx:36,fy:10};},'Parallelität ist eine Richtungstoleranz mit Bezug. Eine Fläche ist toleriert, darum kein ⌀.',
+ {arrow:[{id:'a1',pts:[[85,13.5],[85,35]]},{id:'a2',pts:[[136,13.5],[136,35]]},{id:'a3',pts:[[126,13.5],[126,35]]}],arrowOk:['a1','a3'],arrowWhy:'Toleriert ist die Oberseite. Der Pfeil zeigt auf die Kontur oder auf die Masshilfslinie, deutlich neben der Masslinie 20. Auf der Masslinie würde er die Mittelebene meinen.',
+  datum:[{id:'d1',x:60,y:55,dir:'down'},{id:'d2',x:136,y:55,dir:'down'}],datumOk:['d1'],datumWhy:'Bezug ist die Unterseite. Das Dreieck sitzt auf der Kontur. In Verlängerung der Masslinie 20 wäre die Mittelebene der Bezug.'});
+ENT('k10v','Nut symmetrisch, Bezug Mittelebene','Die Mittelebene der Nut muss zwischen zwei Ebenen im Abstand 0,1 mm liegen. Die Ebenen liegen symmetrisch zur Mittelebene A der Platte (Breite 80). Fülle den Rahmen aus. Setze dann Pfeil und Bezugsdreieck.','Mittelebene der Nut',{sym:'symmetrie',val:0.1,dat:'A',dia:false},g=>{P(g,[[40,35],[70,35],[70,45],[90,45],[90,35],[120,35],[120,62],[40,62],[40,35]]);L(g,80,40,80,66,'center');L(g,70,26,70,35,'thin');L(g,90,26,90,35,'thin');L(g,70,27,90,27,'thin',{'marker-start':'url(#arr)','marker-end':'url(#arr)'});T(g,80,26,'20',{'text-anchor':'middle'});L(g,40,62,40,72,'thin');L(g,120,62,120,72,'thin');L(g,40,70,120,70,'thin',{'marker-start':'url(#arr)','marker-end':'url(#arr)'});T(g,62,69,'80',{'text-anchor':'middle'});return {fx:30,fy:8};},'Symmetrie ist eine Ortstoleranz. Die Zone liegt zwischen zwei Ebenen, darum kein ⌀.',
+ {arrow:[{id:'a1',pts:[[100,11.5],[100,27],[90,27]]},{id:'a2',pts:[[106,11.5],[106,35]]}],arrowOk:['a1'],arrowWhy:'Toleriert ist die Mittelebene der Nut. Der Pfeil steht in Verlängerung der Masslinie 20. Auf der Kontur würde er eine Fläche tolerieren.',
+  datum:[{id:'d1',x:120,y:70,dir:'down',len:0.5},{id:'d2',x:60,y:62,dir:'down',len:1},{id:'d3',x:120,y:50,dir:'right',len:3}],datumOk:['d1'],datumWhy:'Bezug ist die Mittelebene der Platte. Das Dreieck ersetzt einen Masspfeil der Masslinie 80. Auf Unterseite oder Seitenfläche wäre eine Fläche der Bezug.'});
+ENT('k10w','Stirnfläche senkrecht zur Achse','Die rechte Stirnfläche der Welle muss zwischen zwei Ebenen im Abstand 0,04 mm liegen, die senkrecht zur Achse A der Welle stehen. Fülle den Rahmen aus. Setze dann Pfeil und Bezugsdreieck.','rechte Stirnfläche',{sym:'rechtwinkligkeit',val:0.04,dat:'A',dia:false},g=>{P(g,[[30,25],[120,25],[120,55],[30,55],[30,25]]);L(g,24,40,126,40,'center');dim(g,45,25,45,55,0,'⌀30',{noext:true,vert:true,sh:-5});return {fx:54,fy:6};},'Rechtwinkligkeit einer Fläche zu einer Achse. Die Zone liegt zwischen zwei Ebenen, darum kein ⌀.',
+ {arrow:[{id:'a1',pts:[[140,9.5],[140,32],[120,32]]},{id:'a2',pts:[[45,9.5],[45,25]]}],arrowOk:['a1'],arrowWhy:'Toleriert ist die Stirnfläche. Der Pfeil zeigt senkrecht auf ihre Kontur. In Verlängerung der Masslinie ⌀30 würde er die Achse meinen.',
+  datum:[{id:'d1',x:45,y:55,dir:'down'},{id:'d2',x:90,y:55,dir:'down'}],datumOk:['d1'],datumWhy:'Bezug ist die Achse der Welle. Das Dreieck steht in Verlängerung der Masslinie ⌀30. Daneben wäre die Mantelfläche der Bezug.'});
 ENT('k10o','Auflageplatte eben','Die Auflagefläche oben auf der Platte muss zwischen zwei parallelen Ebenen im Abstand 0,03 mm liegen. Die Lage zu anderen Flächen spielt keine Rolle. Trage den Rahmen ein.','Auflagefläche oben',{sym:'ebenheit',val:0.03,dat:'',dia:false},g=>{P(g,[[35,40],[125,40],[125,55],[35,55],[35,40]]);return {fx:88,fy:18,pts:[[75,21.5],[75,40]]};},'Ebenheit ist eine Formtoleranz. Formtoleranzen haben nie einen Bezug. Eine Fläche ist toleriert, darum kein ⌀.');
 ENT('k10p','Absatzwelle: Zapfen koaxial','Die Achse des dünnen Zapfens muss in einem Zylinder mit dem Durchmesser 0,02 mm liegen. Die Achse dieses Zylinders ist die Achse A des dicken Wellenteils. Trage den Rahmen ein.','Achse des dünnen Zapfens',{sym:'koaxialitaet',val:0.02,dat:'A',dia:true},g=>{P(g,[[30,30],[80,30],[80,38],[120,38],[120,52],[80,52],[80,60],[30,60],[30,30]]);L(g,24,45,126,45,'center');dim(g,45,30,45,60,0,'⌀40',{noext:true,vert:true,sh:-6});datum(g,45,60,'A','down',3);dim(g,105,38,105,52,0,'⌀20',{noext:true,vert:true});return {fx:62,fy:8,pts:[[105,11.5],[105,38]]};},'Koaxialität ist eine Ortstoleranz. Toleriert ist eine Achse, die Zone ist ein Zylinder: ⌀ vor dem Wert. Der Pfeil steht in Verlängerung der Masslinie ⌀20, so gilt er für die Achse und nicht für die Mantelfläche.');
 ENT('k10q','Bohrung senkrecht zur Grundplatte','Die Achse der Bohrung muss in einem Zylinder mit dem Durchmesser 0,05 mm liegen. Dieser Zylinder steht senkrecht zur Unterseite A der Platte. Trage den Rahmen ein.','Achse der Bohrung',{sym:'rechtwinkligkeit',val:0.05,dat:'A',dia:true},g=>{P(g,[[30,35],[70,35],[70,60],[30,60],[30,35]],'hatch');P(g,[[90,35],[130,35],[130,60],[90,60],[90,35]],'hatch');L(g,70,35,90,35,'thick');L(g,70,60,90,60,'thick');L(g,80,32,80,63,'center');L(g,70,26,70,35,'thin');L(g,90,26,90,35,'thin');L(g,70,27,90,27,'thin',{'marker-start':'url(#arr)','marker-end':'url(#arr)'});T(g,76,26,'⌀10',{'text-anchor':'middle'});datum(g,110,60,'A','down',4);return {fx:68,fy:8,pts:[[108,11.5],[108,27],[90,27]]};},'Rechtwinkligkeit ist eine Richtungstoleranz. Toleriert ist die Bohrungsachse, also ist die Zone ein Zylinder: ⌀ vor dem Wert. Der Pfeil steht in Verlängerung der Masslinie ⌀10, darum ist die Achse toleriert. Bezug ist die Unterseite A.');
@@ -1295,15 +1315,34 @@ function buildTask(t,i){
     const ld=H('label',{},'Bezug');const dat=H('select');['– keiner –','A','B'].forEach((o,i)=>dat.appendChild(H('option',{value:i?o:''},o)));ld.appendChild(dat);
     row.append(ls,lz,lv,ld);b.appendChild(row);
     const pv=H('div',{class:'preview'});const pvs=E('svg',{viewBox:'0 0 60 9'});pv.appendChild(pvs);pv.appendChild(H('span',{class:'hint'},'Vorschau des Rahmens'));b.appendChild(pv);
+    const SP=t.spots;const pick={a:null,d:null};let mode='a';
+    let drawSpots=()=>{};
+    if(SP){
+      const mr=H('div',{class:'spotmodes'});
+      const ba=H('button',{class:'btn sec',type:'button'},'① Pfeil setzen');const bd=H('button',{class:'btn sec',type:'button'},'② Bezug setzen');
+      const info=H('p',{class:'hint'},'');
+      mr.append(ba,bd);b.appendChild(mr);b.appendChild(info);
+      drawSpots=()=>{svg._sp.innerHTML='';ba.classList.toggle('on',mode==='a');bd.classList.toggle('on',mode==='d');
+        info.textContent=mode==='a'?'Tippe in der Zeichnung auf die Stelle, wo der Toleranzpfeil hinzeigt.':'Tippe in der Zeichnung auf die Stelle, wo das Bezugsdreieck sitzt.';
+        const list=mode==='a'?SP.arrow:SP.datum;
+        if(card._done)return;list.forEach(o=>{const [x,y]=mode==='a'?o.pts[o.pts.length-1]:[o.x,o.y];const sel2=pick[mode]===o.id;
+          const gg=E('g',{class:'spot'+(sel2?' sel':'')});gg.appendChild(E('circle',{cx:x,cy:y,r:2,class:'spotdot'}));
+          const hit=E('circle',{cx:x,cy:y,r:6,class:'spothit'});gg.appendChild(hit);
+          gg.addEventListener('click',()=>{pick[mode]=o.id;if(mode==='a')mode='d';update();drawSpots();});svg._sp.appendChild(gg);});};
+      ba.onclick=()=>{mode='a';drawSpots();};bd.onclick=()=>{mode='d';drawSpots();};
+    }
     card.appendChild(b);
     const update=()=>{
       pvs.innerHTML='';svg._pv.innerHTML='';
       const s=sel.value,v=val.value.trim(),d=dat.value?[dat.value]:[];
-      if(!s&&!v)return;
+      if(SP&&pick.d){const o=SP.datum.find(z=>z.id===pick.d);datum(svg._pv,o.x,o.y,t.entry.correct.dat||'A',o.dir,o.len==null?3:o.len);}
+      const a=svg._anchor;const pts=SP?(pick.a?SP.arrow.find(z=>z.id===pick.a).pts:null):a.pts;
+      if(!s&&!v){if(SP&&pts)leader(svg._pv,pts);return;}
       const vv=(dia.value==='1'?'⌀':'')+(v||'…');
       frame(pvs,1,1,s,vv,d);
-      const a=svg._anchor;tol(svg._pv,a.fx,a.fy,s,vv,d,a.pts);
+      tol(svg._pv,a.fx,a.fy,s,vv,d,pts);
     };
+    drawSpots();
     [sel,val,dat,dia].forEach(e=>e.addEventListener('input',update));
     let eq=null;
     if(t.extraQ){const q=t.extraQ;eq=H('div',{class:'q'});eq.appendChild(H('p',{class:'lead'},'Zusatzfrage: '+q.q));q.opts.forEach((o,oi)=>{const l=H('label',{class:'opt'});l.appendChild(H('input',{type:'radio',name:t.id+'x',value:oi}));l.appendChild(H('span',{},o));eq.appendChild(l);});card.appendChild(eq);}
@@ -1314,15 +1353,19 @@ function buildTask(t,i){
       li.push(`<li><b>Zonenform: ${zOk?'richtig':'falsch'}.</b> Erwartet: ${c.dia?'mit ⌀, weil eine Achse toleriert ist':'ohne ⌀, weil die Zone zwischen zwei Ebenen liegt'}.</li>`);
       li.push(`<li><b>Wert: ${vOk?'richtig':'falsch'}.</b> Erwartet: ${fmt(c.val)}.</li>`);
       li.push(`<li><b>Bezug: ${dOk?'richtig':'falsch'}.</b> Erwartet: ${c.dat}.${dOk?'':' Richtungs- und Ortstoleranzen brauchen immer einen Bezug.'}</li>`);
+      let pOk=true;
+      if(SP){const aOk=SP.arrowOk.includes(pick.a),bOk=SP.datumOk.includes(pick.d);pOk=aOk&&bOk;
+        li.push(`<li><b>Pfeil: ${aOk?'richtig':(pick.a?'falsch':'nicht gesetzt')}.</b> ${SP.arrowWhy}</li>`);
+        li.push(`<li><b>Bezugsdreieck: ${bOk?'richtig':(pick.d?'falsch':'nicht gesetzt')}.</b> ${SP.datumWhy}</li>`);}
       let xOk=true;
       if(t.extraQ){const s=eq.querySelector('input:checked');xOk=s&&+s.value===t.extraQ.a;li.push(`<li><b>Zusatzfrage: ${xOk?'richtig':'falsch'}.</b> Lösung: ${t.extraQ.opts[t.extraQ.a]}<br>${t.extraQ.why}</li>`);}
-      const all=sOk&&vOk&&dOk&&xOk&&zOk;
+      const all=sOk&&vOk&&dOk&&xOk&&zOk&&pOk;
       fb.className='fb '+(all?'ok':(sOk||vOk||dOk)?'part':'bad');
       fb.innerHTML=`<h4>${all?'Richtig eingetragen.':'Noch nicht ganz.'}</h4><ul>${li.join('')}</ul><p><b>Erklärung:</b> ${t.explain}</p>`;
-      if(all){update();}
+      if(all){update();if(SP){card._done=true;drawSpots();}}
       setResult(t.id,all);
     };
-    const show=H('button',{class:'btn sec'},'Musterlösung zeigen');show.onclick=()=>{const c=t.entry.correct;sel.value=c.sym;val.value=fmt(c.val);dat.value=c.dat;dia.value=c.dia?'1':'0';update();fb.className='fb part';fb.innerHTML=`<h4>Musterlösung: ${SYM[c.sym].n} ${c.dia?'⌀':''}${fmt(c.val)} ${c.dat}</h4><p>${t.explain}</p>`;setResult(t.id,false);};
+    const show=H('button',{class:'btn sec'},'Musterlösung zeigen');show.onclick=()=>{const c=t.entry.correct;sel.value=c.sym;val.value=fmt(c.val);dat.value=c.dat;dia.value=c.dia?'1':'0';if(SP){pick.a=SP.arrowOk[0];pick.d=SP.datumOk[0];drawSpots();}update();fb.className='fb part';fb.innerHTML=`<h4>Musterlösung: ${SYM[c.sym].n} ${c.dia?'⌀':''}${fmt(c.val)} ${c.dat}</h4><p>${t.explain}</p>`;setResult(t.id,false);};
     card._extraBtn=show;
   }
 

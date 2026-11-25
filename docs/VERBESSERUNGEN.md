@@ -7,6 +7,9 @@ Aufwand: S = unter 30 Min., M = eine Sitzung, L = mehrere Sitzungen.
 
 ## Wichtig
 
+- [ ] **GPS-Werkstatt als eigener Teil** (L, 24.11., Wunsch Elias): Die Aufgaben «Rahmen aus Text» und «Rahmen setzen» zu einem eigenen Werkzeug im neuen Format ausbauen. Stufen: 1 Rahmen aus Text (Symbole antippen statt Listen), 2 Pfeil setzen, 3 Bezug setzen, 4 Rahmen lesen (umgekehrt), 5 Fehler finden, 6 Prüfen mit Messuhr, 7 Baukasten mit Zufallsteilen. Erster Test im alten Trainer: k10s–k10w (25.11.).
+- [ ] **Rahmen setzen: Masspfeil durch Bezugsdreieck ersetzen** (S, 25.11.): Bei k10v sitzt das Dreieck auf dem Masspfeil der Masslinie 80, der Pfeil bleibt aber gezeichnet. Beim Ersetzen den Masspfeil ausblenden.
+- [ ] **Rahmen setzen: Antipp-Punkte am Handy klein** (S, 25.11.): Die Zeichnung ist am Handy schmal, die Punkte sind gut 1 cm gross. Zoom oder grössere Zeichnung prüfen.
 - [ ] **Messuhr-Zeichnungen überarbeiten (Form und Lage)** (M, 24.11., Kontrolle nach Hinweis von Elias): Betrifft k10c, k10d, k10e, k10m, k10n. Fehler: 1. Bezug A und Messtisch fehlen (k10c, k10e, k10m, k10n). 2. Teile sind nur Linien oder leere Rechtecke, ohne Material (k10e Z-Profil, k10d Leisten). 3. Zeiger stehen bei allen Uhren gleich, egal welcher Wert angezeigt wird. 4. k10m: Text sagt «eine Messuhr wandert», Bild zeigt zwei Uhren. 5. k10d: unklar, was Leiste und was Messschiene ist, Taster ragen in die Leiste. Lösung: Hilfsfunktion `messuhr(...)` mit Messtisch, Bezug A, gefülltem Teil, Taster bis zur Fläche, Zeiger passend zum Wert.
 - [ ] **Messuhr-Bilder: Taster ragt in die Leiste** (S, 24.11.): Bei Geradheit (k10d) und Parallelität zeigt der Taster von oben, ragt aber 2 Einheiten in die Leiste hinein. Taster bis zur Oberkante zeichnen. Ausserdem stehen die Werte der nächsten Zeile sehr nah an der Leiste darüber.
 - [x] Messuhr bei Rechtwinkligkeit zeigte nach unten statt waagerecht an die Fläche (24.11., Elias bemerkt): behoben, k10c und Aufgabe «Kollege».
