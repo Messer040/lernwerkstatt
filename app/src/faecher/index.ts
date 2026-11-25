@@ -17,6 +17,7 @@ import { biegen } from './physik/biegen';
 import { masche } from './elektro/masche';
 import { reihenschaltung } from './elektro/reihenschaltung';
 import { zahnrad } from './maschinen/zahnrad';
+import { getriebearten } from './maschinen/getriebearten';
 
 export const FAECHER: Fach[] = [
   {
@@ -36,8 +37,8 @@ export const FAECHER: Fach[] = [
   {
     id: 'maschinen',
     title: 'Maschinentechnik',
-    kurz: 'Zahnräder',
-    kapitel: [zahnrad],
+    kurz: 'Zahnräder, Getriebearten',
+    kapitel: [getriebearten, zahnrad],
     geplant: ['Zahnräder: Übersetzung und Getriebe'],
   },
 ];

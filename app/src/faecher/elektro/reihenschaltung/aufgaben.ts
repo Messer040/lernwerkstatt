@@ -69,7 +69,7 @@ export const AUFGABEN: Task[] = [
       const R = p.r1 + p.r2, I = p.u / R;
       return [
         { k: 'a) R', unit: 'Ω', v: R },
-        { k: 'b) I', unit: 'A', v: I },
+        { k: 'b) I', unit: 'A', v: I, tol: 0.03 },
         { k: 'c) U1', unit: 'V', v: p.r1 * I },
         { k: 'c) U2', unit: 'V', v: p.r2 * I },
       ];
@@ -83,7 +83,7 @@ export const AUFGABEN: Task[] = [
       const R = p.r1 + p.r2, I = p.u / R;
       return [
         `a) ${eq('R = ' + p.r1 + ' Ω + ' + p.r2 + ' Ω = ' + R + ' Ω')}`,
-        `b) ${eq(st('I') + ' = ' + p.u + ' V : ' + R + ' Ω = ' + st(fmt(I) + ' A'))}`,
+        `b) ${eq(st('I') + ' = ' + p.u + ' V : ' + R + ' Ω = ' + st(fmt(I, I < 1 ? 3 : 2) + ' A'))}`,
         `c) ${eq(ut('U1') + ' = ' + p.r1 + ' Ω · ' + fmt(I, 4) + ' A = ' + ut(fmt(p.r1 * I) + ' V'))}, ${eq(ut('U2') + ' = ' + p.r2 + ' Ω · ' + fmt(I, 4) + ' A = ' + ut(fmt(p.r2 * I) + ' V'))}`,
         `Probe: ${eq(fmt(p.r1 * I) + ' V + ' + fmt(p.r2 * I) + ' V = ' + p.u + ' V')}`,
       ];

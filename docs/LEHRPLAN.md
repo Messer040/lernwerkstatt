@@ -30,7 +30,7 @@ T = bis Ende 4. Semester eingeführt, E = irgendwann im 1.–8. Semester.
 | Zeichnungstechnik | Kap. 7, 9–12, Form- und Lagetoleranzen (alt, noch nicht umgezogen) | Sinnbilder, Skizzieren |
 | Elektrotechnik | Masche, Reihenschaltung | Parallel, gemischt, el. Energie und Kosten |
 | Mathematik | Biegen (neu) | Algebra, Trigonometrie, Geometrie, Funktionen |
-| Maschinentechnik | neu: Zahnräder: Masse berechnen (19 Aufgaben, 25.11.); sonst nur alte Einzel-Artifacts (Lager, Wellen, Führungen) | Verbindungen, Zahnrad-Getriebe, Federn |
+| Maschinentechnik | neu: Getriebearten (8 Aufgaben) und Zahnräder: Masse berechnen (19 Aufgaben), 25.11.; sonst nur alte Einzel-Artifacts (Lager, Wellen, Führungen) | Verbindungen, Zahnrad-Getriebe, Federn |
 | Werkstofftechnik | nur alte Einzel-Artifacts (Fe-C, Wärmebehandlung, Festigkeitslehre Repetition) | Werkstoffarten, Normbezeichnungen; Festigkeitslehre als Repetition (Schule schon durch) |
 | Fertigungstechnik | – | Spanen (v_c, n, f), CNC, Messfehler |
 | Steuerungstechnik | – | Logik, Pneumatik-Symbole, Weg-Schritt-Diagramm |

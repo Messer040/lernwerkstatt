@@ -7,7 +7,8 @@ Aufwand: S = unter 30 Min., M = eine Sitzung, L = mehrere Sitzungen.
 
 ## Wichtig
 
-- [ ] **Test r2 (Reihenschaltung) schlägt selten fehl** (S, 25.11.): Bei manchen Zufallswerten liegt ein Fehlwert zu nah am richtigen Wert. Gleiche Lösung wie in `maschinen/zahnrad/aufgaben.ts`: Fehlwerte, die näher als 5 % liegen, automatisch weglassen. Am besten als Helfer in `core/`.
+- [x] **Test r2 (Reihenschaltung) schlug manchmal fehl** (erledigt 25.11.): Die angezeigte Lösung für I war auf 2 Stellen gerundet. Jetzt tol 0,03 für I.
+- [ ] **Probeprüfung Maschinentechnik** (M, 25.11.): Bilder aus `getriebearten/bilder.ts` und `zahnrad/bilder.ts` wiederverwenden (siehe ARCHITEKTUR «Wiederverwendbare Bilder»).
 - [ ] **Zahnräder: Übersetzung und Getriebe** (M, 25.11.): Zweites Kapitel Maschinentechnik. i = z_2 : z_1 = n_1 : n_2, mehrstufig. Heute nur in Physik «Umfangskraft».
 - [ ] **GPS-Werkstatt als eigener Teil** (L, 24.11., Wunsch Elias): Die Aufgaben «Rahmen aus Text» und «Rahmen setzen» zu einem eigenen Werkzeug im neuen Format ausbauen. Stufen: 1 Rahmen aus Text (Symbole antippen statt Listen), 2 Pfeil setzen, 3 Bezug setzen, 4 Rahmen lesen (umgekehrt), 5 Fehler finden, 6 Prüfen mit Messuhr, 7 Baukasten mit Zufallsteilen. Erster Test im alten Trainer: k10s–k10w (25.11.).
 - [ ] **Rahmen setzen: Masspfeil durch Bezugsdreieck ersetzen** (S, 25.11.): Bei k10v sitzt das Dreieck auf dem Masspfeil der Masslinie 80, der Pfeil bleibt aber gezeichnet. Beim Ersetzen den Masspfeil ausblenden.

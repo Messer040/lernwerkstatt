@@ -67,6 +67,11 @@ app/
 | Bewegungen | physik/ Tab «Bewegungen» (g1–g7, k1b–k10b, gv1, gv2, kv1, kv2) | neu/#/physik/bewegungen (33 Aufgaben v1–v33, 5 Lernkarten, Fehlerwerte; neu v5/v13/v33 Umgekehrt, v6/v18 Schätzen, v7/v11/v28 Fehler finden, v12/v19 Was wäre wenn, v31 Begründen, v32 Bild deuten; Zeiten bei v4, v10 in s statt min, damit die Anzeige genau genug bleibt; Bilder `hebebuehne`, `aufzugSchacht`, `welle`, `kasten`, `fraeser`, `bohrung`, `rund`, `hallenkran`, `foerderband`, `fluss` in `faecher/physik/bewegungen/bilder.ts`) |
 | Biegen: Zuschnitt | physik/ Tab «Biegen: Zuschnitt» (gb1–gb5, cg1–cg3) | neu/#/physik/biegen (18 Aufgaben b1–b18, 4 Lernkarten, Fehlerwerte; neu b3 Bild deuten, b4 Schätzen (Faustregel v ≈ 2·s), b8/b17 Was wäre wenn, b9/b18 Begründen, b11 Fehler finden, b12 Wellenprofil, b15 Fehler finden, b16 Umgekehrt; Bilder `winkel`, `profil`, `rueckfeder` in `faecher/physik/biegen/bilder.ts`) |
 | Zahnräder: Masse berechnen (Maschinentechnik, neues Fach `maschinen`) | neu geschrieben nach Buch 4.5.7–4.5.9 und Formeltabelle aus dem Unterricht (Fotos im privaten Repo `unterlagen/bilder/2026-11-25-zahnraeder/`) | neu/#/maschinen/zahnrad (19 Aufgaben z1–z19, 4 Lernkarten, Fehlerwerte; Bilder `rad`, `zahn`, `paar` in `faecher/maschinen/zahnrad/bilder.ts`) |
+| Getriebearten (Maschinentechnik) | neu geschrieben nach Buch 4.5.4 (Foto im privaten Repo `unterlagen/bilder/2026-11-25-zahnraeder/`) | neu/#/maschinen/getriebe (8 Aufgaben g1–g8, 3 Lernkarten) |
+
+## Wiederverwendbare Bilder (für Probeprüfungen)
+- `faecher/maschinen/getriebearten/bilder.ts`: `getriebe(art)` zeichnet ein Getriebe gross, `getriebeUebersicht(reihe)` alle vier mit Nummern 1–4 in frei wählbarer Reihenfolge. `art` = `stirn` | `kegel` | `schraube` | `schnecke`. `ART[art]` liefert Name und Lage der Wellen. Eigene Zeichnungen, keine Buchbilder.
+- `faecher/maschinen/zahnrad/bilder.ts`: `rad`, `zahn`, `paar`.
 
 ## Design
 - Stil «Achromatic ledger» (Design-Skill, Seed 1226934261): Oberfläche ohne Farbe, Hauptknopf fast schwarz, Grund blaugrau #f2f4f7 (Zeichenpapier). Farbe nur auf Daten: Bauteilbilder, Formeln, richtig/falsch.
