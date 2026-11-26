@@ -1,5 +1,6 @@
 // Seiten: Start, Fach, Kapitel (Liste), Aufgabe (einzeln), Kapiteltest.
 import type { Fach, Kapitel, Stufe, Task } from '../types';
+import { einpassen } from '../draw/einpassen';
 import { FAMILIEN, STUFEN } from '../types';
 import { aufgabenKarte, stufenMarke } from './aufgabe';
 import { h } from './dom';
@@ -292,27 +293,12 @@ function vorschau(basis: string, liste: Task[], aktiv: string, q: string): HTMLE
   );
   requestAnimationFrame(() => {
     // Vorschaubilder auf das Bauteil zuschneiden (Hintergrund weglassen), damit man es klein erkennt
-    liste_.querySelectorAll<SVGSVGElement>('.vs-bild svg').forEach(zuschneiden);
+    liste_.querySelectorAll<SVGSVGElement>('.vs-bild svg').forEach((svg) => einpassen(svg, { rand: 10 }));
     // aktive Aufgabe in der Liste sichtbar machen, ohne die Seite zu verschieben
     const el = liste_.querySelector<HTMLElement>('.aktiv');
     if (el) liste_.scrollTo({ top: el.offsetTop - 8, left: el.offsetLeft - 12 });
   });
   return tafel;
-}
-
-function zuschneiden(svg: SVGSVGElement) {
-  let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
-  for (const c of Array.from(svg.children)) {
-    if (!(c instanceof SVGGraphicsElement) || c.tagName === 'defs') continue;
-    if (c.tagName === 'rect' && c.getAttribute('width') === '640') continue; // Blatt-Hintergrund
-    const b = c.getBBox();
-    if (!b.width && !b.height) continue;
-    x0 = Math.min(x0, b.x); y0 = Math.min(y0, b.y);
-    x1 = Math.max(x1, b.x + b.width); y1 = Math.max(y1, b.y + b.height);
-  }
-  if (!isFinite(x0)) return;
-  const r = 10;
-  svg.setAttribute('viewBox', `${x0 - r} ${y0 - r} ${x1 - x0 + 2 * r} ${y1 - y0 + 2 * r}`);
 }
 
 const mischen = <T>(a: T[]) => {

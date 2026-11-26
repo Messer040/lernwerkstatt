@@ -5,6 +5,7 @@ import { FAECHER, findeFach, findeKapitel } from './faecher';
 import { aufgabeSeite, fachSeite, kapitelSeite, startSeite, testSeite, wissenSeite, type Filter } from './core/ui/seiten';
 import type { Stufe } from './core/types';
 import { h } from './core/ui/dom';
+import { bilderBeobachten } from './core/ui/lupe';
 
 // Marke: eine Massangabe mit Masspfeilen und Hilfslinien, das Zeichen des Konstrukteurs
 const MARKE = `<svg viewBox="0 0 28 28" aria-hidden="true"><rect width="28" height="28" rx="6" fill="currentColor"/>
@@ -19,6 +20,7 @@ const leiste = h(
 );
 const main = h('main', { class: 'wrap', id: 'inhalt' });
 document.getElementById('app')!.replaceChildren(leiste, main);
+bilderBeobachten(main);
 
 function route() {
   const [pfad, query = ''] = location.hash.replace(/^#\/?/, '').split('?');

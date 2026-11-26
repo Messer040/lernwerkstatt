@@ -85,6 +85,11 @@ app/
 - Seite `#/<fach>/wissen`, Knopf «Nachschlagen» auf der Fachseite. Einträge nach Thema gruppiert, mit Link zum Kapitel und Quelle.
 - Neue Unterlagen: bestehende Einträge ergänzen, nicht doppelt anlegen. Bisher nur Fach `zeichnung`.
 
+## Bilder am Handy
+- `core/draw/einpassen.ts`: `einpassen(svg)` setzt die viewBox auf den Inhalt plus 14 Einheiten Rand (Blatt-Hintergrund zählt nicht). Braucht ein Bild im Dokument.
+- `core/ui/lupe.ts`: `bilderBeobachten(main)` passt jedes neue Bild in `.blatt .bild` und `.loesung .bild` automatisch ein und macht es antippbar (Lupe, 1,2-fach, wischen erlaubt).
+- Kapitel müssen dafür nichts tun. Das Blatt bleibt 640 breit. Inhalt nicht über den Rand zeichnen.
+
 ## Design
 - Stil «Achromatic ledger» (Design-Skill, Seed 1226934261): Oberfläche ohne Farbe, Hauptknopf fast schwarz, Grund blaugrau #f2f4f7 (Zeichenpapier). Farbe nur auf Daten: Bauteilbilder, Formeln, richtig/falsch.
 - Schrift Geist (lokal gebündelt über @fontsource), Geist Mono nur für IDs.

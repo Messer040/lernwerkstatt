@@ -176,8 +176,21 @@ details.formeln[open] > summary::after { transform: rotate(225deg); }
 
 /* Zeichnungsblatt mit Schriftfeld */
 .blatt { border: 1px solid var(--control); border-radius: 2px; background: #ffffff; color: #0a0a0a; margin: 0 0 16px; }
-.blatt .bild { overflow-x: auto; }
-.blatt .bild svg { display: block; width: 100%; min-width: 520px; height: auto; }
+/* Bilder passen in die Breite (kein Wischen). einpassen() schneidet sie auf den Inhalt zu, Antippen öffnet die Lupe. */
+.blatt .bild svg, .loesung .bild svg { display: block; width: 100%; height: auto; margin: 0 auto; }
+.loesung .bild { margin: 0 0 12px; }
+.mit-lupe { cursor: zoom-in; }
+.mit-lupe:focus-visible { outline: 2px solid var(--text); outline-offset: -2px; }
+/* Am Handy: Blatt bis an den Kartenrand, damit das Bild mehr Platz hat */
+@media (max-width: 600px) {
+  .aufgabe .blatt { margin-left: calc(-1 * var(--pad) + 4px); margin-right: calc(-1 * var(--pad) + 4px); }
+}
+.lupe { padding: 0; border: 0; width: 100vw; max-width: 100vw; height: 100dvh; max-height: 100dvh; margin: 0; background: #ffffff; color: #0a0a0a; }
+.lupe[open] { display: flex; flex-direction: column; }
+.lupe::backdrop { background: rgb(0 0 0 / 0.5); }
+.lupe-bild { flex: 1; overflow: auto; display: flex; align-items: center; }
+.lupe-bild svg { display: block; flex: none; height: auto; margin: auto; }
+.lupe-fuss { display: flex; justify-content: flex-end; padding: 12px 16px; border-top: 1px solid #d6d9dd; }
 .schriftfeld { display: flex; flex-wrap: wrap; border-top: 1px solid #b9bec5; font-size: 13px; line-height: 1.3; }
 .schriftfeld > div { padding: 6px 10px; border-right: 1px solid #d6d9dd; }
 .schriftfeld > div:last-child { border-right: 0; margin-left: auto; }
