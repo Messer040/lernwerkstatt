@@ -28,7 +28,7 @@ T = bis Ende 4. Semester eingeführt, E = irgendwann im 1.–8. Semester.
 | --- | --- | --- |
 | Physik | Kräfte, Drehmoment, Lager, Reibung, Arbeit, Leistung, einfache Maschinen, Beschleunigung (neu) · Bewegungen (alt) | Druck, Pascal, Wärmelehre (5. Sem.) |
 | Zeichnungstechnik | neu: GPS-Grundsätze und Grössenmass (24 Aufgaben) und GPS vertieft (41 Aufgaben: Rangordnung rechnen, Modifikatoren, Winkel, Material-Bedingung, Allgemeintoleranz, Oberfläche, Bezüge), 25.11., neues Fach `zeichnung`; alt: Kap. 7, 9–12, Form- und Lagetoleranzen (noch nicht umgezogen) | Geometrische Tolerierung ISO 1101 (Form, Richtung, Ort, Lauf: nur Wissen, noch keine Aufgaben), Übergänge ISO 21204, Position/Muster ISO 5458, Sinnbilder, Skizzieren |
-| Elektrotechnik | Masche, Reihenschaltung | Parallel, gemischt, el. Energie und Kosten |
+| Elektrotechnik | Masche, Reihenschaltung, Parallelschaltung (neu 26.11.) | gemischt, el. Energie und Kosten |
 | Mathematik | Biegen (neu) | Algebra, Trigonometrie, Geometrie, Funktionen |
 | Maschinentechnik | neu: Getriebearten (8 Aufgaben), Zahnräder: Masse berechnen (19 Aufgaben) und Zahnräder: Übersetzung und Getriebe (21 Aufgaben), 25.11.; sonst nur alte Einzel-Artifacts (Lager, Wellen, Führungen) | Verbindungen, Zahnrad-Getriebe, Federn |
 | Werkstofftechnik | nur alte Einzel-Artifacts (Fe-C, Wärmebehandlung, Festigkeitslehre Repetition) | Werkstoffarten, Normbezeichnungen; Festigkeitslehre als Repetition (Schule schon durch) |

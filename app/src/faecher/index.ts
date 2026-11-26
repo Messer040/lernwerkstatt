@@ -17,6 +17,7 @@ import { biegen } from './physik/biegen';
 import { knobelaufgaben } from './physik/knobelaufgaben';
 import { masche } from './elektro/masche';
 import { reihenschaltung } from './elektro/reihenschaltung';
+import { parallelschaltung } from './elektro/parallelschaltung';
 import { zahnrad } from './maschinen/zahnrad';
 import { getriebearten } from './maschinen/getriebearten';
 import { uebersetzung } from './maschinen/uebersetzung';
@@ -33,9 +34,9 @@ export const FAECHER: Fach[] = [
   {
     id: 'elektro',
     title: 'Elektrotechnik',
-    kurz: 'Masche, Reihenschaltung, Spannungsquellen',
-    kapitel: [reihenschaltung, masche],
-    geplant: ['Parallelschaltung', 'Gemischte Schaltungen', 'Elektrische Leistung'],
+    kurz: 'Reihe, Parallel, Masche mit mehreren Quellen',
+    kapitel: [reihenschaltung, parallelschaltung, masche],
+    geplant: ['Gemischte Schaltungen', 'Elektrische Leistung'],
   },
   {
     id: 'maschinen',
